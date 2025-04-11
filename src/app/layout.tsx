@@ -1,5 +1,30 @@
-// File: src/app/layout.tsx
+// "use client";
+
+// import "./globals.css";
+// import { SessionProvider } from "next-auth/react";
+// import StoreProvider from "@/app/StoreProvider"; // your redux provider
+
+// export default function RootLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   return (
+//     <html lang="en">
+//       <body>
+//         <SessionProvider>
+//           <StoreProvider>{children}</StoreProvider>
+//         </SessionProvider>
+//       </body>
+//     </html>
+//   );
+// }
+
+"use client";
+
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
+import StoreProvider from "@/app/StoreProvider";
 
 export default function RootLayout({
   children,
@@ -8,7 +33,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children} </body>
+      <body>
+        <SessionProvider>
+          <StoreProvider>{children}</StoreProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }
