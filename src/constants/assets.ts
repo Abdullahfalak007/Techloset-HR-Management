@@ -9,8 +9,15 @@ export const assets = {
   icons: {
     // your eye icon SVG under public/assets/icons/eyeIcon.svg
     eye: "/assets/icons/eyeIcon.svg",
-    // add more icons by filename:
-    // lock: "/assets/icons/lockIcon.svg",
-    // user: "/assets/icons/userIcon.svg",
+
+    dashboard: "/assets/icons/dashboardIcon.svg",
+    users: "/assets/icons/usersIcon.png",
+    calendar: "/assets/icons/calendarIcon.svg",
+    settings: "/assets/icons/settingsIcon.svg",
+    moon: "/assets/icons/moonIcon.svg",
+    sun: "/assets/icons/sunIcon.svg",
+    leaves: "/assets/icons/leavesIcon.svg",
+    plus: "/assets/icons/plus.svg",
+    filter: "/assets/icons/filter.svg",
   },
 };

@@ -4,19 +4,18 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function HomePage() {
+export default function DashboardHomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    // If user is unauthenticated, redirect them to /signin
     if (status === "unauthenticated") {
       router.replace("/signin");
     }
   }, [status, router]);
 
   if (status === "loading") return <p>Loading...</p>;
-  if (!session) return null; // When redirecting, render nothing
+  if (!session) return null;
 
   return (
     <div className="min-h-screen p-4">

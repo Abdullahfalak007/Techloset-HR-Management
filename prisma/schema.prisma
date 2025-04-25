@@ -17,3 +17,16 @@ model User {
   otpExpiresAt DateTime?
   createdAt    DateTime @default(now())
 }
+
+// NEW: Employee model
+model Employee {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  employeeId   String   @unique
+  department   String
+  designation  String
+  type         String    // Office | Remote
+  status       String    // Permanent | Contractual
+  avatar       String?   // Optional avatar URL
+  createdAt    DateTime  @default(now())
+}
