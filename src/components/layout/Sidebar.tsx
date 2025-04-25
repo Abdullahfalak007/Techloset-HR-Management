@@ -25,7 +25,7 @@ export default function Sidebar() {
             <Link key={item.href} href={item.href}>
               <div
                 className={`flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition ${
-                  pathname.includes(item.href)
+                  pathname === item.href
                     ? "bg-orange-600 text-white"
                     : "hover:bg-gray-800"
                 }`}

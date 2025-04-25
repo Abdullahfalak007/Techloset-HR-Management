@@ -20,13 +20,68 @@ model User {
 
 // NEW: Employee model
 model Employee {
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  employeeId     String           @unique
+  department     String
+  designation    String
+  type           String
+  status         String
+  avatar         String?
+  createdAt      DateTime         @default(now())
+
+  personalInfo   PersonalInfo?
+  professional   ProfessionalInfo?
+  documents      DocumentSet?
+  accounts       AccountLinks?
+}
+
+model PersonalInfo {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  employeeId   String   @unique
-  department   String
-  designation  String
-  type         String    // Office | Remote
-  status       String    // Permanent | Contractual
-  avatar       String?   // Optional avatar URL
-  createdAt    DateTime  @default(now())
+  employee     Employee @relation(fields: [employeeId], references: [id])
+  employeeId   String   @db.ObjectId
+
+  email         String
+  phone         String
+  dob           String
+  maritalStatus String
+  gender        String
+  nationality   String
+  address       String
+  city          String
+  state         String
+  zipCode       String
+}
+
+model ProfessionalInfo {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  employee       Employee @relation(fields: [employeeId], references: [id])
+  employeeId     String   @db.ObjectId
+
+  username       String
+  joiningDate    String
+  workingDays    String
+  officeLocation String
+}
+
+model DocumentSet {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  employee           Employee @relation(fields: [employeeId], references: [id])
+  employeeId         String   @db.ObjectId
+
+  appointmentLetter  String?
+  salarySlip         String?
+  relievingLetter    String?
+  experienceLetter   String?
+}
+
+model AccountLinks {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  employeeId String   @db.ObjectId
+
+  email     String
+  slackId   String
+  skypeId   String
+  githubId  String
 }

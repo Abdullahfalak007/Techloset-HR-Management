@@ -1,4 +1,5 @@
 // src/components/employees/EmployeeRow.tsx
+import { assets } from "@/constants/assets";
 import Image from "next/image";
 
 export default function EmployeeRow({ employee }: { employee: any }) {
@@ -30,12 +31,19 @@ export default function EmployeeRow({ employee }: { employee: any }) {
         <button title="Edit">
           <img src="/assets/icons/edit.svg" alt="Edit" className="w-4 h-4" />
         </button>
-        <button title="Delete">
-          <img
-            src="/assets/icons/delete.svg"
-            alt="Delete"
-            className="w-4 h-4"
-          />
+
+        <button
+          title="Delete"
+          onClick={async () => {
+            if (confirm("Are you sure?")) {
+              await fetch(`/api/employees/${employee.id}`, {
+                method: "DELETE",
+              });
+              window.location.reload(); // or use a state-based refresh
+            }
+          }}
+        >
+          <img src={assets.icons.delete} alt="Delete" className="w-4 h-4" />
         </button>
       </td>
     </tr>

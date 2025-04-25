@@ -51,18 +51,18 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  // In src/app/api/auth/[...nextauth]/route.ts
+
   callbacks: {
     async jwt({ token, user }) {
-      // Attach the role to the token when available
+      // Add user.role to the token on sign in
       if (user) {
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
+      // Expose role from token to session
       if (session.user) {
-        session.user.id = token.sub as string;
         session.user.role = token.role as string;
       }
       return session;

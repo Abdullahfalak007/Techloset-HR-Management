@@ -19,5 +19,6 @@ export const assets = {
     leaves: "/assets/icons/leavesIcon.svg",
     plus: "/assets/icons/plus.svg",
     filter: "/assets/icons/filter.svg",
+    delete: "/assets/icons/delete.svg",
   },
 };

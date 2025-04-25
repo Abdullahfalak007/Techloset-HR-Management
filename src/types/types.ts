@@ -5,15 +5,19 @@ import { DefaultSession } from "next-auth";
 // Augment NextAuth types
 // -----------------------
 
+// types/next-auth.d.ts
+import NextAuth from "next-auth";
+
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
       role: string;
-    } & DefaultSession["user"];
+    };
   }
 
-  // Optionally, you can augment the User interface if you use it elsewhere:
   interface User {
     role: string;
   }
@@ -24,4 +28,18 @@ declare module "next-auth/jwt" {
     role?: string;
     sub?: string;
   }
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  employeeId: string;
+  department: string;
+  designation: string;
+  type: string;
+  status: string;
+  gender?: string;
+  maritalStatus?: string;
+  avatar?: string;
+  createdAt: string;
 }
