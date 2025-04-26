@@ -1,45 +1,10 @@
-// "use client";
-// import { useEffect, useState } from "react";
-// import { useRouter, useParams } from "next/navigation";
-// import EmployeeForm from "@/components/employees/EmployeeForm";
-
-// export default function EditEmployeePage() {
-//   const [employee, setEmployee] = useState(null);
-//   const router = useRouter();
-//   const { id } = useParams();
-
-//   useEffect(() => {
-//     fetch(`/api/employees/${id}`)
-//       .then((res) => res.json())
-//       .then(setEmployee);
-//   }, [id]);
-
-//   async function handleUpdate(data: any) {
-//     await fetch(`/api/employees/${id}`, {
-//       method: "PUT",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(data),
-//     });
-//     router.push("/employees");
-//   }
-
-//   if (!employee) return <p>Loading...</p>;
-
-//   return (
-//     <div className="p-6">
-//       <h1 className="text-2xl mb-4">Edit Employee</h1>
-//       <EmployeeForm initialData={employee} onSubmit={handleUpdate} />
-//     </div>
-//   );
-// }
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import EmployeeForm from "@/components/employees/EmployeeForm";
 import { useAppDispatch } from "@/hooks/useStore";
 import { updateEmployee } from "@/store/slices/employeeSlice";
+import EmployeeForm from "@/components/employees/EmployeeForm";
 
 export default function EditEmployeePage() {
   const [employee, setEmployee] = useState(null);
@@ -65,7 +30,7 @@ export default function EditEmployeePage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl mb-4">Edit Employee</h1>
+      <h1 className="text-2xl mb-6 font-bold">Edit Employee</h1>
       <EmployeeForm initialData={employee} onSubmit={handleUpdate} />
     </div>
   );

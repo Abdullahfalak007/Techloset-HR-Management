@@ -20,5 +20,7 @@ export const assets = {
     plus: "/assets/icons/plus.svg",
     filter: "/assets/icons/filter.svg",
     delete: "/assets/icons/delete.svg",
+    view: "/assets/icons/view.svg",
+    edit: "/assets/icons/edit.svg",
   },
 };

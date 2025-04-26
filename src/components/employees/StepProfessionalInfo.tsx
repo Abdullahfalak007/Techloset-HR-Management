@@ -1,9 +1,59 @@
+// src/components/employees/StepProfessionalInfo.tsx
 type Props = {
   data: any;
-  onChange: (data: any) => void;
+  onChange: (d: any) => void;
   onNext: () => void;
   onBack: () => void;
 };
+
+const workingDayOptions = [
+  "Monday to Saturday",
+  "Monday to Thursday",
+  "Flexible",
+];
+
+const departments = [
+  "Engineering",
+  "Quality Assurance",
+  "DevOps",
+  "Product",
+  "Design",
+  "Marketing",
+  "Sales",
+  "Human Resources",
+  "Finance",
+  "Support",
+];
+
+const designations = [
+  "Intern",
+  "Junior Developer",
+  "Software Engineer",
+  "Senior Software Engineer",
+  "QA Engineer",
+  "DevOps Engineer",
+  "Team Lead",
+  "Project Manager",
+  "Product Manager",
+  "Designer",
+  "HR Manager",
+  "Sales Executive",
+];
+
+const statusOptions = ["Permanent", "Contractual"];
+
+const cities = [
+  "Karachi",
+  "Lahore",
+  "Islamabad",
+  "Rawalpindi",
+  "Faisalabad",
+  "Peshawar",
+  "Quetta",
+  "Multan",
+  "Sialkot",
+  "Gujranwala",
+];
 
 export default function StepProfessionalInfo({
   data,
@@ -11,10 +61,8 @@ export default function StepProfessionalInfo({
   onNext,
   onBack,
 }: Props) {
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    onChange({ [name]: value });
-  };
+  const handleChange = (e: any) =>
+    onChange({ [e.target.name]: e.target.value });
 
   return (
     <div className="space-y-4">
@@ -26,6 +74,7 @@ export default function StepProfessionalInfo({
           onChange={handleChange}
           className="input"
         />
+
         <input
           name="username"
           placeholder="Username"
@@ -33,6 +82,7 @@ export default function StepProfessionalInfo({
           onChange={handleChange}
           className="input"
         />
+
         <input
           name="employeeType"
           placeholder="Employee Type"
@@ -40,27 +90,43 @@ export default function StepProfessionalInfo({
           onChange={handleChange}
           className="input"
         />
-        <input
+
+        <select
           name="department"
-          placeholder="Department"
           value={data.department}
           onChange={handleChange}
           className="input"
-        />
-        <input
+        >
+          <option value="">Select Department</option>
+          {departments.map((d) => (
+            <option key={d}>{d}</option>
+          ))}
+        </select>
+
+        <select
           name="designation"
-          placeholder="Designation"
           value={data.designation}
           onChange={handleChange}
           className="input"
-        />
-        <input
+        >
+          <option value="">Designation</option>
+          {designations.map((d) => (
+            <option key={d}>{d}</option>
+          ))}
+        </select>
+
+        <select
           name="workingDays"
-          placeholder="Working Days"
           value={data.workingDays}
           onChange={handleChange}
           className="input"
-        />
+        >
+          <option value="">Working Days</option>
+          {workingDayOptions.map((w) => (
+            <option key={w}>{w}</option>
+          ))}
+        </select>
+
         <input
           name="joiningDate"
           type="date"
@@ -68,14 +134,33 @@ export default function StepProfessionalInfo({
           onChange={handleChange}
           className="input"
         />
-        <input
+
+        {/* Office Location dropdown */}
+        <select
           name="officeLocation"
-          placeholder="Office Location"
           value={data.officeLocation}
           onChange={handleChange}
           className="input"
-        />
+        >
+          <option value="">Office Location</option>
+          {cities.map((c) => (
+            <option key={c}>{c}</option>
+          ))}
+        </select>
+
+        <select
+          name="status"
+          value={data.status}
+          onChange={handleChange}
+          className="input"
+        >
+          <option value="">Status</option>
+          {statusOptions.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
+        </select>
       </div>
+
       <div className="flex justify-between">
         <button onClick={onBack} className="btn-secondary">
           Back
