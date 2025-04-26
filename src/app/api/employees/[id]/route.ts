@@ -1,31 +1,44 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
-  const employee = await prisma.employee.findUnique({
-    where: { id: params.id },
-  });
-  if (!employee)
-    return NextResponse.json({ message: "Not found" }, { status: 404 });
-  return NextResponse.json(employee);
-}
-
-export async function PUT(
+export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const data = await req.json();
-  const updated = await prisma.employee.update({
-    where: { id: params.id },
-    data,
-  });
-  return NextResponse.json(updated);
-}
+  try {
+    const id = params.id;
+    const {
+      employee,
+      personalInfo,
+      professionalInfo,
+      documents,
+      accountLinks,
+    } = await req.json();
 
-export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
-) {
-  await prisma.employee.delete({ where: { id: params.id } });
-  return NextResponse.json({ message: "Deleted successfully" });
+    if (!employee || !personalInfo || !professionalInfo || !accountLinks) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const updatedEmployee = await prisma.employee.update({
+      where: { id },
+      data: {
+        ...employee,
+        personalInfo: { ...personalInfo },
+        professional: { ...professionalInfo },
+        documents: { ...documents },
+        accounts: { ...accountLinks },
+      },
+    });
+
+    return NextResponse.json(updatedEmployee, { status: 200 });
+  } catch (error) {
+    console.error("[EMPLOYEE_PATCH]", error);
+    return NextResponse.json(
+      { message: "Failed to update employee" },
+      { status: 500 }
+    );
+  }
 }
