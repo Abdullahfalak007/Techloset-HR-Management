@@ -1,4 +1,6 @@
-// src/components/employees/StepProfessionalInfo.tsx
+"use client";
+import React from "react";
+
 type Props = {
   data: any;
   onChange: (d: any) => void;
@@ -6,12 +8,12 @@ type Props = {
   onBack: () => void;
 };
 
+const employeeTypes = ["Office", "Remote"];
 const workingDayOptions = [
   "Monday to Saturday",
   "Monday to Thursday",
   "Flexible",
 ];
-
 const departments = [
   "Engineering",
   "Quality Assurance",
@@ -24,7 +26,6 @@ const departments = [
   "Finance",
   "Support",
 ];
-
 const designations = [
   "Intern",
   "Junior Developer",
@@ -39,9 +40,7 @@ const designations = [
   "HR Manager",
   "Sales Executive",
 ];
-
 const statusOptions = ["Permanent", "Contractual"];
-
 const cities = [
   "Karachi",
   "Lahore",
@@ -61,18 +60,19 @@ export default function StepProfessionalInfo({
   onNext,
   onBack,
 }: Props) {
-  const handleChange = (e: any) =>
-    onChange({ [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => onChange({ [e.target.name]: e.target.value });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="grid grid-cols-2 gap-4">
         <input
           name="employeeId"
           placeholder="Employee ID"
           value={data.employeeId}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
 
         <input
@@ -80,26 +80,34 @@ export default function StepProfessionalInfo({
           placeholder="Username"
           value={data.username}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
 
-        <input
+        <select
           name="employeeType"
-          placeholder="Employee Type"
           value={data.employeeType}
           onChange={handleChange}
-          className="input"
-        />
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
+        >
+          <option value="">Employee Type</option>
+          {employeeTypes.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
+          ))}
+        </select>
 
         <select
           name="department"
           value={data.department}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         >
           <option value="">Select Department</option>
           {departments.map((d) => (
-            <option key={d}>{d}</option>
+            <option key={d} value={d}>
+              {d}
+            </option>
           ))}
         </select>
 
@@ -107,11 +115,13 @@ export default function StepProfessionalInfo({
           name="designation"
           value={data.designation}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         >
           <option value="">Designation</option>
           {designations.map((d) => (
-            <option key={d}>{d}</option>
+            <option key={d} value={d}>
+              {d}
+            </option>
           ))}
         </select>
 
@@ -119,11 +129,13 @@ export default function StepProfessionalInfo({
           name="workingDays"
           value={data.workingDays}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         >
           <option value="">Working Days</option>
           {workingDayOptions.map((w) => (
-            <option key={w}>{w}</option>
+            <option key={w} value={w}>
+              {w}
+            </option>
           ))}
         </select>
 
@@ -132,19 +144,20 @@ export default function StepProfessionalInfo({
           type="date"
           value={data.joiningDate}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
 
-        {/* Office Location dropdown */}
         <select
           name="officeLocation"
           value={data.officeLocation}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         >
           <option value="">Office Location</option>
           {cities.map((c) => (
-            <option key={c}>{c}</option>
+            <option key={c} value={c}>
+              {c}
+            </option>
           ))}
         </select>
 
@@ -152,20 +165,28 @@ export default function StepProfessionalInfo({
           name="status"
           value={data.status}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-2 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         >
           <option value="">Status</option>
           {statusOptions.map((s) => (
-            <option key={s}>{s}</option>
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
       </div>
 
       <div className="flex justify-between">
-        <button onClick={onBack} className="btn-secondary">
+        <button
+          onClick={onBack}
+          className="px-6 py-2 rounded border border-gray-600 text-gray-300 hover:border-gray-500"
+        >
           Back
         </button>
-        <button onClick={onNext} className="btn-primary">
+        <button
+          onClick={onNext}
+          className="bg-orange-500 px-6 py-2 rounded text-white hover:bg-orange-600 transition"
+        >
           Next
         </button>
       </div>

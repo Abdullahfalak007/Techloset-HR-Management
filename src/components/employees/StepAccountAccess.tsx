@@ -1,6 +1,14 @@
+"use client";
+import React from "react";
+
 type Props = {
-  data: any;
-  onChange: (data: any) => void;
+  data: {
+    email: string;
+    slackId: string;
+    skypeId: string;
+    githubId: string;
+  };
+  onChange: (d: Partial<Props["data"]>) => void;
   onBack: () => void;
   onSubmit: () => void;
   submitting: boolean;
@@ -13,53 +21,61 @@ export default function StepAccountAccess({
   onSubmit,
   submitting,
 }: Props) {
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChange({ [name]: value });
   };
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-6">
+      <div className="grid grid-cols-2 gap-6">
         <input
           name="email"
-          placeholder="Email"
+          type="email"
+          placeholder="Enter Email Address"
           value={data.email}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-3 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
+
         <input
           name="slackId"
-          placeholder="Slack ID"
+          placeholder="Enter Slack ID"
           value={data.slackId}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-3 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
+
         <input
           name="skypeId"
-          placeholder="Skype ID"
+          placeholder="Enter Skype ID"
           value={data.skypeId}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-3 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
+
         <input
           name="githubId"
-          placeholder="Github ID"
+          placeholder="Enter Github ID"
           value={data.githubId}
           onChange={handleChange}
-          className="input"
+          className="w-full bg-[#111] border border-gray-700 rounded px-4 py-3 placeholder-gray-500 text-gray-100 focus:border-orange-500 focus:ring-0"
         />
       </div>
-      <div className="flex justify-between">
-        <button onClick={onBack} className="btn-secondary">
-          Back
+
+      <div className="flex justify-between pt-4 border-t border-gray-700">
+        <button
+          onClick={onBack}
+          className="px-6 py-2 rounded border border-gray-600 text-gray-300 hover:border-gray-500"
+        >
+          Cancel
         </button>
         <button
           onClick={onSubmit}
-          className="btn-primary"
           disabled={submitting}
+          className="bg-orange-500 px-6 py-2 rounded text-white hover:bg-orange-600 disabled:opacity-50 transition"
         >
-          {submitting ? "Submitting..." : "Submit"}
+          {submitting ? "Submitting..." : "Add"}
         </button>
       </div>
     </div>

@@ -7,7 +7,7 @@ import EmployeeTable from "@/components/employees/EmployeeTable";
 
 export default function EmployeesPage() {
   const { data: session, status } = useSession();
-  const { employees, loading } = useEmployees();
+  const { employees, loading, refresh } = useEmployees();
 
   if (status === "loading" || loading) return <p>Loading...</p>;
   if (!session) return <p>Unauthorized</p>;
@@ -17,7 +17,7 @@ export default function EmployeesPage() {
       <div className="flex justify-between items-center mb-6">
         <EmployeeHeader isAdmin={session.user.role === "ADMIN"} />
       </div>
-      <EmployeeTable employees={employees} />
+      <EmployeeTable employees={employees} onDeleteSuccess={refresh} />
     </div>
   );
 }

@@ -1,7 +1,13 @@
 // src/components/employees/EmployeeTable.tsx
 import EmployeeRow from "./EmployeeRow";
 
-export default function EmployeeTable({ employees }: { employees: any[] }) {
+export default function EmployeeTable({
+  employees,
+  onDeleteSuccess,
+}: {
+  employees: any[];
+  onDeleteSuccess?: () => void;
+}) {
   return (
     <div className="w-full overflow-auto border border-gray-700 rounded-lg mt-4">
       <table className="min-w-full text-sm text-white">
@@ -18,7 +24,11 @@ export default function EmployeeTable({ employees }: { employees: any[] }) {
         </thead>
         <tbody className="bg-[#111] divide-y divide-gray-700">
           {employees.map((emp) => (
-            <EmployeeRow key={emp.id} employee={emp} />
+            <EmployeeRow
+              key={emp.id}
+              employee={emp}
+              onDeleteSuccess={onDeleteSuccess}
+            />
           ))}
         </tbody>
       </table>

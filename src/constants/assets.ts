@@ -2,14 +2,10 @@
 
 export const assets = {
   images: {
-    // your logo SVG under public/assets/icons/logo.svg
     logo: "/assets/icons/logo.svg",
-    // any other standalone images can go here
   },
   icons: {
-    // your eye icon SVG under public/assets/icons/eyeIcon.svg
     eye: "/assets/icons/eyeIcon.svg",
-
     dashboard: "/assets/icons/dashboardIcon.svg",
     users: "/assets/icons/usersIcon.png",
     calendar: "/assets/icons/calendarIcon.svg",
@@ -22,5 +18,11 @@ export const assets = {
     delete: "/assets/icons/delete.svg",
     view: "/assets/icons/view.svg",
     edit: "/assets/icons/edit.svg",
+    upload: "/assets/icons/upload.svg",
+    camera: "/assets/icons/camera.svg",
+    user: "/assets/icons/user.png",
+    briefcase: "/assets/icons/briefcase.png",
+    document: "/assets/icons/document.svg",
+    lock: "/assets/icons/lock.svg",
   },
 };
