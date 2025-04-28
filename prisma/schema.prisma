@@ -7,32 +7,37 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
-model User {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String?
-  email        String?  @unique
-  password     String?
-  role         String
-  otp          String?
-  otpExpiresAt DateTime?
-  createdAt    DateTime @default(now())
+model Employee {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  employeeId  String   @unique
+  department  String
+  designation String
+  type        String
+  status      String
+  avatar      String?
+  createdAt   DateTime @default(now())
+
+  personalInfo PersonalInfoEmbedded
+  professional ProfessionalInfoEmbedded
+  documents    DocumentSetEmbedded
+  accounts     AccountLinksEmbedded
+
+  // now an opposite relation for Attendance:
+  attendances Attendance[] @relation("EmployeeAttendances")
 }
 
-model Employee {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  employeeId     String           @unique
-  department     String
-  designation    String
-  type           String
-  status         String
-  avatar         String?
-  createdAt      DateTime         @default(now())
-
-  personalInfo   PersonalInfoEmbedded
-  professional   ProfessionalInfoEmbedded
-  documents      DocumentSetEmbedded
-  accounts       AccountLinksEmbedded
+model Attendance {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  employee   Employee @relation("EmployeeAttendances", fields: [employeeId], references: [id])
+  employeeId String   @db.ObjectId
+  date       DateTime
+  checkIn    DateTime
+  checkOut   DateTime
+  breakTime  String?
+  workHours  String?
+  status     String
+  createdAt  DateTime @default(now())
 }
 
 type PersonalInfoEmbedded {
@@ -56,15 +61,26 @@ type ProfessionalInfoEmbedded {
 }
 
 type DocumentSetEmbedded {
-  appointmentLetter  String?
-  salarySlip         String?
-  relievingLetter    String?
-  experienceLetter   String?
+  appointmentLetter String?
+  salarySlip        String?
+  relievingLetter   String?
+  experienceLetter  String?
 }
 
 type AccountLinksEmbedded {
-  email     String
-  slackId   String
-  skypeId   String
-  githubId  String
+  email    String
+  slackId  String
+  skypeId  String
+  githubId String
+}
+
+model User {
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  name         String?
+  email        String?   @unique
+  password     String?
+  role         String
+  otp          String?
+  otpExpiresAt DateTime?
+  createdAt    DateTime  @default(now())
 }
