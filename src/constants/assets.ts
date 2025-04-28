@@ -24,5 +24,8 @@ export const assets = {
     briefcase: "/assets/icons/briefcase.png",
     document: "/assets/icons/document.svg",
     lock: "/assets/icons/lock.svg",
+    mail: "/assets/icons/mail.svg",
+    project: "/assets/icons/project.svg",
+    download: "/assets/icons/download.svg",
   },
 };
