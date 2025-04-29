@@ -85,7 +85,6 @@
 //     </aside>
 //   );
 // }
-// src/components/layout/Sidebar.tsx
 "use client";
 
 import Link from "next/link";
@@ -100,27 +99,26 @@ export default function Sidebar() {
   const { data: session, status } = useSession();
   const { theme, toggleTheme } = useTheme();
 
-  // show a loader or nothing until session is resolved
+  // don’t render until we know the session
   if (status === "loading") return null;
 
-  // only these items for employees:
+  // Only admins see every link, non-admins see just Dashboard, All Employees and Settings
+  const isAdmin = session?.user.role === "ADMIN";
   const employeeAllowed = new Set(["Dashboard", "All Employees", "Settings"]);
-
-  const items =
-    session?.user.role === "EMPLOYEE"
-      ? navItems.filter((i) => employeeAllowed.has(i.label))
-      : navItems;
+  const items = isAdmin
+    ? navItems
+    : navItems.filter((i) => employeeAllowed.has(i.label));
 
   return (
     <aside className="bg-white dark:bg-[#1A1A1A] text-black dark:text-white w-[250px] min-h-screen flex flex-col justify-between py-6 px-4 rounded-r-2xl transition-colors">
-      {/* Logo */}
       <div className="space-y-10">
+        {/* logo */}
         <div className="flex items-center space-x-2">
           <img src={assets.images.logo} alt="HR Logo" className="h-8 w-8" />
           <span className="text-xl font-bold">HR SEARCH</span>
         </div>
 
-        {/* Nav Links */}
+        {/* nav links */}
         <nav className="space-y-2">
           {items.map((item) => (
             <Link key={item.href} href={item.href}>
@@ -139,7 +137,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Theme Toggle */}
+      {/* theme toggle */}
       <div className="flex items-center justify-center pt-4 space-x-2">
         <button
           onClick={() => theme !== "light" && toggleTheme()}
