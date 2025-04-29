@@ -1,4 +1,4 @@
-// src/app/attendance/mark/page.tsx
+// src/app/(dashboard)/attendance/mark/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";

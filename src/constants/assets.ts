@@ -27,5 +27,6 @@ export const assets = {
     mail: "/assets/icons/mail.svg",
     project: "/assets/icons/project.svg",
     download: "/assets/icons/download.svg",
+    bell: "/assets/icons/bell.svg",
   },
 };
