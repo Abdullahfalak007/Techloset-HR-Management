@@ -1,9 +1,9 @@
-// src/components/layout/Navbar.tsx
 "use client";
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
+import UserDropdown from "./UserDropdown"; // <-- new import
 
 export default function Navbar({
   title,
@@ -16,37 +16,33 @@ export default function Navbar({
 
   return (
     <header className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
+      {/* Left: title & subtitle */}
       <div>
-        <h1 className="text-2xl font-bold">{title}</h1>
+        <h1 className="text-2xl font-bold text-white">{title}</h1>
         {subtitle && <p className="text-gray-400 text-sm">{subtitle}</p>}
       </div>
 
+      {/* Right: search, bell, and our new dropdown */}
       <div className="flex items-center space-x-4">
+        {/* search box */}
         <input
           type="text"
           placeholder="Search"
-          className="bg-[#111] rounded-lg px-3 py-2 placeholder-gray-600 outline-none focus:ring-0"
+          className="bg-[#111] rounded-lg px-3 py-2 placeholder-gray-600 text-white outline-none focus:ring-0"
         />
+
+        {/* notifications bell */}
         <button>
-          <img
+          <Image
             src={assets.icons.bell}
             alt="Notifications"
-            className="w-6 h-6"
+            width={24}
+            height={24}
           />
         </button>
-        <div className="flex items-center space-x-2">
-          <Image
-            src={session?.user.image || "/assets/icons/default-avatar.png"}
-            width={32}
-            height={32}
-            alt="avatar"
-            className="rounded-full"
-          />
-          <div className="text-right">
-            <p className="text-sm font-medium">{session?.user.name}</p>
-            <p className="text-xs text-gray-400">{session?.user.role}</p>
-          </div>
-        </div>
+
+        {/* only show dropdown if logged in */}
+        {session?.user && <UserDropdown />}
       </div>
     </header>
   );

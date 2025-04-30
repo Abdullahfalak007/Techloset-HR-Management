@@ -80,6 +80,7 @@ model User {
   email        String?   @unique
   password     String?
   role         String
+  image        String?   // ← store their avatar URL here
   otp          String?
   otpExpiresAt DateTime?
   createdAt    DateTime  @default(now())

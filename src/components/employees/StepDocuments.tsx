@@ -122,7 +122,7 @@ export default function StepDocuments({
 
             <CldUploadButton
               options={{
-                uploadPreset: "unsigned_hr_preset",
+                uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!,
                 folder: "hr-management/docs",
                 resourceType: "auto",
               }}
