@@ -121,9 +121,12 @@ export default function EmployeeRow({
         </span>
       </td>
       {isAdmin && (
-        <td className="px-4 py-3 flex space-x-3">
+        <td className="py-3 flex space-x-3">
           <button onClick={handleView} title="View/Edit">
             <img src="/assets/icons/view.svg" alt="View" className="w-4 h-4" />
+          </button>
+          <button onClick={handleView} title="View/Edit">
+            <img src="/assets/icons/edit.svg" alt="Edit" className="w-4 h-4" />
           </button>
           <button onClick={handleDelete} title="Delete">
             <img
