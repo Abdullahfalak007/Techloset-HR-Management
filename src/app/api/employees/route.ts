@@ -3,17 +3,10 @@
 
 // export async function GET() {
 //   try {
-//     const employees = await prisma.employee.findMany({
-//       include: {
-//         personalInfo: true,
-//         professional: true,
-//         documents: true,
-//         accounts: true,
-//       },
-//     });
+//     const employees = await prisma.employee.findMany();
 //     return NextResponse.json(employees);
 //   } catch (error) {
-//     console.error("[EMPLOYEES_GET]", error);
+//     console.error("[EMPLOYEE_GET]", error);
 //     return NextResponse.json(
 //       { message: "Failed to fetch employees" },
 //       { status: 500 }
@@ -38,38 +31,19 @@
 //       );
 //     }
 
-//     const created = await prisma.$transaction(async (tx: typeof prisma) => {
-//       const newEmployee = await tx.employee.create({
-//         data: { ...employee },
-//       });
-
-//       await tx.personalInfo.create({
-//         data: { ...personalInfo, employeeId: newEmployee.id },
-//       });
-
-//       await tx.professionalInfo.create({
-//         data: { ...professionalInfo, employeeId: newEmployee.id },
-//       });
-
-//       await tx.documentSet.create({
-//         data: { ...documents, employeeId: newEmployee.id },
-//       });
-
-//       await tx.accountLinks.create({
-//         data: { ...accountLinks, employeeId: newEmployee.id },
-//       });
-
-//       return newEmployee;
+//     const createdEmployee = await prisma.employee.create({
+//       data: {
+//         ...employee,
+//         personalInfo: { ...personalInfo },
+//         professional: { ...professionalInfo },
+//         documents: { ...documents },
+//         accounts: { ...accountLinks },
+//       },
 //     });
 
-//     return NextResponse.json(created, { status: 201 });
+//     return NextResponse.json(createdEmployee, { status: 201 });
 //   } catch (error) {
-//     console.error("[EMPLOYEE_POST]", JSON.stringify(error, null, 2));
-//     console.error(
-//       "[EMPLOYEE_POST]",
-//       error instanceof Error ? error.message : error
-//     );
-
+//     console.error("[EMPLOYEE_POST]", error);
 //     return NextResponse.json(
 //       { message: "Failed to create employee" },
 //       { status: 500 }
@@ -77,6 +51,7 @@
 //   }
 // }
 
+// src/app/api/employees/route.ts
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
@@ -94,37 +69,150 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  // 1) Read & log the raw body
+  let body: any;
   try {
-    const {
-      employee,
-      personalInfo,
-      professionalInfo,
-      documents,
-      accountLinks,
-    } = await req.json();
+    body = await req.json();
+    console.log("🛠️ POST /api/employees body:", body);
+  } catch (err) {
+    console.error("⚠️ Failed to parse JSON body:", err);
+    return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
+  }
 
-    if (!employee || !personalInfo || !professionalInfo || !accountLinks) {
-      return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+  const { employee, personalInfo, professionalInfo, documents, accountLinks } =
+    body;
 
-    const createdEmployee = await prisma.employee.create({
+  // 2) Basic shape check
+  if (!employee || !personalInfo || !professionalInfo || !accountLinks) {
+    return NextResponse.json(
+      { message: "Missing required sections" },
+      { status: 400 }
+    );
+  }
+
+  // 3) Validate top‐level employee fields
+  const { name, employeeId, department, designation, type, status, avatar } =
+    employee;
+  if (
+    typeof name !== "string" ||
+    !name.trim() ||
+    typeof employeeId !== "string" ||
+    !employeeId.trim() ||
+    typeof department !== "string" ||
+    !department.trim() ||
+    typeof designation !== "string" ||
+    !designation.trim()
+  ) {
+    return NextResponse.json(
+      {
+        message:
+          "Employee name, employeeId, department, and designation are required",
+      },
+      { status: 400 }
+    );
+  }
+
+  // 4) Validate embedded personalInfo
+  if (
+    typeof personalInfo.firstName !== "string" ||
+    !personalInfo.firstName.trim() ||
+    typeof personalInfo.lastName !== "string" ||
+    !personalInfo.lastName.trim() ||
+    typeof personalInfo.email !== "string" ||
+    !personalInfo.email.trim() ||
+    typeof personalInfo.phone !== "string" ||
+    !personalInfo.phone.trim()
+  ) {
+    return NextResponse.json(
+      {
+        message: "PersonalInfo must include firstName, lastName, email, phone",
+      },
+      { status: 400 }
+    );
+  }
+
+  // 5) Validate embedded professionalInfo
+  const { username, joiningDate, workingDays, officeLocation } =
+    professionalInfo;
+  if (
+    typeof username !== "string" ||
+    !username.trim() ||
+    typeof joiningDate !== "string" ||
+    !joiningDate.trim() ||
+    typeof workingDays !== "string" ||
+    !workingDays.trim() ||
+    typeof officeLocation !== "string" ||
+    !officeLocation.trim()
+  ) {
+    return NextResponse.json(
+      {
+        message:
+          "ProfessionalInfo must include username, joiningDate, workingDays, officeLocation",
+      },
+      { status: 400 }
+    );
+  }
+
+  // 6) All set — create the employee
+  try {
+    const created = await prisma.employee.create({
       data: {
-        ...employee,
-        personalInfo: { ...personalInfo },
-        professional: { ...professionalInfo },
-        documents: { ...documents },
-        accounts: { ...accountLinks },
+        name: name.trim(),
+        employeeId: employeeId.trim(),
+        department: department.trim(),
+        designation: designation.trim(),
+        type: type?.trim() || "Office",
+        status: status?.trim() || "Permanent",
+        avatar: avatar?.trim() || null,
+
+        personalInfo: {
+          email: personalInfo.email.trim(),
+          phone: personalInfo.phone.trim(),
+          dob: personalInfo.dob,
+          gender: personalInfo.gender,
+          nationality: personalInfo.nationality,
+          maritalStatus: personalInfo.maritalStatus,
+          address: personalInfo.address,
+          city: personalInfo.city,
+          state: personalInfo.state,
+          zipCode: personalInfo.zipCode,
+        },
+
+        professional: {
+          username: username.trim(),
+          joiningDate: joiningDate.trim(),
+          workingDays: workingDays.trim(),
+          officeLocation: officeLocation.trim(),
+        },
+
+        documents: {
+          appointmentLetter: documents.appointmentLetter ?? null,
+          salarySlip: documents.salarySlip ?? null,
+          relievingLetter: documents.relievingLetter ?? null,
+          experienceLetter: documents.experienceLetter ?? null,
+        },
+
+        accounts: {
+          email: accountLinks.email ?? "",
+          slackId: accountLinks.slackId ?? "",
+          skypeId: accountLinks.skypeId ?? "",
+          githubId: accountLinks.githubId ?? "",
+        },
       },
     });
 
-    return NextResponse.json(createdEmployee, { status: 201 });
-  } catch (error) {
-    console.error("[EMPLOYEE_POST]", error);
+    return NextResponse.json(created, { status: 201 });
+  } catch (error: any) {
+    console.error("[EMPLOYEE_POST] Prisma error:", error);
+    // If it's a unique‐constraint violation, surface that
+    if (error.code === "P2002" && error.meta?.target?.includes("employeeId")) {
+      return NextResponse.json(
+        { message: "An employee with that employeeId already exists" },
+        { status: 409 }
+      );
+    }
     return NextResponse.json(
-      { message: "Failed to create employee" },
+      { message: "Failed to create employee", detail: error.message },
       { status: 500 }
     );
   }
