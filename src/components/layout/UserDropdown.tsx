@@ -103,41 +103,49 @@ import { useState, useRef, useEffect } from "react";
 export default function UserDropdown() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const isAdmin = session?.user?.role === "ADMIN";
-  const [empId, setEmpId] = useState<string | null>(null);
 
-  // 1) fetch /api/employees/me on mount
+  // 1) fetch your employee ID
+  const [empId, setEmpId] = useState<string | null>(null);
   useEffect(() => {
     fetch("/api/employees/me")
-      .then((res) => res.json())
+      .then((r) => r.json())
       .then((data: { id: string | null }) => {
-        console.log("→ /api/employees/me returned:", data);
+        console.log("→ /api/employees/me:", data);
         setEmpId(data.id);
       })
       .catch(console.error);
   }, []);
 
-  // 2) close on outside click
+  // 2) close dropdown on outside click
   useEffect(() => {
-    function onClick(e: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
-    }
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   if (!session?.user) return null;
   const { name, image, role } = session.user as any;
 
+  // 3) build the link target:
+  //    - admins → no-op "#"
+  //    - non-admin + known empId → `/employees/${empId}/edit`
+  //    - non-admin + still-loading empId → "#" (disable until it loads)
+  let infoHref = "#";
+  let infoClass = "text-gray-500 cursor-not-allowed";
+  if (!isAdmin && empId) {
+    infoHref = `/employees/${empId}/edit`;
+    infoClass = "text-white hover:bg-gray-800";
+  }
+
   return (
-    <div ref={dropdownRef} className="relative">
+    <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex items-center space-x-2 px-3 py-2 rounded hover:bg-gray-800 transition"
@@ -174,15 +182,16 @@ export default function UserDropdown() {
             Profile
           </Link>
 
-          {/* always show for non-admin, link to specific record if we have it */}
-          {!isAdmin && (
-            <Link
-              href={empId ? `/employees/${empId}` : "/employees"}
-              className="block px-4 py-2 text-white hover:bg-gray-800"
-            >
-              Employee Info
-            </Link>
-          )}
+          <Link
+            href={infoHref}
+            className={`block px-4 py-2 ${infoClass}`}
+            onClick={(e) => {
+              // prevent any click if admin OR empId not yet loaded
+              if (isAdmin || !empId) e.preventDefault();
+            }}
+          >
+            Employee Info
+          </Link>
 
           <Link
             href="/change-password"
