@@ -25,6 +25,7 @@ model Employee {
 
   // now an opposite relation for Attendance:
   attendances Attendance[] @relation("EmployeeAttendances")
+  leaves       Leave[]      @relation("EmployeeLeaves")
 }
 
 model Attendance {
@@ -38,6 +39,17 @@ model Attendance {
   workHours  String?
   status     String
   createdAt  DateTime @default(now())
+}
+
+model Leave {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  employee   Employee  @relation("EmployeeLeaves", fields: [employeeId], references: [id])
+  employeeId String    @db.ObjectId
+  reason     String
+  startDate  DateTime
+  endDate    DateTime
+  status     String    @default("PENDING")
+  createdAt  DateTime  @default(now())
 }
 
 type PersonalInfoEmbedded {
