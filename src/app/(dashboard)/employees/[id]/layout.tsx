@@ -47,7 +47,7 @@ export default function EmployeeDetailLayout({
   ];
 
   return (
-    //test
+    //test // test commit 2
     <div className="space-y-6 p-6">
       {/* ─── Top summary ───────────────────────────────────────────────────────── */}
       <div className="flex items-center justify-between bg-[#1A1A1A] p-6 rounded-lg">
