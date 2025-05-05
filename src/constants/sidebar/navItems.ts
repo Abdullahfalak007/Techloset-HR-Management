@@ -24,6 +24,11 @@ export const navItems = [
     icon: assets.icons.leaves,
   },
   {
+    label: "Projects",
+    href: "/projects",
+    icon: assets.icons.project,
+  },
+  {
     label: "Settings",
     href: "/settings",
     icon: assets.icons.settings,

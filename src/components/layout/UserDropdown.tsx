@@ -140,7 +140,7 @@ export default function UserDropdown() {
   let infoHref = "#";
   let infoClass = "text-gray-500 cursor-not-allowed";
   if (!isAdmin && empId) {
-    infoHref = `/employees/${empId}/edit`;
+    infoHref = `/employees/${empId}`;
     infoClass = "text-white hover:bg-gray-800";
   }
 
