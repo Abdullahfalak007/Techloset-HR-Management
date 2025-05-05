@@ -5,22 +5,39 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+/* globals.css */
+
+/* 1️⃣ Define default (light) theme variables */
+:root {
+  --bg-page: #ffffff;
+  --text-main: #111111;
+  --bg-panel: #f4f4f5;
+  --text-muted: #555555;
+  --accent: #f97316;
+}
+
+/* 2️⃣ Define dark‐mode overrides */
+.dark {
+  --bg-page: #1a1a1a;
+  --text-main: #f4f4f5;
+  --bg-panel: #111111;
+  --text-muted: #888888;
+  --accent: #f97316;
+}
+
+/* 3️⃣ Apply them globally */
+html {
+  background: var(--bg-page);
+  color: var(--text-main);
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
 }
