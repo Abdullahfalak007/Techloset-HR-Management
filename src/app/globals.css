@@ -31,6 +31,15 @@
   --accent: #f97316;
 }
 
+aside.bg-white.text-black {
+  /* light theme: var(--bg-panel) is your light‐mode panel bg */
+  /* dark theme:   var(--bg-panel) flips to your dark‐mode panel bg */
+  background-color: var(--bg-panel) !important;
+
+  /* similarly for text */
+  color: var(--text-main) !important;
+}
+
 /* 3️⃣ Apply them globally */
 html {
   background: var(--bg-page);

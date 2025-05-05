@@ -28,7 +28,7 @@ export default function Navbar({
         <input
           type="text"
           placeholder="Search"
-          className="bg-[#111] rounded-lg px-3 py-2 placeholder-gray-600 text-white outline-none focus:ring-0"
+          className="rounded-lg px-3 py-2 outline-none focus:ring-0 bg-[var(--input-bg)] border border-[var(--input-border)] text-[var(--text)] placeholder-[var(--placeholder)]"
         />
 
         {/* notifications bell */}

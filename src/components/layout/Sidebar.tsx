@@ -23,7 +23,13 @@ export default function Sidebar() {
     : navItems.filter((i) => employeeAllowed.has(i.label));
 
   return (
-    <aside className="bg-white dark:bg-[#1A1A1A] text-black dark:text-white w-[250px] min-h-screen flex flex-col justify-between py-6 px-4 rounded-r-2xl transition-colors">
+    <aside
+      className="
+      w-[250px] min-h-screen flex flex-col justify-between py-6 px-4 rounded-r-2xl transition-colors
+      bg-[var(--bg)]      
+      text-[var(--text)] 
+    "
+    >
       <div className="space-y-10">
         {/* logo */}
         <div className="flex items-center space-x-2">
@@ -51,27 +57,38 @@ export default function Sidebar() {
       </div>
 
       {/* theme toggle */}
-      <div className="flex items-center justify-center pt-4 space-x-2">
+      <div className="flex items-center justify-center pt-4">
         <button
           onClick={() => theme !== "light" && toggleTheme()}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition ${
-            theme === "light"
-              ? "bg-orange-500 text-white"
-              : "bg-[#1A1A1A] text-gray-300"
-          }`}
+          className={`
+      relative -mr-1
+      ${theme === "light" ? "z-10" : "z-0"}
+      flex items-center px-4 py-2 text-sm font-medium rounded-lg transition
+      ${
+        theme === "light"
+          ? "bg-orange-500 text-white"
+          : "bg-[#1A1A1A] text-gray-300"
+      }
+    `}
         >
-          <img src={assets.icons.sun} alt="Light" className="w-4 h-4" />
+          <img src={assets.icons.sun} alt="Light" className="w-4 h-4 mr-2" />
           Light
         </button>
+
         <button
           onClick={() => theme !== "dark" && toggleTheme()}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition ${
-            theme === "dark"
-              ? "bg-orange-500 text-white"
-              : "bg-[#1A1A1A] text-gray-300"
-          }`}
+          className={`
+      relative -ml-2
+      ${theme === "dark" ? "z-10" : "z-0"}
+      flex items-center px-4 py-2 text-sm font-medium rounded-lg transition
+      ${
+        theme === "dark"
+          ? "bg-orange-500 text-white"
+          : "bg-[#1A1A1A] text-gray-300"
+      }
+    `}
         >
-          <img src={assets.icons.moon} alt="Dark" className="w-4 h-4" />
+          <img src={assets.icons.moon} alt="Dark" className="w-4 h-4 mr-2" />
           Dark
         </button>
       </div>
