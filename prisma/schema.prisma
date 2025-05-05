@@ -23,9 +23,10 @@ model Employee {
   documents    DocumentSetEmbedded
   accounts     AccountLinksEmbedded
 
-  // now an opposite relation for Attendance:
+  // now an opposite relation for Attendance, leaves and projects:
   attendances Attendance[] @relation("EmployeeAttendances")
   leaves       Leave[]      @relation("EmployeeLeaves")
+  projects    Project[]    @relation("EmployeeProjects")
 }
 
 model Attendance {
@@ -50,6 +51,20 @@ model Leave {
   endDate    DateTime
   status     String    @default("PENDING")
   createdAt  DateTime  @default(now())
+}
+
+model Project {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  status      String    @default("IN_PROGRESS")
+
+  assignee    Employee  @relation("EmployeeProjects", fields: [employeeId], references: [id])
+  employeeId  String    @db.ObjectId
+
+  createdAt   DateTime  @default(now())
 }
 
 type PersonalInfoEmbedded {
