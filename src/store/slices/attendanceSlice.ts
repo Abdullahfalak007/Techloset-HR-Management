@@ -68,7 +68,7 @@ export interface AttendanceRecord {
   checkOut: string;
   breakTime: string | null;
   workHours: string | null;
-  status: string;
+  status: "ON_TIME" | "LATE" | "ABSENT";
   employee: {
     id: string;
     name: string;

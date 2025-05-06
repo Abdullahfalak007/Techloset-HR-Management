@@ -1,0 +1,90 @@
+import Image from "next/image";
+import Link from "next/link";
+import { format } from "date-fns";
+
+type Row = {
+  id: string;
+  employee: {
+    id: string;
+    name: string;
+    avatar?: string;
+    designation: string;
+    type: string;
+  };
+  checkIn: string;
+  checkOut: string;
+  status: "ON_TIME" | "LATE" | "ABSENT";
+};
+
+export default function RecentAttendanceTable({ rows }: { rows: Row[] }) {
+  return (
+    <div className="overflow-auto bg-[#1A1A1A] rounded-lg">
+      <table className="min-w-full text-left text-sm">
+        <thead className="border-b border-gray-700">
+          <tr>
+            {[
+              "Employee Name",
+              "Designation",
+              "Type",
+              "Check In Time",
+              "Check Out Time",
+              "Status",
+            ].map((h) => (
+              <th key={h} className="px-4 py-3 text-gray-400">
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-700">
+          {rows.map((row) => (
+            <tr key={row.id} className="hover:bg-gray-900">
+              {/* Employee */}
+              <td className="px-4 py-3">
+                <Link
+                  href={`/employees/${row.employee.id}`}
+                  className="flex items-center space-x-2"
+                >
+                  <Image
+                    src={
+                      row.employee.avatar || "/assets/icons/default-avatar.png"
+                    }
+                    alt={row.employee.name}
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                  />
+                  <span className="text-white">{row.employee.name}</span>
+                </Link>
+              </td>
+
+              <td className="px-4 py-3 text-gray-300">
+                {row.employee.designation}
+              </td>
+              <td className="px-4 py-3 text-gray-300">{row.employee.type}</td>
+              <td className="px-4 py-3 text-gray-300">
+                {format(new Date(row.checkIn), "MMM d, yyyy")}
+              </td>
+              <td className="px-4 py-3 text-gray-300">
+                {format(new Date(row.checkOut), "MMM d, yyyy")}
+              </td>
+              <td className="px-4 py-3">
+                <span
+                  className={`text-xs px-2 py-1 rounded ${
+                    row.status === "ON_TIME"
+                      ? "bg-green-600"
+                      : row.status === "LATE"
+                      ? "bg-red-600"
+                      : "bg-yellow-600"
+                  } text-white`}
+                >
+                  {row.status}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
