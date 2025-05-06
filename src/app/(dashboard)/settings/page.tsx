@@ -62,22 +62,6 @@ export default function SettingsPage() {
       {/* card */}
       <div className="bg-[#1A1A1A] border border-gray-700 rounded-lg p-6 space-y-6">
         {/* Appearance */}
-        {/* <div className="grid grid-cols-2 gap-4 items-center">
-          <div>
-            <p className="text-white font-semibold">Appearance</p>
-            <p className="text-gray-400 text-sm">
-              Customize how your theme looks on your device
-            </p>
-          </div>
-          <select
-            value={theme}
-            onChange={handleThemeChange}
-            className="bg-transparent border border-gray-700 rounded px-3 py-2 text-white focus:outline-none focus:border-orange-500"
-          >
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div> */}
         <div className="grid grid-cols-2 gap-4 items-center">
           <div>
             <p className="text-white font-semibold">Appearance</p>
@@ -98,18 +82,6 @@ export default function SettingsPage() {
         </div>
 
         {/* Language */}
-        {/* <div className="grid grid-cols-2 gap-4 items-center">
-          <div>
-            <p className="text-white font-semibold">Language</p>
-            <p className="text-gray-400 text-sm">Select your language</p>
-          </div>
-          <select
-            className="bg-transparent border border-gray-700 rounded px-3 py-2 text-white focus:outline-none focus:border-orange-500"
-            disabled
-          >
-            <option>English</option>
-          </select>
-        </div> */}
         <div className="grid grid-cols-2 gap-4 items-center">
           <div>
             <p className="text-white font-semibold">Language</p>

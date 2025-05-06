@@ -1,37 +1,3 @@
-// import { NextResponse } from "next/server";
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import prisma from "@/lib/prisma";
-
-// export async function GET() {
-//   const session = await getServerSession(authOptions);
-//   if (!session?.user?.email) {
-//     return NextResponse.json([], { status: 200 });
-//   }
-
-//   // find the employee record for this logged-in user
-//   const employee = await prisma.employee.findFirst({
-//     where: {
-//       OR: [
-//         { accounts: { email: session.user.email } },
-//         { personalInfo: { email: session.user.email } },
-//       ],
-//     },
-//     select: { id: true },
-//   });
-
-//   if (!employee) {
-//     return NextResponse.json([], { status: 200 });
-//   }
-
-//   const notifications = await prisma.notification.findMany({
-//     where: { userId: employee.id },
-//     orderBy: { createdAt: "desc" },
-//   });
-
-//   return NextResponse.json(notifications);
-// }
-
 // src/app/api/notifications/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
