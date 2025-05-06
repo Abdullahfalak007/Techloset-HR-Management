@@ -29,5 +29,6 @@ export const assets = {
     download: "/assets/icons/download.svg",
     bell: "/assets/icons/bell.svg",
     defaultAvatar: "/assets/images/default-avatar.png",
+    check: "/assets/icons/check.png",
   },
 };

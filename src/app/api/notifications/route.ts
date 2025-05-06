@@ -1,0 +1,80 @@
+// import { NextResponse } from "next/server";
+// import { getServerSession } from "next-auth/next";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import prisma from "@/lib/prisma";
+
+// export async function GET() {
+//   const session = await getServerSession(authOptions);
+//   if (!session?.user?.email) {
+//     return NextResponse.json([], { status: 200 });
+//   }
+
+//   // find the employee record for this logged-in user
+//   const employee = await prisma.employee.findFirst({
+//     where: {
+//       OR: [
+//         { accounts: { email: session.user.email } },
+//         { personalInfo: { email: session.user.email } },
+//       ],
+//     },
+//     select: { id: true },
+//   });
+
+//   if (!employee) {
+//     return NextResponse.json([], { status: 200 });
+//   }
+
+//   const notifications = await prisma.notification.findMany({
+//     where: { userId: employee.id },
+//     orderBy: { createdAt: "desc" },
+//   });
+
+//   return NextResponse.json(notifications);
+// }
+
+// src/app/api/notifications/route.ts
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import prisma from "@/lib/prisma";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+export async function GET() {
+  try {
+    // 1) grab the current user’s email from NextAuth
+    const session = await getServerSession(authOptions);
+    const email = session?.user?.email;
+    if (!email) {
+      // not signed in, return empty array
+      return NextResponse.json([], { status: 200 });
+    }
+
+    // 2) load every employee’s id + embedded emails, then find ours
+    const allEmps = await prisma.employee.findMany({
+      select: {
+        id: true,
+        personalInfo: { select: { email: true } },
+        accounts: { select: { email: true } },
+      },
+    });
+    const emp = allEmps.find(
+      (e) =>
+        e.personalInfo.email.toLowerCase() === email.toLowerCase() ||
+        e.accounts.email.toLowerCase() === email.toLowerCase()
+    );
+    if (!emp) {
+      // no matching Employee → no notifications
+      return NextResponse.json([], { status: 200 });
+    }
+
+    // 3) fetch their notifications
+    const notifs = await prisma.notification.findMany({
+      where: { userId: emp.id },
+      orderBy: { createdAt: "desc" },
+    });
+    return NextResponse.json(notifs, { status: 200 });
+  } catch (err) {
+    console.error("[NOTIF_GET_ERROR]", err);
+    // on error, return an empty array rather than an object
+    return NextResponse.json([], { status: 200 });
+  }
+}
