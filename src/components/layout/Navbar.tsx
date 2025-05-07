@@ -3,7 +3,7 @@
 
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { assets } from "@/constants/assets";
 import UserDropdown from "./UserDropdown";
 import { useEffect, useState } from "react";
@@ -17,8 +17,32 @@ export default function Navbar({
 }) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [unread, setUnread] = useState(0);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  // Keep an internal state for the input
+  const [search, setSearch] = useState(searchParams.get("search") || "");
+
+  // Sync with back/forward navigation
+  useEffect(() => {
+    setSearch(searchParams.get("search") || "");
+  }, [searchParams]);
+
+  // Called on every keystroke
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const q = e.target.value;
+    setSearch(q);
+
+    // Immediately update the URL (replace so history doesn't flood)
+    const trimmed = q.trim();
+    const target = trimmed
+      ? `${pathname}?search=${encodeURIComponent(trimmed)}`
+      : pathname;
+    router.replace(target);
+  }
+
+  // Notifications badge (unchanged)
+  const [unread, setUnread] = useState(0);
   useEffect(() => {
     if (session?.user) {
       fetch("/api/notifications")
@@ -34,14 +58,28 @@ export default function Navbar({
         <h1 className="text-2xl font-bold text-white">{title}</h1>
         {subtitle && <p className="text-gray-400 text-sm">{subtitle}</p>}
       </div>
-      <div className="flex items-center space-x-4">
-        <input
-          type="text"
-          placeholder="Search"
-          className="bg-[#111] rounded-lg px-3 py-2 placeholder-gray-600 text-white outline-none focus:ring-0"
-        />
 
-        {/* Bell button now navigates on click */}
+      <div className="flex items-center space-x-4">
+        {/* Instant search input */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={handleChange}
+            className="bg-[#111] rounded-lg px-3 py-2 placeholder-gray-600 text-white outline-none focus:ring-0"
+          />
+          {search && (
+            <button
+              onClick={() => handleChange({ target: { value: "" } } as any)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+            >
+              ×
+            </button>
+          )}
+        </div>
+
+        {/* Bell (unchanged) */}
         <button
           className="relative"
           onClick={() => router.push("/notification")}
