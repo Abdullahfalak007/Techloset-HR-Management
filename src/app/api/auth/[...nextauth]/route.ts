@@ -54,24 +54,18 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      // On initial sign in, persist everything
       if (user) {
         token.role = (user as any).role;
         token.picture = (user as any).image;
+        token.id = (user as any).id; // ← stash the DB id
       }
       return token;
     },
-
     async session({ session, token }) {
-      if (session.user?.email) {
-        // Re-fetch the fresh user record
-        const dbUser = await prisma.user.findUnique({
-          where: { email: session.user.email },
-        });
+      if (session.user) {
         session.user.role = token.role as string;
-        session.user.name = dbUser?.name ?? session.user.name;
-        session.user.email = dbUser?.email ?? session.user.email;
-        session.user.image = dbUser?.image ?? (token.picture as string);
+        session.user.image = token.picture as string;
+        session.user.id = token.id as string; // ← pull it back onto session.user
       }
       return session;
     },

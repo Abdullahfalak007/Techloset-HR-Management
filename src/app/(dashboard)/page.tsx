@@ -2,6 +2,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { isSameDay, isThisWeek, subDays } from "date-fns";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 
@@ -15,11 +17,14 @@ import AttendanceChart from "@/components/dashboard/AttendanceChart";
 import RecentAttendanceTable from "@/components/dashboard/RecentAttendanceTable";
 
 import { assets } from "@/constants/assets";
+import Image from "next/image";
 
-export default function AdminDashboardPage() {
+export default function DashboardPage() {
+  const router = useRouter();
+  const { data: session, status: authStatus } = useSession();
   const dispatch = useAppDispatch();
 
-  // —— grab all four slices ——
+  // grab slices
   const { employees, status: empStatus } = useAppSelector((s) => s.employees);
   const { items: leaves, loading: leaveLoading } = useAppSelector(
     (s) => s.leaves
@@ -31,15 +36,57 @@ export default function AdminDashboardPage() {
     (s) => s.projects
   );
 
-  // —— fetch once on mount ——
+  // only fetch if we're an admin
   useEffect(() => {
-    dispatch(fetchEmployees());
-    dispatch(fetchLeaves());
-    dispatch(fetchAttendanceRecords());
-    dispatch(fetchProjects());
-  }, [dispatch]);
+    if (session?.user.role === "ADMIN") {
+      dispatch(fetchEmployees());
+      dispatch(fetchLeaves());
+      dispatch(fetchAttendanceRecords());
+      dispatch(fetchProjects());
+    }
+  }, [session?.user.role, dispatch]);
 
-  // —— show one loader while any slice is still fetching ——
+  // handle session state
+  if (authStatus === "loading") return <p className="p-6">Loading…</p>;
+  if (!session) return <p className="p-6">Unauthorized</p>;
+
+  // non-admin -> simple welcome
+  if (session.user.role !== "ADMIN") {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-6">
+        {/* ← New logo + text row */}
+        <div className="flex items-center space-x-4">
+          <Image
+            src={assets.images.logo} // ← from constants
+            alt="HR SEARCH Logo"
+            width={80}
+            height={80}
+          />
+          <span className="text-4xl font-extrabold text-white">HR SEARCH</span>
+        </div>
+
+        <h1 className="text-3xl font-bold text-white">
+          Welcome, {session.user.name}!
+        </h1>
+        <p className="text-gray-400 text-center">
+          Enjoy your personalized dashboard. Check your profile for the latest
+          updates.
+        </p>
+        <button
+          onClick={() => router.push(`/employees/${session.user.id}`)}
+          className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition"
+        >
+          Go to Profile
+        </button>
+        <p className="text-gray-500 text-sm mt-6">
+          This Application is built by Developer Bilal.
+        </p>
+      </div>
+    );
+  }
+
+  // admin -> rich stats view
+  // show a loader if any of the admin slices is still fetching
   if (
     empStatus === "loading" ||
     leaveLoading ||
@@ -50,7 +97,7 @@ export default function AdminDashboardPage() {
   }
 
   //
-  // 1) top-line stats
+  // Compute top-line numbers + changes
   //
   const totalEmployees = employees.length;
   const totalLeaves = leaves.length;
@@ -72,7 +119,7 @@ export default function AdminDashboardPage() {
   const projectChange = computeChange(totalProjects, totalProjects - 1);
 
   //
-  // 2) 7-day “stacked beats” data
+  // Build 7-day “stacked beats” data
   //
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const attendanceStats = weekDays.map((dayLabel, idx) => {
@@ -89,7 +136,7 @@ export default function AdminDashboardPage() {
   });
 
   //
-  // 3) last-5 attendance & join on employee
+  // Grab the last 5 attendance records and attach employee info
   //
   const recentAttendance = attendanceItems
     .slice()
@@ -121,40 +168,41 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <StatsCard
-          title="Total Employees"
-          value={totalEmployees}
-          icon={assets.icons.user}
-          change={employeeChange}
-          positive={true}
-        />
-        <StatsCard
-          title="Total Leaves"
-          value={totalLeaves}
-          icon={assets.icons.leaves}
-          change={leaveChange}
-          positive={true}
-        />
-        <StatsCard
-          title="Today Attendance"
-          value={todayCount}
-          icon={assets.icons.calendar}
-          change={attendanceChange}
-          /** use positive={false} instead of negative **/
-          positive={false}
-        />
-        <StatsCard
-          title="Total Projects"
-          value={totalProjects}
-          icon={assets.icons.project}
-          change={projectChange}
-          positive={true}
-        />
+      <div className="border border-gray-700 rounded-lg p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StatsCard
+            title="Total Employees"
+            value={totalEmployees}
+            icon={assets.icons.user}
+            change={employeeChange}
+            positive={true}
+          />
+          <StatsCard
+            title="Total Leaves"
+            value={totalLeaves}
+            icon={assets.icons.leaves}
+            change={leaveChange}
+            positive={true}
+          />
+          <StatsCard
+            title="Today Attendance"
+            value={todayCount}
+            icon={assets.icons.calendar}
+            change={attendanceChange}
+            positive={false}
+          />
+          <StatsCard
+            title="Total Projects"
+            value={totalProjects}
+            icon={assets.icons.project}
+            change={projectChange}
+            positive={true}
+          />
+        </div>
       </div>
 
       {/* Attendance Overview */}
-      <div>
+      <div className="border border-gray-700 rounded-lg p-6">
         <h2 className="text-xl font-semibold text-white mb-4">
           Attendance Overview
         </h2>
@@ -162,7 +210,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Recent Attendance */}
-      <div>
+      <div className="border border-gray-700 rounded-lg p-6">
         <h2 className="text-xl font-semibold text-white mb-4">
           Recent Attendance
         </h2>
