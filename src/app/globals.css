@@ -2,10 +2,11 @@
 
 :root {
   /* SURFACES */
-  --bg: #f7f7f7; /* page background */
-  --sidebar-bg: #ffffff; /* sidebar, nav panels */
+  --bg: #ffffff; /* page background */
+  --sidebar-bg: #d1d5db; /* sidebar, nav panels */
   --header-bg: #ffffff; /* top nav / header bar */
   --card-bg: #ffffff; /* cards and tables */
+  --surface: var(--card-bg); /* forms, search bars, etc. */
   --surface-hover: #f3f4f6; /* row hover, etc. */
 
   /* BORDERS */
@@ -25,28 +26,28 @@
   /* ACCENTS */
   --accent: #f97316; /* your “orange” */
   --accent-hover: #ea580c; /* orange-600 */
-  --success: #10b981; /* green-500 */
-  --error: #ef4444; /* red-500 */
-  --warning: #fbbf24; /* yellow-400 */
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #fbbf24;
 }
 
-/* 3) Dark theme variables */
 html.dark {
   /* SURFACES */
-  --bg: #0f172a; /* overall page */
-  --sidebar-bg: #1f1f1f; /* slightly darker than cards */
-  --header-bg: #1a1a1a; /* top navbar */
-  --card-bg: #1a1a1a; /* cards, tables, modals */
-  --surface-hover: #111827; /* row hover, etc. */
+  --bg: #131313;
+  --sidebar-bg: #212123;
+  --header-bg: #131313;
+  --card-bg: #131313;
+  --surface: var(--card-bg);
+  --surface-hover: #111827;
 
   /* BORDERS */
-  --border: #374151; /* card & table borders */
-  --divider: #4b5563; /* lighter dividing lines */
+  --border: #374151;
+  --divider: #4b5563;
 
   /* TYPOGRAPHY */
-  --text-primary: #f3f4f6; /* main text */
-  --text-secondary: #9ca3af; /* subs */
-  --text-muted: #6b7280; /* faint */
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
 
   /* FORMS */
   --input-bg: #111827;
@@ -61,12 +62,13 @@ html.dark {
   --warning: #fbbf24;
 }
 
-/* 4) Apply them globally */
+/* Base page styles */
 body {
   background-color: var(--bg);
   color: var(--text-primary);
 }
-/* reset default link colours */
+
+/* Links */
 a {
   color: var(--accent);
 }
@@ -74,6 +76,7 @@ a:hover {
   color: var(--accent-hover);
 }
 
+/* Icon tinting */
 .icon-theme {
   filter: invert(1);
 }

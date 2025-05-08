@@ -105,6 +105,7 @@
 // }
 
 // src/components/layout/Navbar.tsx
+// src/components/layout/Navbar.tsx
 "use client";
 
 import { useSession } from "next-auth/react";
@@ -152,15 +153,25 @@ export default function Navbar({
   }, [session]);
 
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b border-[var(--border)]">
+    <header
+      className="
+        flex items-center justify-between
+        px-6 py-4
+        border-b border-[var(--border)]
+        bg-[var(--)]
+      "
+    >
+      {/* Title */}
       <div>
         <h1 className="text-2xl font-bold text-[var(--text-primary)]">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-[var(--text-secondary)] text-sm">{subtitle}</p>
+          <p className="text-sm text-[var(--text-secondary)]">{subtitle}</p>
         )}
       </div>
+
+      {/* Search + Icons */}
       <div className="flex items-center space-x-4">
         <div className="relative">
           <input
@@ -168,20 +179,37 @@ export default function Navbar({
             placeholder="Search"
             value={search}
             onChange={handleChange}
-            className="bg-[var(--surface)] rounded-lg px-3 py-2 placeholder-[var(--text-secondary)] text-[var(--text-primary)] outline-none focus:ring-0"
+            className="
+              w-64
+              bg-[var(--surface)]
+              border border-[var(--input-border)]
+              rounded-lg
+              px-3 py-2
+              placeholder-[var(--input-placeholder)]
+              text-[var(--text-primary)]
+              outline-none
+              focus:ring-0
+              focus:border-[var(--accent)]
+            "
           />
           {search && (
             <button
               onClick={() => handleChange({ target: { value: "" } } as any)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              className="
+                absolute right-2 top-1/2 -translate-y-1/2
+                text-[var(--text-secondary)]
+                hover:text-[var(--text-primary)]
+              "
             >
               ×
             </button>
           )}
         </div>
 
+        {/* Notifications bell */}
         <button
-          className="relative"
+          className="relative flex items-center space-x-2 px-3 py-2 rounded
+          bg-[var(--surface)] hover:bg-[var(--surface-hover)]"
           onClick={() => router.push("/notification")}
           title="View notifications"
         >
@@ -193,12 +221,22 @@ export default function Navbar({
             className="icon-theme"
           />
           {unread > 0 && (
-            <span className="absolute top-0 right-0 inline-flex items-center justify-center h-4 w-4 rounded-full bg-[var(--danger)] text-[var(--text-primary)] text-xs">
+            <span
+              className="
+                absolute top-0 right-0
+                inline-flex items-center justify-center
+                h-4 w-4 rounded-full
+                bg-[var(--error)]
+                text-[var(--text-primary)]
+                text-xs
+              "
+            >
               {unread}
             </span>
           )}
         </button>
 
+        {/* User dropdown */}
         {session?.user && <UserDropdown />}
       </div>
     </header>

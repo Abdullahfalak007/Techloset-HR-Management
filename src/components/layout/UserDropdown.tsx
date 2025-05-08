@@ -121,6 +121,7 @@
 // }
 
 // src/components/layout/UserDropdown.tsx
+// src/components/layout/UserDropdown.tsx
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
@@ -132,22 +133,25 @@ export default function UserDropdown() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
   const isAdmin = session?.user?.role === "ADMIN";
 
+  // fetch the current employee ID for non-admins
   const [empId, setEmpId] = useState<string | null>(null);
   useEffect(() => {
     fetch("/api/employees/me")
       .then((r) => r.json())
-      .then((data) => setEmpId(data.id))
+      .then((data: { id: string | null }) => setEmpId(data.id))
       .catch(console.error);
   }, []);
 
+  // close on outside click
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
+    function handler(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
-    };
+    }
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
   }, []);
@@ -155,18 +159,25 @@ export default function UserDropdown() {
   if (!session?.user) return null;
   const { name, image, role } = session.user as any;
 
+  // build the “Employee Info” link
   let infoHref = "#";
-  let infoClass = "text-[var(--text-secondary)] cursor-not-allowed";
+  // force it to use the secondary text color when disabled
+  let infoClass = "!text-[var(--text-secondary)] cursor-not-allowed";
   if (!isAdmin && empId) {
     infoHref = `/employees/${empId}`;
-    infoClass = "text-[var(--text-primary)] hover:bg-[var(--surface)]";
+    infoClass = "!text-[var(--text-primary)] hover:bg-[var(--surface-hover)]";
   }
 
   return (
     <div ref={ref} className="relative">
+      {/* trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center space-x-2 px-3 py-2 rounded hover:bg-[var(--surface)] transition"
+        className="
+          flex items-center space-x-2 px-3 py-2 rounded
+          bg-[var(--surface)] hover:bg-[var(--surface-hover)]
+          transition focus:outline-none
+        "
       >
         <Image
           src={image || "/assets/icons/default-avatar.png"}
@@ -184,9 +195,11 @@ export default function UserDropdown() {
           </p>
         </div>
         <svg
-          className={`w-4 h-4 text-[var(--text-secondary)] transform transition-transform ${
-            open ? "rotate-180" : ""
-          }`}
+          className={`
+            w-4 h-4 text-[var(--text-secondary)]
+            transform transition-transform
+            ${open ? "rotate-180" : ""}
+          `}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -195,14 +208,28 @@ export default function UserDropdown() {
         </svg>
       </button>
 
+      {/* dropdown */}
       {open && (
-        <div className="absolute right-0 mt-2 w-48 bg-[var(--surface)] rounded shadow-lg z-50">
+        <div
+          className="
+            absolute right-0 mt-2 w-48
+            bg-[var(--surface)]
+            border border-[var(--divider)]
+            rounded shadow-lg
+            z-[1000]
+          "
+        >
           <Link
             href="/profile"
-            className="block px-4 py-2 text-[var(--text-primary)] hover:bg-[var(--surface)]"
+            className="
+              block px-4 py-2
+              !text-[var(--text-primary)]
+              hover:bg-[var(--surface-hover)]
+            "
           >
             Profile
           </Link>
+
           <Link
             href={infoHref}
             className={`block px-4 py-2 ${infoClass}`}
@@ -212,16 +239,27 @@ export default function UserDropdown() {
           >
             Employee Info
           </Link>
+
           <Link
             href="/change-password"
-            className="block px-4 py-2 text-[var(--text-primary)] hover:bg-[var(--surface)]"
+            className="
+              block px-4 py-2
+              !text-[var(--text-primary)]
+              hover:bg-[var(--surface-hover)]
+            "
           >
             Change Password
           </Link>
-          <hr className="border-[var(--border)] my-1" />
+
+          <hr className="border-[var(--divider)] my-1" />
+
           <button
             onClick={() => signOut()}
-            className="w-full text-left px-4 py-2 text-[var(--text-primary)] hover:bg-[var(--surface)]"
+            className="
+              w-full text-left px-4 py-2
+              !text-[var(--text-primary)]
+              hover:bg-[var(--surface-hover)]
+            "
           >
             Logout
           </button>

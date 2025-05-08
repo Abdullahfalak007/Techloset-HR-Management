@@ -284,6 +284,15 @@ export default function StepPersonalInfo({
         uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
         folder: "hr-management/avatars",
         resourceType: "image",
+
+        // ← NEW: force a 1:1 crop
+        cropping: true,
+        croppingAspectRatio: 1,
+        showAdvancedOptions: false,
+        multiple: false,
+        // you can also apply an automatic face‐centered crop:
+        croppingShowDimensions: true,
+        croppingDefaultSelectionRatio: 1,
       },
       (error: any, result: any) => {
         if (error) return;

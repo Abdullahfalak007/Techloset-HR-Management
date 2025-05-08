@@ -125,7 +125,7 @@ export default function Sidebar() {
     <aside
       className="
         w-[250px] min-h-screen flex flex-col justify-between py-6 px-4 rounded-r-2xl transition-colors
-        bg-[var(--bg)]
+        bg-[var(--sidebar-bg)]
         text-[var(--text)]
       "
     >
@@ -157,10 +157,10 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <div className="flex items-center justify-center pt-4 space-x-2">
+      <div className="flex items-center justify-center pt-4">
         <button
           onClick={() => theme !== "light" && toggleTheme()}
-          className={`relative z-10 flex items-center px-4 py-2 text-sm font-medium rounded-lg transition ${
+          className={`relative z-10 flex items-center px-4 py-2 text-sm font-medium rounded-lg transition -mr-2 ${
             theme === "light"
               ? "bg-[var(--accent)] text-[var(--text-primary)]"
               : "bg-[var(--surface)] text-[var(--text-secondary)]"

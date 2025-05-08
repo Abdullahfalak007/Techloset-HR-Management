@@ -385,28 +385,28 @@ export default function DashboardPage() {
           <StatsCard
             title="Total Employees"
             value={totalEmployees}
-            icon={assets.icons.user}
+            icon={assets.icons.employees}
             change={employeeChange}
             positive
           />
           <StatsCard
             title="Total Leaves"
             value={totalLeaves}
-            icon={assets.icons.leaves}
+            icon={assets.icons.leave}
             change={leaveChange}
             positive
           />
           <StatsCard
             title="Today Attendance"
             value={todayCount}
-            icon={assets.icons.calendar}
+            icon={assets.icons.attendance}
             change={attendanceChange}
             positive={false}
           />
           <StatsCard
             title="Total Projects"
             value={totalProjects}
-            icon={assets.icons.project}
+            icon={assets.icons.projects}
             change={projectChange}
             positive
           />
@@ -414,7 +414,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Attendance Overview */}
-      <div className="border border-[var(--border)] rounded-lg p-6">
+      <div className="border border-[var(--border)] rounded-lg p-6 shadow-md">
         <h2 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
           Attendance Overview
         </h2>
