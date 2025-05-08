@@ -1,35 +1,78 @@
+// "use client";
+
+// import { assets } from "@/constants/assets";
+// import Image from "next/image";
+// import { useRouter } from "next/navigation"; // ✅ import router
+
+// type Props = {
+//   isAdmin: boolean;
+// };
+
+// export default function EmployeeHeader({ isAdmin }: Props) {
+//   const router = useRouter();
+
+//   return (
+//     <>
+//       <div>
+//         <h2 className="text-2xl font-semibold">All Employees</h2>
+//         <p className="text-gray-400 text-sm">All Employee Information</p>
+//       </div>
+
+//       <div className="flex items-center gap-4">
+//         {isAdmin && (
+//           <button
+//             className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
+//             onClick={() => router.push("/employees/add")} // ✅ navigate
+//           >
+//             <span className="text-white">Add New Employee</span>
+//             <Image src={assets.icons.plus} alt="Add" width={16} height={16} />
+//           </button>
+//         )}
+
+//         <button className="border border-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-700">
+//           <Image
+//             src={assets.icons.filter}
+//             alt="Filter"
+//             width={16}
+//             height={16}
+//           />
+//         </button>
+//       </div>
+//     </>
+//   );
+// }
+
+// src/components/employees/EmployeeHeader.tsx
 "use client";
 
 import { assets } from "@/constants/assets";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // ✅ import router
+import { useRouter } from "next/navigation";
 
-type Props = {
-  isAdmin: boolean;
-};
-
-export default function EmployeeHeader({ isAdmin }: Props) {
+export default function EmployeeHeader({ isAdmin }: { isAdmin: boolean }) {
   const router = useRouter();
 
   return (
     <>
       <div>
-        <h2 className="text-2xl font-semibold">All Employees</h2>
-        <p className="text-gray-400 text-sm">All Employee Information</p>
+        <h2 className="text-2xl font-semibold text-[var(--text-primary)]">
+          All Employees
+        </h2>
+        <p className="text-[var(--text-secondary)] text-sm">
+          All Employee Information
+        </p>
       </div>
-
       <div className="flex items-center gap-4">
         {isAdmin && (
           <button
-            className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
-            onClick={() => router.push("/employees/add")} // ✅ navigate
+            className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2"
+            onClick={() => router.push("/employees/add")}
           >
-            <span className="text-white">Add New Employee</span>
+            <span className="text-[var(--text-primary)]">Add New</span>
             <Image src={assets.icons.plus} alt="Add" width={16} height={16} />
           </button>
         )}
-
-        <button className="border border-gray-600 px-4 py-2 rounded-lg text-sm hover:bg-gray-700">
+        <button className="border border-[var(--border)] px-4 py-2 rounded-lg text-sm hover:bg-[var(--surface)] transition">
           <Image
             src={assets.icons.filter}
             alt="Filter"

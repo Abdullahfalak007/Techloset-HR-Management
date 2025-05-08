@@ -1,52 +1,82 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* SURFACES */
+  --bg: #f7f7f7; /* page background */
+  --sidebar-bg: #ffffff; /* sidebar, nav panels */
+  --header-bg: #ffffff; /* top nav / header bar */
+  --card-bg: #ffffff; /* cards and tables */
+  --surface-hover: #f3f4f6; /* row hover, etc. */
+
+  /* BORDERS */
+  --border: #e5e7eb; /* card & table borders */
+  --divider: #d1d5db; /* lighter dividing lines */
+
+  /* TYPOGRAPHY */
+  --text-primary: #111827; /* headings, body text */
+  --text-secondary: #6b7280; /* subtitles, metadata */
+  --text-muted: #4b5563; /* very faint text */
+
+  /* FORMS */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-placeholder: #9ca3af;
+
+  /* ACCENTS */
+  --accent: #f97316; /* your “orange” */
+  --accent-hover: #ea580c; /* orange-600 */
+  --success: #10b981; /* green-500 */
+  --error: #ef4444; /* red-500 */
+  --warning: #fbbf24; /* yellow-400 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-/* globals.css */
+/* 3) Dark theme variables */
+html.dark {
+  /* SURFACES */
+  --bg: #0f172a; /* overall page */
+  --sidebar-bg: #1f1f1f; /* slightly darker than cards */
+  --header-bg: #1a1a1a; /* top navbar */
+  --card-bg: #1a1a1a; /* cards, tables, modals */
+  --surface-hover: #111827; /* row hover, etc. */
 
-/* 1️⃣ Define default (light) theme variables */
-:root {
-  --bg-page: #ffffff;
-  --text-main: #111111;
-  --bg-panel: #f4f4f5;
-  --text-muted: #555555;
+  /* BORDERS */
+  --border: #374151; /* card & table borders */
+  --divider: #4b5563; /* lighter dividing lines */
+
+  /* TYPOGRAPHY */
+  --text-primary: #f3f4f6; /* main text */
+  --text-secondary: #9ca3af; /* subs */
+  --text-muted: #6b7280; /* faint */
+
+  /* FORMS */
+  --input-bg: #111827;
+  --input-border: #374151;
+  --input-placeholder: #9ca3af;
+
+  /* ACCENTS */
   --accent: #f97316;
+  --accent-hover: #ea580c;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #fbbf24;
 }
 
-/* 2️⃣ Define dark‐mode overrides */
-.dark {
-  --bg-page: #1a1a1a;
-  --text-main: #f4f4f5;
-  --bg-panel: #111111;
-  --text-muted: #888888;
-  --accent: #f97316;
-}
-
-aside.bg-white.text-black {
-  /* light theme: var(--bg-panel) is your light‐mode panel bg */
-  /* dark theme:   var(--bg-panel) flips to your dark‐mode panel bg */
-  background-color: var(--bg-panel) !important;
-
-  /* similarly for text */
-  color: var(--text-main) !important;
-}
-
-/* 3️⃣ Apply them globally */
-html {
-  background: var(--bg-page);
-  color: var(--text-main);
-}
-
+/* 4) Apply them globally */
 body {
-  background: var(--bg-page);
-  color: var(--text-main);
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+/* reset default link colours */
+a {
+  color: var(--accent);
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+.icon-theme {
+  filter: invert(1);
+}
+html.dark .icon-theme {
+  filter: invert(0);
 }

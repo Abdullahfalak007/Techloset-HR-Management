@@ -1,3 +1,124 @@
+// "use client";
+
+// import { useEffect } from "react";
+// import { useParams, usePathname } from "next/navigation";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { assets } from "@/constants/assets";
+// import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
+// import { fetchEmployeeById } from "@/store/slices/employeeSlice";
+
+// export default function EmployeeDetailLayout({
+//   children,
+// }: {
+//   children: React.ReactNode;
+// }) {
+//   // normalize id to string
+//   const { id: rawId } = useParams();
+//   const id = Array.isArray(rawId) ? rawId[0] : rawId!;
+
+//   const pathname = usePathname();
+//   const dispatch = useAppDispatch();
+
+//   const employee = useAppSelector((s) =>
+//     s.employees.employees.find((e) => e.id === id)
+//   );
+//   const status = useAppSelector((s) => s.employees.status);
+
+//   useEffect(() => {
+//     if (status === "idle") {
+//       dispatch(fetchEmployeeById(id));
+//     }
+//   }, [status]);
+
+//   if (!employee) return <p className="p-6">Loading…</p>;
+
+//   const base = `/employees/${id}`;
+//   const navItems = [
+//     { label: "Profile", href: base, icon: assets.icons.user },
+//     {
+//       label: "Attendance",
+//       href: `${base}/attendance`,
+//       icon: assets.icons.calendar,
+//     },
+//     { label: "Projects", href: `${base}/projects`, icon: assets.icons.project },
+//     { label: "Leave", href: `${base}/leave`, icon: assets.icons.leaves },
+//   ];
+
+//   return (
+//     <div className="space-y-6 p-6">
+//       {/* Top summary */}
+//       <div className="flex items-center justify-between bg-[#1A1A1A] p-6 rounded-lg">
+//         <div className="flex items-center space-x-4">
+//           <Image
+//             src={employee.avatar || "/assets/icons/default-avatar.png"}
+//             alt="Avatar"
+//             width={72}
+//             height={72}
+//             className="rounded-lg object-cover"
+//           />
+//           <div className="space-y-1">
+//             <h1 className="text-2xl font-bold text-white">{employee.name}</h1>
+//             <p className="flex items-center text-gray-400 space-x-2">
+//               <Image
+//                 src={assets.icons.briefcase}
+//                 alt=""
+//                 width={16}
+//                 height={16}
+//               />
+//               <span>{employee.designation}</span>
+//             </p>
+//             <p className="flex items-center text-gray-400 space-x-2">
+//               <Image src={assets.icons.mail} alt="" width={16} height={16} />
+//               <span>{employee.personalInfo.email}</span>
+//             </p>
+//           </div>
+//         </div>
+//         <button
+//           className="bg-orange-500 px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-orange-600 transition"
+//           onClick={() => (window.location.href = `/employees/${id}/edit`)}
+//         >
+//           <Image src={assets.icons.edit} alt="" width={16} height={16} />
+//           <span>Edit Profile</span>
+//         </button>
+//       </div>
+
+//       {/* Inner layout */}
+//       <div className="flex space-x-6">
+//         {/* Left sidebar */}
+//         <nav className="w-1/4 bg-[#1A1A1A] rounded-lg p-4 space-y-2">
+//           {navItems.map((item) => {
+//             const active = pathname === item.href;
+//             return (
+//               <Link
+//                 key={item.href}
+//                 href={item.href}
+//                 className={`flex items-center px-4 py-2 space-x-2 rounded-lg transition ${
+//                   active
+//                     ? "bg-orange-500 text-white"
+//                     : "text-gray-300 hover:bg-[#111]"
+//                 }`}
+//               >
+//                 <Image
+//                   src={item.icon}
+//                   alt={item.label}
+//                   width={16}
+//                   height={16}
+//                 />
+//                 <span>{item.label}</span>
+//               </Link>
+//             );
+//           })}
+//         </nav>
+
+//         {/* Right panel */}
+//         <div className="flex-1">{children}</div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// src/app/(dashboard)/employees/[id]/layout.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -13,10 +134,8 @@ export default function EmployeeDetailLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // normalize id to string
   const { id: rawId } = useParams();
   const id = Array.isArray(rawId) ? rawId[0] : rawId!;
-
   const pathname = usePathname();
   const dispatch = useAppDispatch();
 
@@ -29,7 +148,7 @@ export default function EmployeeDetailLayout({
     if (status === "idle") {
       dispatch(fetchEmployeeById(id));
     }
-  }, [status]);
+  }, [status, dispatch, id]);
 
   if (!employee) return <p className="p-6">Loading…</p>;
 
@@ -48,7 +167,7 @@ export default function EmployeeDetailLayout({
   return (
     <div className="space-y-6 p-6">
       {/* Top summary */}
-      <div className="flex items-center justify-between bg-[#1A1A1A] p-6 rounded-lg">
+      <div className="flex items-center justify-between bg-[var(--container-bg)] p-6 rounded-lg">
         <div className="flex items-center space-x-4">
           <Image
             src={employee.avatar || "/assets/icons/default-avatar.png"}
@@ -58,8 +177,10 @@ export default function EmployeeDetailLayout({
             className="rounded-lg object-cover"
           />
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-white">{employee.name}</h1>
-            <p className="flex items-center text-gray-400 space-x-2">
+            <h1 className="text-2xl font-bold text-[var(--text-primary)]">
+              {employee.name}
+            </h1>
+            <p className="flex items-center text-[var(--text-secondary)] space-x-2">
               <Image
                 src={assets.icons.briefcase}
                 alt=""
@@ -68,25 +189,25 @@ export default function EmployeeDetailLayout({
               />
               <span>{employee.designation}</span>
             </p>
-            <p className="flex items-center text-gray-400 space-x-2">
+            <p className="flex items-center text-[var(--text-secondary)] space-x-2">
               <Image src={assets.icons.mail} alt="" width={16} height={16} />
               <span>{employee.personalInfo.email}</span>
             </p>
           </div>
         </div>
         <button
-          className="bg-orange-500 px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-orange-600 transition"
+          className="bg-[var(--accent)] px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-[var(--accent-hover)] transition"
           onClick={() => (window.location.href = `/employees/${id}/edit`)}
         >
           <Image src={assets.icons.edit} alt="" width={16} height={16} />
-          <span>Edit Profile</span>
+          <span className="text-[var(--button-text)]">Edit Profile</span>
         </button>
       </div>
 
       {/* Inner layout */}
       <div className="flex space-x-6">
         {/* Left sidebar */}
-        <nav className="w-1/4 bg-[#1A1A1A] rounded-lg p-4 space-y-2">
+        <nav className="w-1/4 bg-[var(--container-bg)] rounded-lg p-4 space-y-2">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -95,8 +216,8 @@ export default function EmployeeDetailLayout({
                 href={item.href}
                 className={`flex items-center px-4 py-2 space-x-2 rounded-lg transition ${
                   active
-                    ? "bg-orange-500 text-white"
-                    : "text-gray-300 hover:bg-[#111]"
+                    ? "bg-[var(--accent)] text-[var(--button-text)]"
+                    : "text-[var(--link-color)] hover:bg-[var(--surface)]"
                 }`}
               >
                 <Image

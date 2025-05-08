@@ -1,3 +1,127 @@
+// "use client";
+
+// import { useEffect } from "react";
+// import { useSearchParams } from "next/navigation";
+// import { format } from "date-fns";
+// import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
+// import { fetchLeaves, updateLeaveStatus } from "@/store/slices/leaveSlice";
+
+// export default function AdminLeavePage() {
+//   const dispatch = useAppDispatch();
+//   const leaves = useAppSelector((s) => s.leaves.items);
+//   const loading = useAppSelector((s) => s.leaves.loading);
+
+//   // read ?search=
+//   const searchParams = useSearchParams();
+//   const q = searchParams.get("search")?.toLowerCase() || "";
+
+//   // filter by employee name or reason
+//   const filtered = leaves.filter((l) =>
+//     [(l as any).employee?.name || "", l.reason].some((field) =>
+//       field.toLowerCase().includes(q)
+//     )
+//   );
+
+//   useEffect(() => {
+//     dispatch(fetchLeaves());
+//   }, [dispatch]);
+
+//   const updateStatus = (id: string, status: "APPROVED" | "REJECTED") => {
+//     dispatch(updateLeaveStatus({ id, status }));
+//   };
+
+//   if (loading) return <p className="p-6">Loading…</p>;
+
+//   return (
+//     <div className="p-6">
+//       <h1 className="text-2xl font-bold mb-4">Admin Leave Panel</h1>
+//       <div className="overflow-auto border border-gray-700 rounded-lg">
+//         <table className="min-w-full text-sm">
+//           <thead className="border-b">
+//             <tr>
+//               {[
+//                 "Employee",
+//                 "Email",
+//                 "Reason",
+//                 "Start Date",
+//                 "End Date",
+//                 "Status",
+//                 "Actions",
+//               ].map((h) => (
+//                 <th key={h} className="px-4 py-3 text-left">
+//                   {h}
+//                 </th>
+//               ))}
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {filtered.map((l) => (
+//               <tr
+//                 key={l.id}
+//                 className="border-b last:border-none hover:bg-gray-900 transition"
+//               >
+//                 <td className="px-4 py-3 flex items-center space-x-2">
+//                   <img
+//                     src={
+//                       (l as any).employee?.avatar ||
+//                       "/assets/icons/default-avatar.png"
+//                     }
+//                     alt=""
+//                     className="w-8 h-8 rounded-full"
+//                   />
+//                   <span>{(l as any).employee?.name || "—"}</span>
+//                 </td>
+//                 <td className="px-4 py-3">
+//                   {(l as any).employee?.personalInfo?.email || "—"}
+//                 </td>
+//                 <td className="px-4 py-3">{l.reason}</td>
+//                 <td className="px-4 py-3">
+//                   {format(new Date(l.startDate), "MMM d, yyyy")}
+//                 </td>
+//                 <td className="px-4 py-3">
+//                   {format(new Date(l.endDate), "MMM d, yyyy")}
+//                 </td>
+//                 <td className="px-4 py-3">
+//                   <span
+//                     className={`text-xs px-2 py-1 rounded ${
+//                       l.status === "APPROVED"
+//                         ? "bg-green-600"
+//                         : l.status === "PENDING"
+//                         ? "bg-yellow-600"
+//                         : "bg-red-600"
+//                     } text-white`}
+//                   >
+//                     {l.status}
+//                   </span>
+//                 </td>
+//                 <td className="px-4 py-3 space-x-2">
+//                   {l.status === "PENDING" && (
+//                     <>
+//                       <button
+//                         onClick={() => updateStatus(l.id, "APPROVED")}
+//                         className="px-3 py-1 rounded bg-green-600 text-white text-xs"
+//                       >
+//                         Approve
+//                       </button>
+//                       <button
+//                         onClick={() => updateStatus(l.id, "REJECTED")}
+//                         className="px-3 py-1 rounded bg-red-600 text-white text-xs"
+//                       >
+//                         Reject
+//                       </button>
+//                     </>
+//                   )}
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+// }
+
+// src/app/(dashboard)/leaves/page.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -11,11 +135,9 @@ export default function AdminLeavePage() {
   const leaves = useAppSelector((s) => s.leaves.items);
   const loading = useAppSelector((s) => s.leaves.loading);
 
-  // read ?search=
   const searchParams = useSearchParams();
   const q = searchParams.get("search")?.toLowerCase() || "";
 
-  // filter by employee name or reason
   const filtered = leaves.filter((l) =>
     [(l as any).employee?.name || "", l.reason].some((field) =>
       field.toLowerCase().includes(q)
@@ -34,10 +156,12 @@ export default function AdminLeavePage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Admin Leave Panel</h1>
-      <div className="overflow-auto border border-gray-700 rounded-lg">
-        <table className="min-w-full text-sm">
-          <thead className="border-b">
+      <h1 className="text-2xl font-bold mb-4 text-[var(--text-primary)]">
+        Admin Leave Panel
+      </h1>
+      <div className="overflow-auto border border-[var(--border)] rounded-lg">
+        <table className="min-w-full text-[var(--text-primary)] text-sm">
+          <thead className="border-b border-[var(--border)]">
             <tr>
               {[
                 "Employee",
@@ -58,7 +182,7 @@ export default function AdminLeavePage() {
             {filtered.map((l) => (
               <tr
                 key={l.id}
-                className="border-b last:border-none hover:bg-gray-900 transition"
+                className="border-b last:border-none hover:bg-[var(--surface-hover)] transition"
               >
                 <td className="px-4 py-3 flex items-center space-x-2">
                   <img
@@ -85,11 +209,11 @@ export default function AdminLeavePage() {
                   <span
                     className={`text-xs px-2 py-1 rounded ${
                       l.status === "APPROVED"
-                        ? "bg-green-600"
+                        ? "bg-[var(--success)]"
                         : l.status === "PENDING"
-                        ? "bg-yellow-600"
-                        : "bg-red-600"
-                    } text-white`}
+                        ? "bg-[var(--warning)]"
+                        : "bg-[var(--error)]"
+                    } text-[var(--button-text)]`}
                   >
                     {l.status}
                   </span>
@@ -99,13 +223,13 @@ export default function AdminLeavePage() {
                     <>
                       <button
                         onClick={() => updateStatus(l.id, "APPROVED")}
-                        className="px-3 py-1 rounded bg-green-600 text-white text-xs"
+                        className="px-3 py-1 rounded bg-[var(--success)] text-[var(--button-text)] text-xs"
                       >
                         Approve
                       </button>
                       <button
                         onClick={() => updateStatus(l.id, "REJECTED")}
-                        className="px-3 py-1 rounded bg-red-600 text-white text-xs"
+                        className="px-3 py-1 rounded bg-[var(--error)] text-[var(--button-text)] text-xs"
                       >
                         Reject
                       </button>
