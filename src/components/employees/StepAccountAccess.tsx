@@ -1,7 +1,81 @@
-// src/components/employees/StepAccountAccess.tsx
+// // src/components/employees/StepAccountAccess.tsx
+// "use client";
+
+// type Props = {
+//   data: {
+//     email: string;
+//     slackId: string;
+//     skypeId: string;
+//     githubId: string;
+//   };
+//   onChange: (d: Partial<Props["data"]>) => void;
+//   onBack: () => void;
+//   onSubmit: () => void;
+//   submitting: boolean;
+// };
+
+// export default function StepAccountAccess({
+//   data,
+//   onChange,
+//   onBack,
+//   onSubmit,
+//   submitting,
+// }: Props) {
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const { name, value } = e.target;
+//     onChange({ [name]: value });
+//   };
+
+//   return (
+//     <div className="space-y-6">
+//       <div className="grid grid-cols-2 gap-6">
+//         {Object.entries(data).map(([name, value]) => (
+//           <input
+//             key={name}
+//             name={name}
+//             type={name === "email" ? "email" : "text"}
+//             placeholder={`Enter ${name}`}
+//             value={value}
+//             onChange={handleChange}
+//             /* make account‐email readOnly when it already has a value */
+//             readOnly={name === "email" && Boolean(value)}
+//             className={`
+//               w-full bg-[var(--surface)] border border-[var(--border)]
+//               rounded px-4 py-3 placeholder-[var(--text-secondary)]
+//               text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-0
+//              ${
+//                name === "email" && value
+//                  ? "cursor-not-allowed bg-opacity-50"
+//                  : ""
+//              }
+//             `}
+//           />
+//         ))}
+//       </div>
+
+//       <div className="flex justify-between pt-4 border-t border-[var(--border)]">
+//         <button
+//           onClick={onBack}
+//           className="px-6 py-2 rounded border border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--text-primary)]"
+//         >
+//           Cancel
+//         </button>
+//         <button
+//           onClick={onSubmit}
+//           disabled={submitting}
+//           className="bg-[var(--accent)] px-6 py-2 rounded text-[var(--text-primary)] hover:bg-[var(--accent-hover)] disabled:opacity-50 transition"
+//         >
+//           {submitting ? "Submitting..." : "Add"}
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
 "use client";
 
 type Props = {
+  isEditing: boolean;
   data: {
     email: string;
     slackId: string;
@@ -15,6 +89,7 @@ type Props = {
 };
 
 export default function StepAccountAccess({
+  isEditing,
   data,
   onChange,
   onBack,
@@ -23,7 +98,7 @@ export default function StepAccountAccess({
 }: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    onChange({ [name]: value });
+    onChange({ [name]: value } as any);
   };
 
   return (
@@ -37,17 +112,16 @@ export default function StepAccountAccess({
             placeholder={`Enter ${name}`}
             value={value}
             onChange={handleChange}
-            /* make account‐email readOnly when it already has a value */
-            readOnly={name === "email" && Boolean(value)}
+            readOnly={isEditing && name === "email" && Boolean(value)}
             className={`
               w-full bg-[var(--surface)] border border-[var(--border)]
               rounded px-4 py-3 placeholder-[var(--text-secondary)]
               text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-0
-             ${
-               name === "email" && value
-                 ? "cursor-not-allowed bg-opacity-50"
-                 : ""
-             }
+              ${
+                isEditing && name === "email" && value
+                  ? "cursor-not-allowed bg-opacity-50"
+                  : ""
+              }
             `}
           />
         ))}
