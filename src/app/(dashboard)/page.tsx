@@ -151,16 +151,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 p-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-[var(--text-primary)]">
-          Dashboard
-        </h1>
-        <p className="text-[var(--text-secondary)]">
-          You are now on the Dashboard page.
-        </p>
-      </div>
-
       {/* Stats Cards */}
       <div className="border border-[var(--border)] rounded-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
