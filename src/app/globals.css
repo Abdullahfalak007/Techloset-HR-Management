@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Baron+Neue&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -82,4 +84,26 @@ a:hover {
 }
 html.dark .icon-theme {
   filter: invert(0);
+}
+
+@layer base {
+  /* keep Lexend everywhere by default */
+  html {
+    font-family: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* a special class for “brand” text next to your logo */
+  .brand-font {
+    font-family: "Baron Neue", serif;
+  }
+
+  /* invert the white text → black in light mode */
+  .logo-text {
+    filter: invert(1) !important;
+  }
+
+  /* restore to original (white) in dark mode */
+  html.dark .logo-text {
+    filter: invert(0) !important;
+  }
 }

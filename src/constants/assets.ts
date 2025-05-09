@@ -2,7 +2,8 @@
 
 export const assets = {
   images: {
-    logo: "/assets/icons/logo.svg",
+    logo: "/assets/images/logo.svg",
+    hrSearchText: "/assets/images/hr-search-text.png",
   },
   icons: {
     eye: "/assets/icons/eyeIcon.svg",
