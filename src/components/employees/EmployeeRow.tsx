@@ -100,7 +100,7 @@ export default function EmployeeRow({
           width={30}
           height={30}
           alt=""
-          className="rounded-full"
+          className="w-8 h-8 rounded-full"
         />
         <span className="text-[var(--text-primary)]">{employee.name}</span>
       </td>

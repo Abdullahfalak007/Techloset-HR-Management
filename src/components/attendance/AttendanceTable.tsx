@@ -109,7 +109,7 @@ export default function AttendanceTable({ records }: { records: Record[] }) {
                   alt="avatar"
                   width={30}
                   height={30}
-                  className="rounded-full"
+                  className="w-8 h-8 rounded-full"
                 />
                 <span>{r.employee.name}</span>
               </td>

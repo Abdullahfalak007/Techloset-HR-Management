@@ -58,7 +58,7 @@ export default function Sidebar() {
 
             // Padding + rounding
             const shapeClass = active
-              ? "pl-6 pr-4 py-2 rounded-r-lg"
+              ? "pl-3 pr-4 py-2 rounded-r-lg"
               : "px-3 py-2 rounded-lg hover:bg-[var(--surface-hover)]";
 
             return (

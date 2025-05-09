@@ -214,7 +214,7 @@ export default function AdminProjectsPage() {
                     alt=""
                     width={30}
                     height={30}
-                    className="rounded-full"
+                    className="w-8 h-8 rounded-full"
                   />
                   <span>{p.assignee.name}</span>
                 </td>

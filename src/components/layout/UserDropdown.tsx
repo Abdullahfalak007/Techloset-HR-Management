@@ -184,7 +184,7 @@ export default function UserDropdown() {
           alt="avatar"
           width={32}
           height={32}
-          className="rounded-full"
+          className="w-8 h-8 rounded-full"
         />
         <div className="text-left">
           <p className="text-sm font-medium text-[var(--text-primary)]">
