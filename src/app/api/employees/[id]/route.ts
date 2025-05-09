@@ -27,44 +27,33 @@ export async function GET(
   }
 }
 
-// ─── PATCH (update) ────────────────────────────────────────────────────────────
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
+  const { id } = params;
+  const body = await req.json();
+
+  // Build up only the bits you actually got
+  const updateData: any = {};
+
+  if (body.employee) Object.assign(updateData, body.employee);
+  if (body.personalInfo) updateData.personalInfo = { set: body.personalInfo };
+  if (body.professionalInfo)
+    updateData.professional = { set: body.professionalInfo };
+  if (body.documents) updateData.documents = { set: body.documents };
+  if (body.accountLinks) updateData.accounts = { set: body.accountLinks };
+
   try {
-    const id = params.id;
-    const {
-      employee,
-      personalInfo,
-      professionalInfo,
-      documents,
-      accountLinks,
-    } = await req.json();
-
-    if (!employee || !personalInfo || !professionalInfo || !accountLinks) {
-      return NextResponse.json(
-        { message: "Missing required fields" },
-        { status: 400 }
-      );
-    }
-
-    const updatedEmployee = await prisma.employee.update({
+    const updated = await prisma.employee.update({
       where: { id },
-      data: {
-        ...employee,
-        personalInfo: { ...personalInfo },
-        professional: { ...professionalInfo },
-        documents: { ...documents },
-        accounts: { ...accountLinks },
-      },
+      data: updateData,
     });
-
-    return NextResponse.json(updatedEmployee, { status: 200 });
-  } catch (error) {
-    console.error("[EMPLOYEE_PATCH]", error);
+    return NextResponse.json(updated);
+  } catch (err: any) {
+    console.error("[EMPLOYEE_PATCH] error:", err);
     return NextResponse.json(
-      { message: "Failed to update employee" },
+      { error: err.message || "Failed to update employee" },
       { status: 500 }
     );
   }
