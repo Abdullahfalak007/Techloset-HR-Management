@@ -46,6 +46,7 @@ export default function ProfilePage() {
                 objectFit: "cover",
                 border: "4px solid var(--accent)",
               }}
+              className="w-8 h-8 rounded-full"
             />
           ) : (
             <Image
@@ -53,7 +54,7 @@ export default function ProfilePage() {
               alt="default"
               width={128}
               height={128}
-              className="rounded-full border-4 border-[var(--accent)] object-cover"
+              className="w-8 h-8 rounded-full border-4 border-[var(--accent)] object-cover"
             />
           )}
           <button
