@@ -1,35 +1,20 @@
-// src/app/signin/page.tsx
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
+import { useSignin } from "./useSignin";
 
 export default function SigninPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [remember, setRemember] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (res?.error) {
-      setError("Invalid email or password");
-    } else {
-      router.push("/");
-    }
-  }
+  const {
+    email,
+    password,
+    remember,
+    error,
+    setEmail,
+    setPassword,
+    setRemember,
+    handleSubmit,
+  } = useSignin();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--container-bg)] px-4">

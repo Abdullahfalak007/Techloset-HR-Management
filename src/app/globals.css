@@ -30,6 +30,7 @@
   --accent-hover: #ea580c; /* orange-600 */
   --success: #10b981;
   --error: #ef4444;
+  --danger: #e02c2c;
   --warning: #fbbf24;
 }
 
@@ -61,6 +62,7 @@ html.dark {
   --accent-hover: #ea580c;
   --success: #10b981;
   --error: #ef4444;
+  --danger: #e02c2c;
   --warning: #fbbf24;
 }
 
