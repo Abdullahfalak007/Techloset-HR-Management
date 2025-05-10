@@ -1,20 +1,6 @@
+import { User, UserState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface User {
-  id: string;
-  name?: string;
-  email?: string;
-  role: string;
-  image?: string;
-}
-
-interface UserState {
-  me?: User;
-  all: User[];
-  loading: boolean;
-  error?: string;
-}
 
 const initialState: UserState = {
   me: undefined,

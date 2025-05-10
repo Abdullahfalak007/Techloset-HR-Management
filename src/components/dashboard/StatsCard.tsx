@@ -193,15 +193,7 @@
 
 import React from "react";
 import { format } from "date-fns";
-
-type StatsCardProps = {
-  title: string;
-  value: number | string;
-  icon: string;
-  change: number;
-  positive?: boolean;
-  updatedAt?: Date;
-};
+import { StatsCardProps } from "@/types/types";
 
 export default function StatsCard({
   title,

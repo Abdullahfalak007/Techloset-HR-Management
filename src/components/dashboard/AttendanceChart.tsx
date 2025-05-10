@@ -119,19 +119,7 @@ import {
   ReferenceArea,
 } from "recharts";
 import React from "react";
-
-type ChartItem = {
-  dayName: string;
-  ON_TIME: number;
-  LATE: number;
-  ABSENT: number;
-};
-
-type TooltipPayload = {
-  dataKey: string;
-  value: number;
-  fill: string;
-};
+import { ChartItem, TooltipPayload } from "@/types/types";
 
 function CustomTooltip({
   active,

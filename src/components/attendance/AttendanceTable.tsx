@@ -1,26 +1,12 @@
 // // src/components/attendance/AttendanceTable.tsx
+// import { Record } from "@/types/types";
 // import Image from "next/image";
-
-// type Record = {
-//   id: string;
-//   status: string;
-//   checkIn: string;
-//   checkOut: string;
-//   employee: {
-//     id: string;
-//     name: string;
-//     avatar?: string;
-//     department: string;
-//     designation: string;
-//     type: string;
-//   };
-// };
 
 // export default function AttendanceTable({ records }: { records: Record[] }) {
 //   return (
-//     <div className="overflow-auto border border-gray-700 rounded-lg">
-//       <table className="min-w-full text-white text-sm">
-//         <thead className="border-b border-gray-700">
+//     <div className="overflow-auto border border-[var(--border)] rounded-lg">
+//       <table className="min-w-full text-[var(--text-primary)] text-sm">
+//         <thead className="border-b border-[var(--border)]">
 //           <tr>
 //             <th className="px-4 py-3 text-left">Employee</th>
 //             <th className="px-4 py-3 text-left">Designation</th>
@@ -30,16 +16,16 @@
 //             <th className="px-4 py-3 text-left">Status</th>
 //           </tr>
 //         </thead>
-//         <tbody className="divide-y divide-gray-700">
+//         <tbody className="divide-y divide-[var(--border)]">
 //           {records.map((r) => (
-//             <tr key={r.id} className="hover:bg-gray-900 transition">
+//             <tr key={r.id} className="hover:bg-[var(--surface)] transition">
 //               <td className="px-4 py-3 flex items-center space-x-2">
 //                 <Image
 //                   src={r.employee.avatar || "/assets/icons/default-avatar.png"}
 //                   alt="avatar"
 //                   width={30}
 //                   height={30}
-//                   className="rounded-full"
+//                   className="w-8 h-8 rounded-full"
 //                 />
 //                 <span>{r.employee.name}</span>
 //               </td>
@@ -51,11 +37,11 @@
 //                 <span
 //                   className={`text-xs px-2 py-1 rounded ${
 //                     r.status === "ON_TIME"
-//                       ? "bg-green-600"
+//                       ? "bg-[var(--success)]"
 //                       : r.status === "LATE"
-//                       ? "bg-yellow-600"
-//                       : "bg-red-600"
-//                   } text-white`}
+//                       ? "bg-[var(--warning)]"
+//                       : "bg-[var(--danger)]"
+//                   } text-[var(--text-primary)]`}
 //                 >
 //                   {r.status}
 //                 </span>
@@ -70,23 +56,13 @@
 
 // src/components/attendance/AttendanceTable.tsx
 import Image from "next/image";
+import { AttendanceRecord } from "@/types/types";
 
-type Record = {
-  id: string;
-  status: string;
-  checkIn: string;
-  checkOut: string;
-  employee: {
-    id: string;
-    name: string;
-    avatar?: string;
-    department: string;
-    designation: string;
-    type: string;
-  };
+type Props = {
+  records: AttendanceRecord[];
 };
 
-export default function AttendanceTable({ records }: { records: Record[] }) {
+export default function AttendanceTable({ records }: Props) {
   return (
     <div className="overflow-auto border border-[var(--border)] rounded-lg">
       <table className="min-w-full text-[var(--text-primary)] text-sm">
@@ -124,7 +100,7 @@ export default function AttendanceTable({ records }: { records: Record[] }) {
                       ? "bg-[var(--success)]"
                       : r.status === "LATE"
                       ? "bg-[var(--warning)]"
-                      : "bg-[var(--danger)]"
+                      : "bg-[var(--error)]"
                   } text-[var(--text-primary)]`}
                 >
                   {r.status}

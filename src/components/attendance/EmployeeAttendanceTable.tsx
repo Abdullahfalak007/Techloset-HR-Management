@@ -69,18 +69,8 @@
 // }
 
 // src/components/attendance/EmployeeAttendanceTable.tsx
+import { Emp } from "@/types/types";
 import Image from "next/image";
-
-type Emp = {
-  id: string;
-  name: string;
-  avatar?: string;
-  employeeId: string;
-  department: string;
-  designation: string;
-  type: string;
-  status: string;
-};
 
 export default function EmployeeAttendanceTable({
   employees,

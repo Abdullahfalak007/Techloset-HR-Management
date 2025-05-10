@@ -3,17 +3,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchEmployees } from "@/store/slices/employeeSlice";
 import { createAttendance } from "@/store/slices/attendanceSlice";
-
-export type Employee = {
-  id: string;
-  name: string;
-  avatar?: string;
-  employeeId: string;
-  department: string;
-  designation: string;
-  type: string;
-  status: string;
-};
+import { Emp } from "@/types/types";
 
 export function useMarkAttendance() {
   const dispatch = useAppDispatch();
@@ -21,7 +11,7 @@ export function useMarkAttendance() {
   const status = useAppSelector((s) => s.employees.status);
   const loading = status === "loading";
 
-  const [selected, setSelected] = useState<Employee | null>(null);
+  const [selected, setSelected] = useState<Emp | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
@@ -31,7 +21,7 @@ export function useMarkAttendance() {
     }
   }, [status, dispatch]);
 
-  const open = (e: Employee) => {
+  const open = (e: Emp) => {
     setSelected(e);
     setModalOpen(true);
   };

@@ -5,44 +5,7 @@ import {
   fetchEmployeeById,
   updateEmployee,
 } from "@/store/slices/employeeSlice";
-
-export type EditableEmployee = {
-  id: string;
-  name: string;
-  employeeId: string;
-  department: string;
-  designation: string;
-  type: string;
-  status: string;
-  avatar?: string;
-  personalInfo: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    dob: string;
-    gender: string;
-    nationality: string;
-    maritalStatus: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-  professionalInfo: {
-    username: string;
-    joiningDate: string;
-    workingDays: string;
-    officeLocation: string;
-  };
-  documents: Record<string, any>;
-  accountLinks: {
-    email: string;
-    slackId: string;
-    skypeId: string;
-    githubId: string;
-  };
-};
+import { EditableEmployee } from "@/types/types";
 
 export function useEditEmployee() {
   const dispatch = useAppDispatch();

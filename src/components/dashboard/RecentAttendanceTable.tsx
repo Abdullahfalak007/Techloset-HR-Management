@@ -2,20 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { format } from "date-fns";
-
-type Row = {
-  id: string;
-  employee: {
-    id: string;
-    name: string;
-    avatar?: string;
-    designation: string;
-    type: string;
-  };
-  checkIn: string;
-  checkOut: string;
-  status: "ON_TIME" | "LATE" | "ABSENT";
-};
+import { Row } from "@/types/types";
 
 export default function RecentAttendanceTable({ rows }: { rows: Row[] }) {
   return (

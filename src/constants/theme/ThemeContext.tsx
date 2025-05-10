@@ -1,9 +1,8 @@
 // src/constants/theme/ThemeContext.tsx
 "use client";
 
+import { Theme } from "@/types/types";
 import { createContext, useContext, useState, useEffect } from "react";
-
-type Theme = "light" | "dark";
 
 const ThemeContext = createContext<{
   theme: Theme;

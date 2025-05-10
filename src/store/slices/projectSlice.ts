@@ -1,21 +1,6 @@
+import { Project, ProjectState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface Project {
-  id: string;
-  title: string;
-  description?: string;
-  startDate: string;
-  endDate: string;
-  status: "IN_PROGRESS" | "COMPLETED";
-  assignee: { id: string; name: string; avatar?: string };
-}
-
-interface ProjectState {
-  items: Project[];
-  loading: boolean;
-  error?: string;
-}
 
 const initialState: ProjectState = {
   items: [],

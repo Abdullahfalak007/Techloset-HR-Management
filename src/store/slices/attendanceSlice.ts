@@ -1,29 +1,6 @@
+import { AttendanceRecord, AttendanceState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface AttendanceRecord {
-  id: string;
-  employeeId: string;
-  date: string;
-  checkIn: string;
-  checkOut: string;
-  breakTime: string | null;
-  workHours: string | null;
-  status: "ON_TIME" | "LATE" | "ABSENT";
-  employee: {
-    id: string;
-    name: string;
-    avatar?: string;
-    department: string;
-    designation: string;
-    type: string;
-  };
-}
-
-interface AttendanceState {
-  records: AttendanceRecord[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-}
 
 const initialState: AttendanceState = {
   records: [],

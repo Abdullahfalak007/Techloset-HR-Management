@@ -1,26 +1,6 @@
+import { Employee, EmployeeState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface Employee {
-  id: string;
-  name: string;
-  employeeId: string;
-  department: string;
-  designation: string;
-  type: string;
-  status: string;
-  avatar?: string;
-  createdAt: string;
-  personalInfo?: any;
-  professionalInfo?: any;
-  documents?: any;
-  accountLinks?: any;
-}
-
-interface EmployeeState {
-  employees: Employee[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-}
 
 const initialState: EmployeeState = {
   employees: [],

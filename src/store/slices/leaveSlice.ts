@@ -1,21 +1,6 @@
+import { Leave, LeaveState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface Leave {
-  id: string;
-  employeeId: string;
-  reason: string;
-  startDate: string;
-  endDate: string;
-  status: "PENDING" | "APPROVED" | "REJECTED";
-  createdAt: string;
-}
-
-interface LeaveState {
-  items: Leave[];
-  loading: boolean;
-  error?: string;
-}
 
 const initialState: LeaveState = {
   items: [],

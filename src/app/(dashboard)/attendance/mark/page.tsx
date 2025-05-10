@@ -1,3 +1,4 @@
+// src/app/(dashboard)/attendance/mark/page.tsx
 "use client";
 
 import EmployeeAttendanceTable from "@/components/attendance/EmployeeAttendanceTable";

@@ -83,3 +83,204 @@ export type EditableEmployee = {
     githubId: string;
   };
 };
+
+export interface User {
+  id: string;
+  name?: string;
+  email?: string;
+  role: string;
+  image?: string;
+}
+
+export interface UserState {
+  me?: User;
+  all: User[];
+  loading: boolean;
+  error?: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  description?: string;
+  startDate: string;
+  endDate: string;
+  status: "IN_PROGRESS" | "COMPLETED";
+  assignee: { id: string; name: string; avatar?: string };
+}
+
+export interface ProjectState {
+  items: Project[];
+  loading: boolean;
+  error?: string;
+}
+
+export interface Notification {
+  id: string;
+  userId: string;
+  type: string;
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
+export interface NotificationState {
+  items: Notification[];
+  loading: boolean;
+  error?: string;
+}
+
+export interface Leave {
+  id: string;
+  employeeId: string;
+  reason: string;
+  startDate: string;
+  endDate: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+  createdAt: string;
+}
+
+export interface LeaveState {
+  items: Leave[];
+  loading: boolean;
+  error?: string;
+}
+
+export interface Employee {
+  id: string;
+  name: string;
+  employeeId: string;
+  department: string;
+  designation: string;
+  type: string;
+  status: string;
+  avatar?: string;
+  createdAt: string;
+  personalInfo?: any;
+  professionalInfo?: any;
+  documents?: any;
+  accountLinks?: any;
+}
+
+export interface EmployeeState {
+  employees: Employee[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+}
+
+export interface AuthState {
+  user: { id: string; name: string } | null;
+}
+
+export interface AttendanceRecord {
+  id: string;
+  employeeId: string;
+  date: string;
+  checkIn: string;
+  checkOut: string;
+  breakTime: string | null;
+  workHours: string | null;
+  status: "ON_TIME" | "LATE" | "ABSENT";
+  employee: {
+    id: string;
+    name: string;
+    avatar?: string;
+    department: string;
+    designation: string;
+    type: string;
+  };
+}
+
+export interface AttendanceState {
+  records: AttendanceRecord[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+}
+
+export type Emp = {
+  id: string;
+  name: string;
+  avatar?: string;
+  employeeId: string;
+  department: string;
+  designation: string;
+  type: string;
+  status: string;
+};
+
+export type ChartItem = {
+  dayName: string;
+  ON_TIME: number;
+  LATE: number;
+  ABSENT: number;
+};
+
+export type TooltipPayload = {
+  dataKey: string;
+  value: number;
+  fill: string;
+};
+
+export type Row = {
+  id: string;
+  employee: {
+    id: string;
+    name: string;
+    avatar?: string;
+    designation: string;
+    type: string;
+  };
+  checkIn: string;
+  checkOut: string;
+  status: "ON_TIME" | "LATE" | "ABSENT";
+};
+
+export type StatsCardProps = {
+  title: string;
+  value: number | string;
+  icon: string;
+  change: number;
+  positive?: boolean;
+  updatedAt?: Date;
+};
+
+export type FormState = {
+  employee: { avatar: string };
+  personalInfo: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    dob: string;
+    gender: string;
+    nationality: string;
+    maritalStatus: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+  };
+  professionalInfo: {
+    employeeType: string;
+    employeeId: string;
+    username: string;
+    joiningDate: string;
+    workingDays: string;
+    officeLocation: string;
+    department: string;
+    designation: string;
+    status: string;
+  };
+  documents: {
+    appointmentLetter: string | null;
+    salarySlip: string | null;
+    relievingLetter: string | null;
+    experienceLetter: string | null;
+  };
+  accountLinks: {
+    email: string;
+    slackId: string;
+    skypeId: string;
+    githubId: string;
+  };
+};
+
+export type Theme = "light" | "dark";

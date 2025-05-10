@@ -1,20 +1,6 @@
+import { Notification, NotificationState } from "@/types/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface Notification {
-  id: string;
-  userId: string;
-  type: string;
-  message: string;
-  read: boolean;
-  createdAt: string;
-}
-
-interface NotificationState {
-  items: Notification[];
-  loading: boolean;
-  error?: string;
-}
 
 const initialState: NotificationState = {
   items: [],

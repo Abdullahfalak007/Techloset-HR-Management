@@ -7,47 +7,7 @@ import StepProfessionalInfo from "./StepProfessionalInfo";
 import StepDocuments from "./StepDocuments";
 import StepAccountAccess from "./StepAccountAccess";
 import { assets } from "@/constants/assets";
-
-type FormState = {
-  employee: { avatar: string };
-  personalInfo: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    dob: string;
-    gender: string;
-    nationality: string;
-    maritalStatus: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-  professionalInfo: {
-    employeeType: string;
-    employeeId: string;
-    username: string;
-    joiningDate: string;
-    workingDays: string;
-    officeLocation: string;
-    department: string;
-    designation: string;
-    status: string;
-  };
-  documents: {
-    appointmentLetter: string | null;
-    salarySlip: string | null;
-    relievingLetter: string | null;
-    experienceLetter: string | null;
-  };
-  accountLinks: {
-    email: string;
-    slackId: string;
-    skypeId: string;
-    githubId: string;
-  };
-};
+import { FormState } from "@/types/types";
 
 const TABS = [
   { id: 1, label: "Personal Information", icon: assets.icons.user },
