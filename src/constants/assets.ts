@@ -23,7 +23,7 @@ export const assets = {
     delete: "/assets/icons/delete.svg",
     view: "/assets/icons/view.svg",
     edit: "/assets/icons/edit.svg",
-    upload: "/assets/icons/upload.svg",
+    upload: "/assets/icons/upload.png",
     camera: "/assets/icons/camera.svg",
     user: "/assets/icons/user.png",
     briefcase: "/assets/icons/briefcase.png",
