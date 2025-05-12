@@ -114,7 +114,7 @@ export default function StepAccountAccess({
             onChange={handleChange}
             readOnly={isEditing && name === "email" && Boolean(value)}
             className={`
-              w-full border border-[var(--input-border)] rounded px-4 py-2 placeholder-[var(--input-placeholder)] text-[var(--text-primary)] focus:border-[var(--accent)] focus:ring-0
+              h-12 w-full bg-[var(--surface)] border border-[var(--border)] rounded-lg px-4 placeholder-[var(--input-placeholder)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]
               ${
                 isEditing && name === "email" && value
                   ? "cursor-not-allowed bg-opacity-50"
