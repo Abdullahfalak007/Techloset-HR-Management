@@ -334,9 +334,9 @@ export default function EmployeeDetailLayout({
   ];
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="border border-[var(--border)] rounded-lg">
       {/* Top summary + Edit/Save button */}
-      <div className="flex items-center justify-between bg-[var(--container-bg)] p-6 rounded-lg">
+      <div className="flex items-center justify-between bg-[var(--container-bg)] p-4 border-b border-[var(--border)]">
         <div className="flex items-center space-x-4">
           <div className="relative">
             {/* Main avatar */}
@@ -345,7 +345,7 @@ export default function EmployeeDetailLayout({
               alt="Avatar"
               width={72}
               height={72}
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover w-24 h-24"
             />
             {isEdit && (
               <button
@@ -403,9 +403,9 @@ export default function EmployeeDetailLayout({
       </div>
 
       {/* Inner layout: sidebar + content */}
-      <div className="flex space-x-6">
+      <div className="flex">
         {/* Sidebar is rendered in all modes now */}
-        <nav className="w-1/4 bg-[var(--container-bg)] rounded-lg p-4 space-y-2">
+        <nav className="w-1/4 bg-[var(--sidebar-bg)] p-2 ">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (

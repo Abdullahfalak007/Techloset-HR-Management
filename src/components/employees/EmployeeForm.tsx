@@ -452,14 +452,14 @@ export default function EmployeeForm({
   };
 
   return (
-    <div className="bg-[var(--container-bg)] p-6 rounded-lg flex flex-col h-full space-y-6">
+    <div className="bg-[var(--container-bg)] rounded-lg flex flex-col h-full space-y-4">
       {/* Tab strip */}
-      <ul className="flex border-b border-[var(--border)] flex-shrink-0">
+      <ul className="flex border-b border-[var(--border)] flex-shrink-0 space-x-4">
         {TABS.map((tab) => (
           <li
             key={tab.id}
             onClick={() => setStep(tab.id)}
-            className={`cursor-pointer px-4 py-2 -mb-px flex items-center select-none ${
+            className={`cursor-pointer -mb-px flex items-center select-none whitespace-nowrap flex-shrink-0 ${
               step === tab.id
                 ? "text-[var(--accent)] border-b-2 border-[var(--accent)]"
                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
