@@ -68,7 +68,7 @@ export default function EmployeeProfilePage() {
           onClick={() => router.push(`/employees/${id}/edit`)}
         >
           <Image src={assets.icons.edit} alt="" width={16} height={16} />
-          <span className="text-[var(--button-text)]">Edit Profile</span>
+          <span className="text-[var(--button-text)]">Edit Profile Hiii</span>
         </button>
       </div>
 

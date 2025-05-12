@@ -12,7 +12,6 @@ export default function EditEmployeePage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl mb-6 font-bold">Edit Employee</h1>
       <EmployeeForm
         initialData={{
           employeeId: editable.employeeId,

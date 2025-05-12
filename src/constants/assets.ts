@@ -36,5 +36,6 @@ export const assets = {
     bell: "/assets/icons/bell.svg",
     defaultAvatar: "/assets/images/default-avatar.png",
     check: "/assets/icons/check.png",
+    save: "/assets/icons/save.png",
   },
 };
