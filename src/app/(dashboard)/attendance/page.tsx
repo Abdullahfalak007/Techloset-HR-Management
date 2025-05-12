@@ -35,13 +35,14 @@
 // src/app/(dashboard)/attendance/page.tsx
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AttendanceTable from "@/components/attendance/AttendanceTable";
 import { useAttendanceOverview } from "./useAttendanceOverview";
 import SearchBar from "@/components/common/SearchBar";
 
 export default function AttendanceOverviewPage() {
   const { filtered, loading } = useAttendanceOverview();
+  const router = useRouter();
 
   if (loading) return <p className="p-6">Loading…</p>;
 
@@ -49,12 +50,12 @@ export default function AttendanceOverviewPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <SearchBar placeholder="Search attendance…" basePath="/attendance" />
-        <Link
-          href="/attendance/mark"
-          className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
+        <button
+          onClick={() => router.push("/attendance/mark")}
+          className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded transition"
         >
           Mark Attendance
-        </Link>
+        </button>
       </div>
       <AttendanceTable
         records={filtered.map((r) => ({
