@@ -1,11 +1,39 @@
+// // "use client";
+
+// // import EmployeeHeader from "@/components/employees/EmployeeHeader";
+// // import EmployeeTable from "@/components/employees/EmployeeTable";
+// // import { useEmployeesList } from "./useEmployeesList";
+
+// // export default function EmployeesPage() {
+// //   const { session, loading, filtered, isAdmin, refresh } = useEmployeesList();
+
+// //   if (loading) return <p className="p-6">Loading…</p>;
+// //   if (!session) return <p className="p-6">Unauthorized</p>;
+
+// //   return (
+// //     <div className="p-6">
+// //       <div className="flex justify-between items-center mb-6">
+// //         <EmployeeHeader isAdmin={isAdmin} />
+// //       </div>
+// //       <EmployeeTable
+// //         employees={filtered}
+// //         onDeleteSuccess={refresh}
+// //         isAdmin={isAdmin}
+// //       />
+// //     </div>
+// //   );
+// // }
+
 // "use client";
 
-// import EmployeeHeader from "@/components/employees/EmployeeHeader";
 // import EmployeeTable from "@/components/employees/EmployeeTable";
 // import { useEmployeesList } from "./useEmployeesList";
+// import SearchBar from "@/components/common/SearchBar";
+// import { useRouter } from "next/navigation";
 
 // export default function EmployeesPage() {
 //   const { session, loading, filtered, isAdmin, refresh } = useEmployeesList();
+//   const router = useRouter();
 
 //   if (loading) return <p className="p-6">Loading…</p>;
 //   if (!session) return <p className="p-6">Unauthorized</p>;
@@ -13,8 +41,18 @@
 //   return (
 //     <div className="p-6">
 //       <div className="flex justify-between items-center mb-6">
-//         <EmployeeHeader isAdmin={isAdmin} />
+//         <SearchBar placeholder="Search employees…" basePath="/employees" />
+
+//         {isAdmin && (
+//           <button
+//             onClick={() => router.push("/employees/add")}
+//             className="ml-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
+//           >
+//             Add New
+//           </button>
+//         )}
 //       </div>
+
 //       <EmployeeTable
 //         employees={filtered}
 //         onDeleteSuccess={refresh}
@@ -26,38 +64,143 @@
 
 "use client";
 
-import EmployeeTable from "@/components/employees/EmployeeTable";
-import { useEmployeesList } from "./useEmployeesList";
-import SearchBar from "@/components/common/SearchBar";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import SearchBar from "@/components/common/SearchBar";
+import EmployeeTable from "@/components/employees/EmployeeTable";
+import FilterModal from "@/components/employees/FilterModal";
+import { useEmployeesList } from "./useEmployeesList";
+import { assets } from "@/constants/assets";
+
+const ITEMS_PER_PAGE_OPTIONS = [6, 10, 15];
 
 export default function EmployeesPage() {
-  const { session, loading, filtered, isAdmin, refresh } = useEmployeesList();
   const router = useRouter();
+  const { session, loading, filtered, isAdmin, refresh } = useEmployeesList();
+
+  // UI state
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [selectedDeps, setSelectedDeps] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(6);
 
   if (loading) return <p className="p-6">Loading…</p>;
   if (!session) return <p className="p-6">Unauthorized</p>;
 
+  // derive departments, apply filters & pagination
+  const allDepartments = Array.from(new Set(filtered.map((e) => e.department)));
+  const deptFiltered =
+    selectedDeps.length > 0
+      ? filtered.filter((e) => selectedDeps.includes(e.department))
+      : filtered;
+  const total = deptFiltered.length;
+  const totalPages = Math.ceil(total / perPage);
+  const paginated = deptFiltered.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-6 space-y-6">
+      {/* top bar */}
+      <div className="flex justify-between items-center">
         <SearchBar placeholder="Search employees…" basePath="/employees" />
 
-        {isAdmin && (
-          <button
-            onClick={() => router.push("/employees/add")}
-            className="ml-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
-          >
-            Add New
-          </button>
-        )}
+        <div className="flex items-center space-x-2">
+          {isAdmin && (
+            <button
+              onClick={() => router.push("/employees/add")}
+              className="flex items-center space-x-1 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded transition"
+            >
+              <Image
+                src={assets.icons.plus}
+                alt="Add"
+                width={16}
+                height={16}
+                className="icon-theme"
+              />
+              <span>Add New</span>
+            </button>
+          )}
+
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((o) => !o)}
+              className="flex items-center space-x-1 bg-[var(--surface)] border border-[var(--border)] px-4 py-2 rounded hover:bg-[var(--surface-hover)]"
+            >
+              <Image
+                src={assets.icons.filter}
+                alt="Filter"
+                width={16}
+                height={16}
+                className="icon-theme"
+              />
+              <span>Filter</span>
+            </button>
+
+            {filterOpen && (
+              <FilterModal
+                departments={allDepartments}
+                selected={selectedDeps}
+                onToggle={(dep) =>
+                  setSelectedDeps((prev) =>
+                    prev.includes(dep)
+                      ? prev.filter((d) => d !== dep)
+                      : [...prev, dep]
+                  )
+                }
+                onClose={() => setFilterOpen(false)}
+                className="absolute top-full mt-1 right-0 z-10"
+              />
+            )}
+          </div>
+        </div>
       </div>
 
+      {/* table */}
       <EmployeeTable
-        employees={filtered}
+        employees={paginated}
         onDeleteSuccess={refresh}
         isAdmin={isAdmin}
       />
+
+      {/* pagination */}
+      <div className="flex justify-between items-center">
+        <label className="text-sm">
+          Show{" "}
+          <select
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="border border-[var(--border)] rounded px-2 py-1"
+          >
+            {ITEMS_PER_PAGE_OPTIONS.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>{" "}
+        </label>
+
+        <div className="space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              onClick={() => setCurrentPage(p)}
+              className={`px-3 py-1 rounded ${
+                currentPage === p
+                  ? "bg-[var(--accent)] text-[var(--button-text)]"
+                  : "hover:bg-[var(--surface-hover)]"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

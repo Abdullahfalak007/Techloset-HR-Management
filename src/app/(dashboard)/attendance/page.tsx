@@ -1,47 +1,21 @@
-// "use client";
-
-// import { format } from "date-fns";
-// import Link from "next/link";
-// import AttendanceTable from "@/components/attendance/AttendanceTable";
-// import { useAttendanceOverview } from "./useAttendanceOverview";
-
-// export default function AttendanceOverviewPage() {
-//   const { filtered, loading } = useAttendanceOverview();
-
-//   if (loading) return <p className="p-6">Loading…</p>;
-
-//   return (
-//     <div className="p-6 space-y-6">
-//       <div className="flex justify-between items-center">
-//         <h1 className="text-2xl font-bold">Attendance</h1>
-//         <Link
-//           href="/attendance/mark"
-//           className="bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
-//         >
-//           Mark Attendance
-//         </Link>
-//       </div>
-//       <AttendanceTable
-//         records={filtered.map((r) => ({
-//           ...r,
-//           checkIn: format(new Date(r.checkIn), "MMM d, yyyy"),
-//           checkOut: format(new Date(r.checkOut), "MMM d, yyyy"),
-//         }))}
-//       />
-//     </div>
-//   );
-// }
-
-// src/app/(dashboard)/attendance/page.tsx
 "use client";
 
 import { useRouter } from "next/navigation";
+import SearchBar from "@/components/common/SearchBar";
 import AttendanceTable from "@/components/attendance/AttendanceTable";
 import { useAttendanceOverview } from "./useAttendanceOverview";
-import SearchBar from "@/components/common/SearchBar";
 
 export default function AttendanceOverviewPage() {
-  const { filtered, loading } = useAttendanceOverview();
+  const {
+    loading,
+    pageItems,
+    pageSizeOptions,
+    perPage,
+    setPerPage,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+  } = useAttendanceOverview();
   const router = useRouter();
 
   if (loading) return <p className="p-6">Loading…</p>;
@@ -57,13 +31,55 @@ export default function AttendanceOverviewPage() {
           Mark Attendance
         </button>
       </div>
+
       <AttendanceTable
-        records={filtered.map((r) => ({
+        records={pageItems.map((r) => ({
           ...r,
-          checkIn: new Date(r.checkIn).toLocaleString(), // or your existing format
+          checkIn: new Date(r.checkIn).toLocaleString(),
           checkOut: new Date(r.checkOut).toLocaleString(),
         }))}
       />
+
+      {/* Pagination */}
+      <div className="flex justify-between items-center">
+        <label className="text-sm">
+          Show{" "}
+          <select
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="border border-[var(--border)] rounded px-2 py-1"
+          >
+            {pageSizeOptions.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>{" "}
+          / page
+        </label>
+
+        <div className="space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              onClick={() => setCurrentPage(p)}
+              className={`
+                px-3 py-1 rounded
+                ${
+                  p === currentPage
+                    ? "bg-[var(--accent)] text-[var(--button-text)]"
+                    : "hover:bg-[var(--surface-hover)]"
+                }
+              `}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
