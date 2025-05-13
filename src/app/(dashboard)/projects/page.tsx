@@ -168,10 +168,7 @@ export default function ProjectsPage() {
           </thead>
           <tbody>
             {filtered.map((p) => (
-              <tr
-                key={p.id}
-                className="hover:bg-[var(--surface-hover)] transition"
-              >
+              <tr key={p.id} className="border-b border-[var(--border)]">
                 <td className="px-4 py-3">{p.title}</td>
                 <td className="px-4 py-3">{p.assignee.name}</td>
                 <td className="px-4 py-3">

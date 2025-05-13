@@ -250,10 +250,7 @@ export default function AdminLeavePage() {
           </thead>
           <tbody>
             {pageItems.map((l) => (
-              <tr
-                key={l.id}
-                className="border-b last:border-none hover:bg-[var(--surface-hover)] transition"
-              >
+              <tr key={l.id} className="border-b border-[var(--border)]">
                 <td className="px-4 py-3 flex items-center space-x-2">
                   <img
                     src={
