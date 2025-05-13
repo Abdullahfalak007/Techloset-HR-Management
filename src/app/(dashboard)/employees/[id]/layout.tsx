@@ -11,6 +11,7 @@ import {
   fetchEmployeeById,
   updateEmployee,
 } from "@/store/slices/employeeSlice";
+import Loader from "@/components/common/Loader";
 
 declare global {
   interface Window {
@@ -79,7 +80,7 @@ export default function EmployeeDetailLayout({
     return () => window.removeEventListener("avatar-edit", open);
   }, [isEdit]);
 
-  if (!employee) return <p className="p-6">Loading…</p>;
+  if (!employee) return <Loader />;
 
   const base = `/employees/${id}`;
   const navItems = [
@@ -175,7 +176,7 @@ export default function EmployeeDetailLayout({
 
       {/* Sidebar + Content */}
       <div className="flex">
-        <nav className="w-1/4 bg-[var(--sidebar-bg)] p-4 space-y-2">
+        {/* <nav className="w-1/4 bg-[var(--sidebar-bg)] p-4 space-y-2">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -193,7 +194,30 @@ export default function EmployeeDetailLayout({
               </Link>
             );
           })}
+        </nav> */}
+        <nav className="w-1/4 bg-[var(--sidebar-bg)] p-4 space-y-2">
+          {navItems.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+          flex items-center px-4 py-2 space-x-2 rounded-lg transition
+          ${
+            active
+              ? "bg-[var(--accent)] text-[var(--text-primary)]"
+              : "text-[var(--text-secondary)] hover:bg-[var(--surface-hover)]"
+          }
+        `}
+              >
+                <Image src={item.icon} alt="" width={16} height={16} />
+                <span className="text-[var(--text-primary)]">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
+
         <div className="flex-1">{children}</div>
       </div>
     </div>

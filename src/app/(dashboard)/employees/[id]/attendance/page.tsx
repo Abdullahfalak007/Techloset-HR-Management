@@ -2,10 +2,11 @@
 
 import { format } from "date-fns";
 import { useEmployeeAttendance } from "./useEmployeeAttendance";
+import Loader from "@/components/common/Loader";
 
 export default function EmployeeAttendancePage() {
   const { records, loading } = useEmployeeAttendance();
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="overflow-auto border border-[var(--border)] rounded-lg bg-[var(--surface)] p-6">

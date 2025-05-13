@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 import SearchBar from "@/components/common/SearchBar";
 import { useAdminLeaves } from "./useAdminLeaves";
+import Loader from "@/components/common/Loader";
 
 export default function AdminLeavePage() {
   const {
@@ -17,7 +18,7 @@ export default function AdminLeavePage() {
     updateStatus,
   } = useAdminLeaves();
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="p-6 space-y-6">

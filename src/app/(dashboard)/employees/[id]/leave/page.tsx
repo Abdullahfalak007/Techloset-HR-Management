@@ -2,6 +2,7 @@
 
 import { format } from "date-fns";
 import { useEmployeeLeave } from "./useEmployeeLeave";
+import Loader from "@/components/common/Loader";
 
 export default function EmployeeLeavePage() {
   const {
@@ -19,7 +20,7 @@ export default function EmployeeLeavePage() {
     submitLeave,
   } = useEmployeeLeave();
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="space-y-6">

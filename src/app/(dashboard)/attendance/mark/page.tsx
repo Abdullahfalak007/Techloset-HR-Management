@@ -4,12 +4,13 @@
 import EmployeeAttendanceTable from "@/components/attendance/EmployeeAttendanceTable";
 import MarkAttendanceModal from "@/components/attendance/MarkAttendanceModal";
 import { useMarkAttendance } from "./useMarkAttendance";
+import Loader from "@/components/common/Loader";
 
 export default function MarkAttendancePage() {
   const { employees, loading, selected, modalOpen, open, close, onSubmit } =
     useMarkAttendance();
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="p-6">

@@ -2,12 +2,13 @@
 
 import EmployeeForm from "@/components/employees/EmployeeForm";
 import { useEditEmployee } from "./useEditEmployee";
+import Loader from "@/components/common/Loader";
 
 export default function EditEmployeePage() {
   const { editable, handleUpdate } = useEditEmployee();
 
   if (!editable) {
-    return <p className="p-6">Loading employee…</p>;
+    return <Loader />;
   }
 
   return (

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import SearchBar from "@/components/common/SearchBar";
 import AttendanceTable from "@/components/attendance/AttendanceTable";
 import { useAttendanceOverview } from "./useAttendanceOverview";
+import Loader from "@/components/common/Loader";
 
 export default function AttendanceOverviewPage() {
   const {
@@ -18,7 +19,7 @@ export default function AttendanceOverviewPage() {
   } = useAttendanceOverview();
   const router = useRouter();
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="p-6 space-y-6">

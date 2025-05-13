@@ -4,12 +4,13 @@ import { format } from "date-fns";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
 import { useNotifications } from "./useNotifications";
+import Loader from "@/components/common/Loader";
 
 export default function NotificationsPage() {
   const { notifications, loading, toggleRead, deleteNotif } =
     useNotifications();
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
   if (notifications.length === 0)
     return <p className="p-6">No notifications</p>;
 

@@ -6,6 +6,7 @@ import StatsCard from "@/components/dashboard/StatsCard";
 import AttendanceChart from "@/components/dashboard/AttendanceChart";
 import RecentAttendanceTable from "@/components/dashboard/RecentAttendanceTable";
 import { useDashboard } from "./useDashboard";
+import Loader from "@/components/common/Loader";
 
 export default function DashboardPage() {
   const {
@@ -69,7 +70,7 @@ export default function DashboardPage() {
     );
   }
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="space-y-6 p-6">

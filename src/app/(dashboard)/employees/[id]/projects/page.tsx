@@ -2,10 +2,11 @@
 
 import { format } from "date-fns";
 import { useEmployeeProjects } from "./useEmployeeProjects";
+import Loader from "@/components/common/Loader";
 
 export default function EmployeeProjectsPage() {
   const { projects, loading, changeStatus } = useEmployeeProjects();
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="overflow-auto border border-[var(--border)] rounded-lg bg-[var(--container-bg)] p-6">

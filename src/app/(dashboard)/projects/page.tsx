@@ -6,6 +6,7 @@ import { useAdminProjects } from "./useAdminProjects";
 import SearchBar from "@/components/common/SearchBar";
 import AddProjectModal from "@/components/projects/AddProjectModal";
 import React from "react";
+import Loader from "@/components/common/Loader";
 
 const ITEMS_PER_PAGE_OPTIONS = [6, 10, 15];
 
@@ -31,7 +32,7 @@ export default function ProjectsPage() {
     currentPage * perPage
   );
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
 
   return (
     <div className="p-6 space-y-6">

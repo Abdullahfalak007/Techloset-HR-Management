@@ -8,6 +8,7 @@ import EmployeeTable from "@/components/employees/EmployeeTable";
 import FilterModal from "@/components/employees/FilterModal";
 import { useEmployeesList } from "./useEmployeesList";
 import { assets } from "@/constants/assets";
+import Loader from "@/components/common/Loader";
 
 const ITEMS_PER_PAGE_OPTIONS = [6, 10, 15];
 
@@ -21,7 +22,7 @@ export default function EmployeesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(6);
 
-  if (loading) return <p className="p-6">Loading…</p>;
+  if (loading) return <Loader />;
   if (!session) return <p className="p-6">Unauthorized</p>;
 
   // derive departments, apply filters & pagination
