@@ -1,8 +1,7 @@
-// src/app/(dashboard)/employees/[id]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
@@ -12,9 +11,7 @@ import { format } from "date-fns";
 export default function EmployeeProfilePage() {
   const { id: rawId } = useParams();
   const id = Array.isArray(rawId) ? rawId[0] : rawId!;
-  const router = useRouter();
   const dispatch = useAppDispatch();
-
   const employee = useAppSelector((s) =>
     s.employees.employees.find((e) => e.id === id)
   );
@@ -27,61 +24,33 @@ export default function EmployeeProfilePage() {
     }
   }, [status, dispatch, id]);
 
-  if (!employee) return <p className="p-6">Loading employee…</p>;
+  if (!employee) {
+    return <p className="p-6">Loading employee…</p>;
+  }
 
-  const docs = employee.documents as Record<string, string | undefined>;
+  // split out first + last name
+  const [firstName, ...rest] = employee.name.split(" ");
+  const lastName = rest.join(" ");
+
+  // safe defaults for each embedded—but check both TS‐known and Prisma‐returned keys:
+  const personal = employee.personalInfo || {};
+
+  const prof =
+    (employee.professionalInfo as any) ?? (employee as any).professional ?? {};
+
+  const docs = (employee.documents || {}) as Record<string, string>;
+
+  const acc =
+    (employee.accountLinks as any) ?? (employee as any).accounts ?? {};
 
   return (
-    <div className="space-y-6 p-6">
-      {/* Top summary */}
-      <div className="flex items-center justify-between bg-[var(--container-bg)] p-6 rounded-lg">
-        <div className="flex items-center space-x-4">
-          <Image
-            src={employee.avatar || "/assets/icons/default-avatar.png"}
-            alt="Avatar"
-            width={72}
-            height={72}
-            className="rounded-lg object-cover"
-          />
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold text-[var(--text-primary)]">
-              {employee.name}
-            </h1>
-            <p className="flex items-center text-[var(--text-secondary)] space-x-2">
-              <Image
-                src={assets.icons.briefcase}
-                alt=""
-                width={16}
-                height={16}
-              />
-              <span>{employee.designation}</span>
-            </p>
-            <p className="flex items-center text-[var(--text-secondary)] space-x-2">
-              <Image src={assets.icons.mail} alt="" width={16} height={16} />
-              <span>{employee.personalInfo.email}</span>
-            </p>
-          </div>
-        </div>
-
-        <button
-          className="bg-[var(--accent)] px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-[var(--accent-hover)] transition"
-          onClick={() => router.push(`/employees/${id}/edit`)}
-        >
-          <Image src={assets.icons.edit} alt="" width={16} height={16} />
-          <span className="text-[var(--button-text)]">Edit Profile Hiii</span>
-        </button>
-      </div>
-
-      {/* Tab strip */}
-      <ul className="flex border-b border-[var(--border)]">
+    <>
+      {/* ─── Tab Strip ─────────────────────────────────────────── */}
+      <ul className="flex border-b border-[var(--border)] mb-4">
         {[
-          { id: 1, label: "Personal Information", icon: assets.icons.user },
-          {
-            id: 2,
-            label: "Professional Information",
-            icon: assets.icons.briefcase,
-          },
-          { id: 3, label: "Documents", icon: assets.icons.document },
+          { id: 1, label: "Personal Info", icon: assets.icons.user },
+          { id: 2, label: "Professional Info", icon: assets.icons.briefcase },
+          { id: 3, label: "Documents Info", icon: assets.icons.document },
           { id: 4, label: "Account Access", icon: assets.icons.lock },
         ].map((t) => (
           <li
@@ -99,32 +68,57 @@ export default function EmployeeProfilePage() {
         ))}
       </ul>
 
-      {/* Content panel */}
-      <div className="bg-[var(--container-bg)] rounded-lg p-6 space-y-6">
+      {/* ─── Content Panel ──────────────────────────────────────── */}
+      <div className="bg-[var(--container-bg)] rounded-lg p-6">
         {tab === 1 && (
-          <div className="grid grid-cols-2 gap-6 text-[var(--text-secondary)]">
+          <div className="grid grid-cols-2 gap-6">
             {[
-              ["First Name", employee.personalInfo.firstName],
-              ["Last Name", employee.personalInfo.lastName],
-              ["Mobile Number", employee.personalInfo.phone],
-              ["Email Address", employee.personalInfo.email],
-              ["Date of Birth", employee.personalInfo.dob],
-              ["Marital Status", employee.personalInfo.maritalStatus],
-              ["Gender", employee.personalInfo.gender],
-              ["Nationality", employee.personalInfo.nationality],
-              ["Address", employee.personalInfo.address],
-              ["City", employee.personalInfo.city],
-              ["State", employee.personalInfo.state],
-              ["Zip Code", employee.personalInfo.zipCode],
+              ["First Name", firstName],
+              ["Last Name", lastName],
+              ["Mobile Number", personal.phone || "–"],
+              ["Email Address", personal.email || "–"],
+              ["Date of Birth", personal.dob || "–"],
+              ["Marital Status", personal.maritalStatus || "–"],
+              ["Gender", personal.gender || "–"],
+              ["Nationality", personal.nationality || "–"],
+              ["Address", personal.address || "–"],
+              ["City", personal.city || "–"],
+              ["State", personal.state || "–"],
+              ["Zip Code", personal.zipCode || "–"],
             ].map(([label, value]) => (
-              <div key={label} className="space-y-1">
-                <p className="text-sm">{label}</p>
+              <div key={label}>
+                <p className="text-sm text-[var(--text-secondary)]">{label}</p>
                 <p className="text-[var(--text-primary)]">{value}</p>
               </div>
             ))}
           </div>
         )}
-        {/* ... tabs 2, 3, 4 follow the same pattern ... */}
+
+        {tab === 2 && (
+          <div className="grid grid-cols-2 gap-6">
+            {[
+              ["Username", prof.username || "–"],
+              [
+                "Joining Date",
+                prof.joiningDate
+                  ? format(new Date(prof.joiningDate), "yyyy-MM-dd")
+                  : "–",
+              ],
+              ["Working Days", prof.workingDays || "–"],
+              ["Office Location", prof.officeLocation || "–"],
+              ["Department", employee.department],
+              ["Designation", employee.designation],
+              ["Type", employee.type],
+              ["Status", employee.status],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <p className="text-sm text-[var(--text-secondary)]">{label}</p>
+                <p className="text-[var(--text-primary)]">{value}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
         {tab === 3 && (
           <div className="grid grid-cols-2 gap-4">
             {Object.entries(docs).map(
@@ -160,7 +154,23 @@ export default function EmployeeProfilePage() {
             )}
           </div>
         )}
+
+        {tab === 4 && (
+          <div className="grid grid-cols-2 gap-6">
+            {[
+              ["Email", acc.email || "–"],
+              ["Slack ID", acc.slackId || "–"],
+              ["Skype ID", acc.skypeId || "–"],
+              ["GitHub ID", acc.githubId || "–"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <p className="text-sm text-[var(--text-secondary)]">{label}</p>
+                <p className="text-[var(--text-primary)]">{value}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
