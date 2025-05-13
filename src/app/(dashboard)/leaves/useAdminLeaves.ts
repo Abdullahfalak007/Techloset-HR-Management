@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchLeaves, updateLeaveStatus } from "@/store/slices/leaveSlice";
+import { toast } from "react-toastify";
 
 export function useAdminLeaves() {
   const dispatch = useAppDispatch();
@@ -39,8 +40,13 @@ export function useAdminLeaves() {
     dispatch(fetchLeaves());
   }, [dispatch]);
 
-  const updateStatus = (id: string, status: "APPROVED" | "REJECTED") => {
-    dispatch(updateLeaveStatus({ id, status }));
+  const updateStatus = async (id: string, status: "APPROVED" | "REJECTED") => {
+    const result = await dispatch(updateLeaveStatus({ id, status }));
+    if (updateLeaveStatus.fulfilled.match(result)) {
+      toast.success(`Leave ${status.toLowerCase()}`);
+    } else {
+      toast.error("Could not update leave");
+    }
   };
 
   return {

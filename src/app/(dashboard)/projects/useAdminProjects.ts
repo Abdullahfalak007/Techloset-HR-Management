@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchProjects, patchProjectStatus } from "@/store/slices/projectSlice";
+import { toast } from "react-toastify";
 
 export function useAdminProjects() {
   const dispatch = useAppDispatch();
@@ -42,7 +43,14 @@ export function useAdminProjects() {
 
   // mark complete
   const markComplete = async (id: string) => {
-    await dispatch(patchProjectStatus({ id, status: "COMPLETED" }));
+    const result = await dispatch(
+      patchProjectStatus({ id, status: "COMPLETED" })
+    );
+    if (patchProjectStatus.fulfilled.match(result)) {
+      toast.success("Project marked complete");
+    } else {
+      toast.error("Could not update project");
+    }
     dispatch(fetchProjects());
   };
 

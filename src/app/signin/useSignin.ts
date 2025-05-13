@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function useSignin() {
   const [email, setEmail] = useState("");
@@ -22,8 +23,10 @@ export function useSignin() {
     });
 
     if (res?.error) {
+      toast.error("Invalid email or password");
       setError("Invalid email or password");
     } else {
+      toast.success("Signed in successfully");
       router.push("/");
     }
   }

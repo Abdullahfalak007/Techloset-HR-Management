@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function useResetPassword() {
   const [email, setEmail] = useState("");
@@ -26,6 +27,7 @@ export function useResetPassword() {
     setError("");
 
     if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
       setError("Passwords do not match");
       return;
     }
@@ -38,8 +40,10 @@ export function useResetPassword() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "Password reset failed");
+      toast.error(data.message);
+      setError(data.message);
     } else {
+      toast.success(data.message);
       setMessage(data.message);
       setTimeout(() => router.push("/signin"), 2000);
     }

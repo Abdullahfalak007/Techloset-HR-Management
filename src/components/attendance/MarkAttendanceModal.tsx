@@ -83,7 +83,7 @@ export default function MarkAttendanceModal({
                 value={value}
                 required
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full bg-transparent border border-[var(--border)] rounded px-3 py-2 focus:border-[var(--accent)] focus:ring-0"
+                className="w-full bg-transparent border border-[var(--border)] rounded px-3 py-2 focus:border-[var(--accent)] focus:ring-0 "
               />
             </div>
           ))}
@@ -124,7 +124,7 @@ export default function MarkAttendanceModal({
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               required
-              className="w-full bg-transparent border border-[var(--border)] rounded px-3 py-2 focus:border-[var(--accent)] focus:ring-0"
+              className="w-full bg-transparent border border-[var(--border)] rounded px-3 py-2 focus:border-[var(--accent)] focus:ring-0bg-[var(--surface)] hover:bg-[var(--surface-hover)]"
             >
               <option value="">Select an option</option>
               {statusOptions.map((o) => (

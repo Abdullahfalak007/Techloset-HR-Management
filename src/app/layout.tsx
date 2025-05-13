@@ -37,6 +37,8 @@
 
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/constants/theme/ThemeContext";
 import Script from "next/script";
@@ -58,7 +60,10 @@ export default function RootLayout({
       <body>
         <SessionProvider>
           <StoreProvider>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider>
+              {children}
+              <ToastContainer position="top-right" autoClose={3000} />
+            </ThemeProvider>
           </StoreProvider>
         </SessionProvider>
       </body>

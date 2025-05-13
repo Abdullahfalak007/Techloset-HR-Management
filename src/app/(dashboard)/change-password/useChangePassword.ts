@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 export function useChangePassword() {
   const { data: session, status } = useSession();
@@ -37,8 +38,10 @@ export function useChangePassword() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "Something went wrong.");
+      toast.error(data.message || "Password change failed");
+      setError(data.message);
     } else {
+      toast.success("Password changed!");
       setSuccess("Password changed!");
       setCurrentPassword("");
       setNewPassword("");

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function useForgotPassword() {
   const [email, setEmail] = useState("");
@@ -20,12 +21,13 @@ export function useForgotPassword() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "Something went wrong");
-      return;
+      toast.error(data.message);
+      setError(data.message);
+    } else {
+      toast.success("OTP sent to your email");
+      router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
     }
 
-    router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
+    return { email, setEmail, error, handleSubmit };
   }
-
-  return { email, setEmail, error, handleSubmit };
 }

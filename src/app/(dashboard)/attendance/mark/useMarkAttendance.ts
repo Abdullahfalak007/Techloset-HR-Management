@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchEmployees } from "@/store/slices/employeeSlice";
 import { createAttendance } from "@/store/slices/attendanceSlice";
 import { Emp } from "@/types/types";
+import { toast } from "react-toastify";
 
 export function useMarkAttendance() {
   const dispatch = useAppDispatch();
@@ -30,7 +31,12 @@ export function useMarkAttendance() {
     setModalOpen(false);
   };
   const onSubmit = async (payload: any) => {
-    await dispatch(createAttendance(payload));
+    const result = await dispatch(createAttendance(payload));
+    if (createAttendance.fulfilled.match(result)) {
+      toast.success("Attendance recorded");
+    } else {
+      toast.error(result.error?.message || "Could not record attendance");
+    }
     close();
     router.refresh();
   };

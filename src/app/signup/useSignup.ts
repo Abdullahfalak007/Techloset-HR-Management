@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function useSignup() {
   const [name, setName] = useState("");
@@ -23,8 +24,10 @@ export function useSignup() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "Signup failed");
+      toast.error(data.message || "Signup failed");
+      setError(data.message);
     } else {
+      toast.success("Account created — please sign in");
       router.push("/signin");
     }
   }

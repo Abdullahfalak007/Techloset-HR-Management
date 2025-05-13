@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function useVerifyOtp() {
   const [otp, setOtp] = useState("");
@@ -28,8 +29,10 @@ export function useVerifyOtp() {
     const data = await res.json();
 
     if (!res.ok) {
-      setError(data.message || "OTP verification failed");
+      toast.error(data.message || "OTP verification failed");
+      setError(data.message);
     } else {
+      toast.success("OTP verified");
       router.push(`/reset-password?email=${encodeURIComponent(email)}`);
     }
   }
