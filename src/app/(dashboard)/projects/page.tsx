@@ -1,44 +1,166 @@
+// // "use client";
+
+// // import { format } from "date-fns";
+// // import Image from "next/image";
+// // import AddProjectModal from "@/components/projects/AddProjectModal";
+// // import { assets } from "@/constants/assets";
+// // import { useAdminProjects } from "./useAdminProjects";
+
+// // export default function AdminProjectsPage() {
+// //   const { filtered, loading, modalOpen, open, close, markComplete, refresh } =
+// //     useAdminProjects();
+
+// //   if (loading) return <p className="p-6">Loading…</p>;
+
+// //   return (
+// //     <div className="p-6 space-y-6">
+// //       <div className="flex justify-between items-center">
+// //         <h1 className="text-2xl font-bold text-[var(--text-primary)]">
+// //           Admin Projects
+// //         </h1>
+// //         <button
+// //           onClick={open}
+// //           className="bg-[var(--accent)] px-4 py-2 rounded text-[var(--button-text)] hover:bg-[var(--accent-hover)]"
+// //         >
+// //           Add Project
+// //         </button>
+// //       </div>
+
+// //       <div className="overflow-auto border border-[var(--border)] rounded-lg">
+// //         <table className="min-w-full text-left text-sm text-[var(--text-primary)]">
+// //           <thead className="border-b border-[var(--border)]">
+// //             <tr>
+// //               {[
+// //                 "Project Title",
+// //                 "Employee Name",
+// //                 "Start Date",
+// //                 "End Date",
+// //                 "Status",
+// //                 "Actions",
+// //               ].map((h) => (
+// //                 <th key={h} className="px-4 py-3">
+// //                   {h}
+// //                 </th>
+// //               ))}
+// //             </tr>
+// //           </thead>
+// //           <tbody>
+// //             {filtered.map((p) => (
+// //               <tr
+// //                 key={p.id}
+// //                 className="border-b hover:bg-[var(--surface-hover)] transition"
+// //               >
+// //                 <td className="px-4 py-3">{p.title}</td>
+// //                 <td className="px-4 py-3 flex items-center space-x-2">
+// //                   <Image
+// //                     src={
+// //                       p.assignee.avatar || "/assets/icons/default-avatar.png"
+// //                     }
+// //                     alt=""
+// //                     width={30}
+// //                     height={30}
+// //                     className="w-8 h-8 rounded-full"
+// //                   />
+// //                   <span>{p.assignee.name}</span>
+// //                 </td>
+// //                 <td className="px-4 py-3">
+// //                   {format(new Date(p.startDate), "MMM d, yyyy")}
+// //                 </td>
+// //                 <td className="px-4 py-3">
+// //                   {format(new Date(p.endDate), "MMM d, yyyy")}
+// //                 </td>
+// //                 <td className="px-4 py-3">
+// //                   <span
+// //                     className={`text-xs px-2 py-1 rounded ${
+// //                       p.status === "COMPLETED"
+// //                         ? "bg-[var(--success)]"
+// //                         : "bg-[var(--warning)]"
+// //                     } text-[var(--button-text)]`}
+// //                   >
+// //                     {p.status}
+// //                   </span>
+// //                 </td>
+// //                 <td className="px-4 py-3 space-x-2">
+// //                   {p.status === "IN_PROGRESS" && (
+// //                     <button
+// //                       onClick={() => markComplete(p.id)}
+// //                       className="px-3 py-1 rounded bg-[var(--success)] text-[var(--button-text)] text-xs"
+// //                     >
+// //                       Complete
+// //                     </button>
+// //                   )}
+// //                 </td>
+// //               </tr>
+// //             ))}
+// //           </tbody>
+// //         </table>
+// //       </div>
+
+// //       {modalOpen && (
+// //         <AddProjectModal
+// //           onClose={close}
+// //           onSuccess={() => {
+// //             close();
+// //             refresh();
+// //           }}
+// //         />
+// //       )}
+// //     </div>
+// //   );
+// // }
+
 // "use client";
 
 // import { format } from "date-fns";
-// import Image from "next/image";
-// import AddProjectModal from "@/components/projects/AddProjectModal";
-// import { assets } from "@/constants/assets";
 // import { useAdminProjects } from "./useAdminProjects";
+// import SearchBar from "@/components/common/SearchBar";
+// import AddProjectModal from "@/components/projects/AddProjectModal";
 
-// export default function AdminProjectsPage() {
+// export default function ProjectsPage() {
 //   const { filtered, loading, modalOpen, open, close, markComplete, refresh } =
 //     useAdminProjects();
 
 //   if (loading) return <p className="p-6">Loading…</p>;
 
 //   return (
-//     <div className="p-6 space-y-6">
-//       <div className="flex justify-between items-center">
-//         <h1 className="text-2xl font-bold text-[var(--text-primary)]">
-//           Admin Projects
-//         </h1>
+//     <div className="p-6">
+//       <div className="flex justify-between items-center mb-6">
+//         <SearchBar placeholder="Search projects…" basePath="/projects" />
+
 //         <button
 //           onClick={open}
-//           className="bg-[var(--accent)] px-4 py-2 rounded text-[var(--button-text)] hover:bg-[var(--accent-hover)]"
+//           className="ml-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
 //         >
-//           Add Project
+//           New Project
 //         </button>
 //       </div>
 
+//       {modalOpen && (
+//         <AddProjectModal
+//           onClose={() => {
+//             close();
+//             refresh();
+//           }}
+//           onSuccess={() => {
+//             close();
+//             refresh();
+//           }}
+//         />
+//       )}
+
 //       <div className="overflow-auto border border-[var(--border)] rounded-lg">
-//         <table className="min-w-full text-left text-sm text-[var(--text-primary)]">
+//         <table className="min-w-full text-[var(--text-primary)] text-sm">
 //           <thead className="border-b border-[var(--border)]">
 //             <tr>
 //               {[
-//                 "Project Title",
-//                 "Employee Name",
+//                 "Title",
+//                 "Assignee",
 //                 "Start Date",
 //                 "End Date",
 //                 "Status",
 //                 "Actions",
 //               ].map((h) => (
-//                 <th key={h} className="px-4 py-3">
+//                 <th key={h} className="px-4 py-3 text-left">
 //                   {h}
 //                 </th>
 //               ))}
@@ -46,23 +168,9 @@
 //           </thead>
 //           <tbody>
 //             {filtered.map((p) => (
-//               <tr
-//                 key={p.id}
-//                 className="border-b hover:bg-[var(--surface-hover)] transition"
-//               >
+//               <tr key={p.id} className="border-b border-[var(--border)]">
 //                 <td className="px-4 py-3">{p.title}</td>
-//                 <td className="px-4 py-3 flex items-center space-x-2">
-//                   <Image
-//                     src={
-//                       p.assignee.avatar || "/assets/icons/default-avatar.png"
-//                     }
-//                     alt=""
-//                     width={30}
-//                     height={30}
-//                     className="w-8 h-8 rounded-full"
-//                   />
-//                   <span>{p.assignee.name}</span>
-//                 </td>
+//                 <td className="px-4 py-3">{p.assignee.name}</td>
 //                 <td className="px-4 py-3">
 //                   {format(new Date(p.startDate), "MMM d, yyyy")}
 //                 </td>
@@ -81,12 +189,12 @@
 //                   </span>
 //                 </td>
 //                 <td className="px-4 py-3 space-x-2">
-//                   {p.status === "IN_PROGRESS" && (
+//                   {p.status !== "COMPLETED" && (
 //                     <button
 //                       onClick={() => markComplete(p.id)}
 //                       className="px-3 py-1 rounded bg-[var(--success)] text-[var(--button-text)] text-xs"
 //                     >
-//                       Complete
+//                       Mark Complete
 //                     </button>
 //                   )}
 //                 </td>
@@ -95,41 +203,52 @@
 //           </tbody>
 //         </table>
 //       </div>
-
-//       {modalOpen && (
-//         <AddProjectModal
-//           onClose={close}
-//           onSuccess={() => {
-//             close();
-//             refresh();
-//           }}
-//         />
-//       )}
 //     </div>
 //   );
 // }
 
+// src/app/(dashboard)/projects/page.tsx
 "use client";
 
 import { format } from "date-fns";
 import { useAdminProjects } from "./useAdminProjects";
 import SearchBar from "@/components/common/SearchBar";
 import AddProjectModal from "@/components/projects/AddProjectModal";
+import React from "react";
+
+const ITEMS_PER_PAGE_OPTIONS = [6, 10, 15];
 
 export default function ProjectsPage() {
   const { filtered, loading, modalOpen, open, close, markComplete, refresh } =
     useAdminProjects();
 
+  // ─── Pagination state ──────────────────────────────────────
+  const [perPage, setPerPage] = React.useState(ITEMS_PER_PAGE_OPTIONS[0]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+
+  // clamp currentPage if filtered/perPage changes
+  React.useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
+
+  // slice out the items for this page
+  const paginated = filtered.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+
   if (loading) return <p className="p-6">Loading…</p>;
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
         <SearchBar placeholder="Search projects…" basePath="/projects" />
-
         <button
           onClick={open}
-          className="ml-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded"
+          className="ml-4 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] px-4 py-2 rounded transition"
         >
           New Project
         </button>
@@ -167,7 +286,7 @@ export default function ProjectsPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((p) => (
+            {paginated.map((p) => (
               <tr key={p.id} className="border-b border-[var(--border)]">
                 <td className="px-4 py-3">{p.title}</td>
                 <td className="px-4 py-3">{p.assignee.name}</td>
@@ -177,7 +296,17 @@ export default function ProjectsPage() {
                 <td className="px-4 py-3">
                   {format(new Date(p.endDate), "MMM d, yyyy")}
                 </td>
-                <td className="px-4 py-3">{p.status.replace("_", " ")}</td>
+                <td className="px-4 py-3">
+                  <span
+                    className={`text-xs px-2 py-1 rounded ${
+                      p.status === "COMPLETED"
+                        ? "bg-[var(--success)]"
+                        : "bg-[var(--warning)]"
+                    } text-[var(--button-text)]`}
+                  >
+                    {p.status}
+                  </span>
+                </td>
                 <td className="px-4 py-3 space-x-2">
                   {p.status !== "COMPLETED" && (
                     <button
@@ -192,6 +321,44 @@ export default function ProjectsPage() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* ─── Pagination Controls ──────────────────────────────── */}
+      <div className="flex justify-between items-center">
+        <label className="text-sm">
+          Show{" "}
+          <select
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="border border-[var(--border)] rounded px-2 py-1 bg-[var(--surface)] hover:bg-[var(--surface-hover)]"
+          >
+            {ITEMS_PER_PAGE_OPTIONS.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </select>{" "}
+          / page
+        </label>
+
+        <div className="space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              onClick={() => setCurrentPage(p)}
+              className={`px-3 py-1 rounded ${
+                p === currentPage
+                  ? "bg-[var(--accent)] text-[var(--button-text)]"
+                  : "hover:bg-[var(--surface-hover)]"
+              } transition`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

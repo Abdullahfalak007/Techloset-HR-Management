@@ -175,7 +175,7 @@ export default function EmployeesPage() {
               setPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="border border-[var(--border)] rounded px-2 py-1"
+            className="border border-[var(--border)] rounded px-2 py-1 bg-[var(--surface)] hover:bg-[var(--surface-hover)]"
           >
             {ITEMS_PER_PAGE_OPTIONS.map((n) => (
               <option key={n} value={n}>

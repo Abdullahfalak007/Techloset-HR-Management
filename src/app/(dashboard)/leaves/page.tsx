@@ -323,7 +323,7 @@ export default function AdminLeavePage() {
               setPerPage(Number(e.target.value));
               setCurrentPage(1);
             }}
-            className="border border-[var(--border)] rounded px-2 py-1"
+            className="border border-[var(--border)] rounded px-2 py-1 bg-[var(--surface)] hover:bg-[var(--surface-hover)]"
           >
             {pageSizeOptions.map((n) => (
               <option key={n} value={n}>
