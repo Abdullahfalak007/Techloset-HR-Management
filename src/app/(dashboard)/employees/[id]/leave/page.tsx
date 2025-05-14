@@ -1,3 +1,4 @@
+// src/app/(dashboard)/employees/[id]/leave/page.tsx
 "use client";
 
 import { format } from "date-fns";
@@ -34,12 +35,12 @@ export default function EmployeeLeavePage() {
         </button>
       </div>
 
-      <div className="overflow-auto border border-[var(--border)] rounded-lg p-6">
-        <table className="min-w-full text-[var(--text-primary)] text-sm">
+      <div className="overflow-x-auto border border-[var(--border)] rounded-lg p-6">
+        <table className="min-w-full table-auto text-[var(--text-primary)] text-sm">
           <thead className="border-b border-[var(--border)]">
             <tr>
               {["Reason", "Start Date", "End Date", "Status"].map((h) => (
-                <th key={h} className="px-4 py-2 text-left">
+                <th key={h} className="px-4 py-2 text-left whitespace-nowrap">
                   {h}
                 </th>
               ))}
@@ -48,14 +49,14 @@ export default function EmployeeLeavePage() {
           <tbody className="divide-y divide-[var(--border)]">
             {leaves.map((l) => (
               <tr key={l.id}>
-                <td className="px-4 py-2">{l.reason}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 whitespace-nowrap">{l.reason}</td>
+                <td className="px-4 py-2 whitespace-nowrap">
                   {format(new Date(l.startDate), "MMM d, yyyy")}
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 whitespace-nowrap">
                   {format(new Date(l.endDate), "MMM d, yyyy")}
                 </td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 whitespace-nowrap">
                   <span
                     className={`text-xs px-2 py-1 rounded ${
                       l.status === "APPROVED"
