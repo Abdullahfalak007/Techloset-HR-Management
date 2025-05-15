@@ -136,6 +136,7 @@ import { useSession } from "next-auth/react";
 import { assets } from "@/constants/assets";
 import { navItems } from "@/constants/sidebar/navItems";
 import { useTheme } from "@/constants/theme/ThemeContext";
+import Image from "next/image";
 
 type Props = {
   isOpen: boolean;
@@ -186,7 +187,14 @@ export default function Sidebar({ isOpen, onClose }: Props) {
         {/* top: logo + navigation */}
         <div>
           <div className="flex items-center space-x-2 mb-8">
-            <img src={assets.images.logo} alt="HR Logo" className="h-8 w-8" />
+            {/* <img src={assets.images.logo} alt="HR Logo" className="h-8 w-8" /> */}
+            <Image
+              src={assets.images.logo}
+              alt="HR Logo"
+              width={32} // 8×4
+              height={32} // 8×4
+              className="h-8 w-8"
+            />
             <span className="text-xl font-bold">HR SEARCH</span>
           </div>
           <nav className="space-y-2">
@@ -217,9 +225,11 @@ export default function Sidebar({ isOpen, onClose }: Props) {
                     {active && (
                       <span className="absolute left-0 top-0 h-full w-1 rounded-l-lg bg-[var(--accent)]" />
                     )}
-                    <img
+                    <Image
                       src={item.icon}
                       alt={item.label}
+                      width={20}
+                      height={20}
                       className="w-5 h-5 icon-theme"
                     />
                     <span>{item.label}</span>
@@ -243,7 +253,13 @@ export default function Sidebar({ isOpen, onClose }: Props) {
               }
             `}
           >
-            <img src={assets.icons.sun} alt="Light" className="w-4 h-4" />
+            <Image
+              src={assets.icons.sun}
+              alt="Light"
+              width={16}
+              height={16}
+              className="w-4 h-4"
+            />
             <span>Light</span>
           </button>
           <button
@@ -257,7 +273,13 @@ export default function Sidebar({ isOpen, onClose }: Props) {
               }
             `}
           >
-            <img src={assets.icons.moon} alt="Dark" className="w-4 h-4" />
+            <Image
+              src={assets.icons.moon}
+              alt="Dark"
+              width={16}
+              height={16}
+              className="w-4 h-4"
+            />
 
             <span>Dark</span>
           </button>

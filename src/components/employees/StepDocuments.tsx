@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { assets } from "@/constants/assets";
+import Image from "next/image";
 
 declare global {
   interface Window {
@@ -63,9 +64,11 @@ export default function StepDocuments({
               className="h-40 border-2 border-dashed border-[var(--accent)] rounded-lg flex flex-col items-center justify-center cursor-pointer hover:bg-[var(--surface-hover)] transition"
             >
               <div className="w-10 h-10 mb-2 rounded-full bg-[var(--accent)] flex items-center justify-center">
-                <img
+                <Image
                   src={assets.icons.upload}
                   alt="Upload"
+                  width={24}
+                  height={24}
                   className="w-6 h-6"
                 />
               </div>

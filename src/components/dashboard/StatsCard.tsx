@@ -4,6 +4,7 @@
 import React from "react";
 import { format } from "date-fns";
 import { StatsCardProps } from "@/types/types";
+import Image from "next/image";
 
 export default function StatsCard({
   title,
@@ -47,7 +48,13 @@ export default function StatsCard({
       <div>
         <div className="flex items-center space-x-3">
           <div className="bg-[var(--surface)] p-2 rounded">
-            <img src={icon} alt="" className="w-6 h-6" />
+            <Image
+              src={icon}
+              alt="icon"
+              width={24}
+              height={24}
+              className="w-6 h-6"
+            />
           </div>
           <h3 className="text-[var(--text-primary)] text-sm font-medium">
             {title}

@@ -72,9 +72,11 @@ export default function SigninPage() {
               required
               className="w-full bg-transparent border border-[var(--accent)] rounded-lg p-3 pr-10 outline-none placeholder-[var(--text-secondary)] focus:ring-2 focus:ring-[var(--accent)]"
             />
-            <img
+            <Image
               src={assets.icons.eye}
               alt="Show password"
+              width={20}
+              height={20}
               className="absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 cursor-pointer"
             />
           </div>

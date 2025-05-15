@@ -161,6 +161,7 @@ import { format } from "date-fns";
 import SearchBar from "@/components/common/SearchBar";
 import { useAdminLeaves } from "./useAdminLeaves";
 import Loader from "@/components/common/Loader";
+import Image from "next/image";
 
 export default function AdminLeavePage() {
   const {
@@ -205,7 +206,7 @@ export default function AdminLeavePage() {
           <tbody>
             {pageItems.map((l) => (
               <tr key={l.id} className="border-b border-[var(--border)]">
-                <td className="px-4 py-3 flex items-center space-x-2 whitespace-nowrap">
+                {/* <td className="px-4 py-3 flex items-center space-x-2 whitespace-nowrap">
                   <img
                     src={
                       (l as any).employee?.avatar ||
@@ -213,6 +214,19 @@ export default function AdminLeavePage() {
                     }
                     alt=""
                     className="w-8 h-8 rounded-full"
+                  />
+                  <span>{(l as any).employee?.name || "—"}</span>
+                </td> */}
+                <td className="px-4 py-3 flex items-center space-x-2 whitespace-nowrap">
+                  <Image
+                    src={
+                      (l as any).employee?.avatar ||
+                      "/assets/icons/default-avatar.png"
+                    }
+                    alt={(l as any).employee?.name ?? ""}
+                    width={32} // 8×4
+                    height={32} // 8×4
+                    className="rounded-full"
                   />
                   <span>{(l as any).employee?.name || "—"}</span>
                 </td>

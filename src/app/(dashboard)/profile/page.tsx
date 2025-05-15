@@ -35,7 +35,7 @@ export default function ProfilePage() {
         </h2>
 
         <div className="relative w-32 h-32 mx-auto mb-6">
-          {avatarUrl ? (
+          {/* {avatarUrl ? (
             <img
               src={avatarUrl}
               alt="avatar"
@@ -55,6 +55,26 @@ export default function ProfilePage() {
               width={128}
               height={128}
               className="w-8 h-8 rounded-full border-4 border-[var(--accent)] object-cover"
+            />
+          )} */}
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="avatar"
+              width={128}
+              height={128}
+              style={{
+                borderRadius: "50%",
+              }}
+              className="rounded-full border-4 border-[var(--accent)] object-cover"
+            />
+          ) : (
+            <Image
+              src="/assets/icons/default-avatar.png"
+              alt="default"
+              width={128}
+              height={128}
+              className="rounded-full border-4 border-[var(--accent)] object-cover"
             />
           )}
           <button
