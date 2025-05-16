@@ -1,4 +1,5 @@
 // File: src/types/types.ts
+import { PrismaClient } from "@prisma/client";
 import { DefaultSession } from "next-auth";
 
 // -----------------------
@@ -303,4 +304,9 @@ declare global {
   interface Window {
     cloudinary: CloudinaryWindow;
   }
+}
+
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined;
 }
