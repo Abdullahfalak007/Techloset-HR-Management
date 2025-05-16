@@ -17,7 +17,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   // 1) Read & log the raw body
-  let body: any;
+  let body;
   try {
     body = await req.json();
     console.log("🛠️ POST /api/employees body:", body);
@@ -149,17 +149,36 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(created, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("[EMPLOYEE_POST] Prisma error:", error);
     // If it's a unique‐constraint violation, surface that
-    if (error.code === "P2002" && error.meta?.target?.includes("employeeId")) {
+    interface PrismaErrorMeta {
+      target?: string[];
+      [key: string]: unknown;
+    }
+
+    interface PrismaError {
+      code?: string;
+      meta?: PrismaErrorMeta;
+      [key: string]: unknown;
+    }
+
+    const prismaError = error as PrismaError;
+
+    if (
+      prismaError &&
+      prismaError.code === "P2002" &&
+      prismaError.meta &&
+      Array.isArray(prismaError.meta.target) &&
+      prismaError.meta.target.includes("employeeId")
+    ) {
       return NextResponse.json(
-        { message: "An employee with that employeeId already exists" },
-        { status: 409 }
+      { message: "An employee with that employeeId already exists" },
+      { status: 409 }
       );
     }
     return NextResponse.json(
-      { message: "Failed to create employee", detail: error.message },
+      { message: "Failed to create employee", detail: (error as any).message },
       { status: 500 }
     );
   }

@@ -55,9 +55,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as any).role;
-        token.picture = (user as any).image;
-        token.id = (user as any).id; // ← stash the DB id
+        token.role = user.role;
+        token.picture = user.image;
+        token.id = user.id;
       }
       return token;
     },

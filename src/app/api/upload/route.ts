@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     cloudinary.uploader.upload(
       filePath,
       { folder: "hr-management/uploads" },
-      (error: any, result: any) => {
+      (error, result) => {
         if (error) {
           console.error("Cloudinary Upload Error:", error);
           resolve(
