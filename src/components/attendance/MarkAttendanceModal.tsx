@@ -1,6 +1,7 @@
 // src/components/attendance/MarkAttendanceModal.tsx
 "use client";
 
+import { AttendancePayload } from "@/types/types";
 import { useState } from "react";
 
 type Props = {
@@ -9,7 +10,7 @@ type Props = {
     name: string;
   };
   onClose: () => void;
-  onSubmit: (payload: any) => Promise<void>;
+  onSubmit: (payload: AttendancePayload) => Promise<void>;
 };
 
 export default function MarkAttendanceModal({
@@ -22,14 +23,15 @@ export default function MarkAttendanceModal({
   const [checkOut, setCheckOut] = useState("");
   const [breakTime, setBreakTime] = useState("");
   const [workHours, setWorkHours] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<AttendancePayload["status"] | "">("");
   const [submitting, setSubmitting] = useState(false);
 
-  const statusOptions = [
-    { label: "On Time", value: "ON_TIME" },
-    { label: "Late", value: "LATE" },
-    { label: "Absent", value: "ABSENT" },
-  ];
+  const statusOptions: { label: string; value: AttendancePayload["status"] }[] =
+    [
+      { label: "On Time", value: "ON_TIME" },
+      { label: "Late", value: "LATE" },
+      { label: "Absent", value: "ABSENT" },
+    ];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,7 +43,7 @@ export default function MarkAttendanceModal({
       checkOut,
       breakTime,
       workHours,
-      status,
+      status: status as AttendancePayload["status"],
     });
     setSubmitting(false);
   }

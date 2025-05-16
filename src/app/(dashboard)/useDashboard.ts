@@ -88,7 +88,8 @@ export function useDashboard() {
     .sort((a, b) => +new Date(b.date) - +new Date(a.date))
     .slice(0, 5)
     .map((a) => {
-      const emp = employees.find((e) => e.id === a.employeeId)!;
+      const emp = employees.find((e) => e.id === a.employeeId);
+      if (!emp) return null; // skip if employee not found
       return {
         id: a.id,
         employee: {
@@ -102,7 +103,8 @@ export function useDashboard() {
         checkOut: a.checkOut,
         status: a.status,
       };
-    });
+    })
+    .filter(Boolean); // remove nulls
 
   return {
     router,

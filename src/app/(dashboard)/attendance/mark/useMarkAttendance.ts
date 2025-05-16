@@ -3,18 +3,8 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchEmployees } from "@/store/slices/employeeSlice";
 import { createAttendance } from "@/store/slices/attendanceSlice";
-import { Emp } from "@/types/types";
+import { AttendancePayload, Emp } from "@/types/types";
 import { toast } from "react-toastify";
-
-type AttendancePayload = {
-  employeeId: string;
-  date: string;
-  checkIn: string;
-  checkOut: string;
-  breakTime?: string;
-  workHours?: string;
-  status: string;
-};
 
 export function useMarkAttendance() {
   const dispatch = useAppDispatch();

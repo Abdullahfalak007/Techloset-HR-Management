@@ -310,3 +310,13 @@ declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
+
+export type AttendancePayload = {
+  employeeId: string;
+  date: string;
+  checkIn: string;
+  checkOut: string;
+  breakTime?: string;
+  workHours?: string;
+  status: string;
+};
