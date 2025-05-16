@@ -6,6 +6,16 @@ import { createAttendance } from "@/store/slices/attendanceSlice";
 import { Emp } from "@/types/types";
 import { toast } from "react-toastify";
 
+type AttendancePayload = {
+  employeeId: string;
+  date: string;
+  checkIn: string;
+  checkOut: string;
+  breakTime?: string;
+  workHours?: string;
+  status: string;
+};
+
 export function useMarkAttendance() {
   const dispatch = useAppDispatch();
   const employees = useAppSelector((s) => s.employees.employees);
@@ -30,7 +40,7 @@ export function useMarkAttendance() {
     setSelected(null);
     setModalOpen(false);
   };
-  const onSubmit = async (payload: any) => {
+  const onSubmit = async (payload: AttendancePayload) => {
     const result = await dispatch(createAttendance(payload));
     if (createAttendance.fulfilled.match(result)) {
       toast.success("Attendance recorded");
