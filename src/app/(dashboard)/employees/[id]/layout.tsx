@@ -12,12 +12,7 @@ import {
   updateEmployee,
 } from "@/store/slices/employeeSlice";
 import Loader from "@/components/common/Loader";
-
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
+import { toast } from "react-toastify";
 
 export default function EmployeeDetailLayout({
   children,
@@ -63,14 +58,23 @@ export default function EmployeeDetailLayout({
         showUploadMoreButton: false,
         multiple: false,
       },
-      (error: any, result: any) => {
+      (error, result) => {
         if (error) {
-          console.error("Cloudinary Widget Error:", error);
+          toast.error("Cloudinary Widget Error:", error);
           return;
         }
-        if (result.event === "success") {
+        if (
+          typeof result === "object" &&
+          result !== null &&
+          "event" in result &&
+          result.event === "success" &&
+          "info" in result &&
+          typeof result.info === "object" &&
+          result.info !== null &&
+          "secure_url" in result.info
+        ) {
           // user clicked "Upload" then "Done"
-          setPreview(result.info.secure_url);
+          setPreview(result.info.secure_url as string);
         }
       }
     );

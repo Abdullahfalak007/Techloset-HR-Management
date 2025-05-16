@@ -3,12 +3,6 @@ import React from "react";
 import { assets } from "@/constants/assets";
 import Image from "next/image";
 
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
-
 type Props = {
   isEditing: boolean;
   data: Record<string, string | null>;

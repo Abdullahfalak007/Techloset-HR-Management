@@ -284,3 +284,23 @@ export type FormState = {
 };
 
 export type Theme = "light" | "dark";
+
+export interface CloudinaryWidget {
+  open: () => void;
+  close: () => void;
+  destroy: () => void;
+}
+
+export interface CloudinaryWindow {
+  createUploadWidget: (
+    options: Record<string, unknown>,
+    callback: (error: unknown, result: unknown) => void
+  ) => CloudinaryWidget;
+}
+
+// Extend the global Window interface
+declare global {
+  interface Window {
+    cloudinary: CloudinaryWindow;
+  }
+}

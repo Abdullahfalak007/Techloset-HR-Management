@@ -1017,12 +1017,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
 
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
-
 type Props = {
   isEditing: boolean;
   data: {

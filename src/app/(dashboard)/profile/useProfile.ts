@@ -4,12 +4,6 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchMyProfile, updateMyProfile } from "@/store/slices/userSlice";
 
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
-
 export function useProfile() {
   const { data: session } = useSession();
   const router = useRouter();
