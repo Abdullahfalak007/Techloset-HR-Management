@@ -34,7 +34,7 @@ export default function StepDocuments({
         folder: "hr-management/docs",
         resourceType: "auto",
       },
-      (error: any, result: any) => {
+      (error, result) => {
         if (error) {
           console.error("Upload error:", error);
           return;

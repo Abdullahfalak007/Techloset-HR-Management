@@ -4,13 +4,14 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
+import { Employee } from "@/types/types";
 
 export default function EmployeeRow({
   employee,
   onDeleteSuccess,
   isAdmin,
 }: {
-  employee: any;
+  employee: Employee;
   onDeleteSuccess?: () => void;
   isAdmin: boolean;
 }) {

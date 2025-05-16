@@ -125,7 +125,7 @@ export async function POST(req: Request) {
           zipCode: personalInfo.zipCode,
         },
 
-        professional: {
+        professionalInfo: {
           username: username.trim(),
           joiningDate: joiningDate.trim(),
           workingDays: workingDays.trim(),
@@ -139,7 +139,7 @@ export async function POST(req: Request) {
           experienceLetter: documents.experienceLetter ?? null,
         },
 
-        accounts: {
+        accountLinks: {
           email: accountLinks.email ?? "",
           slackId: accountLinks.slackId ?? "",
           skypeId: accountLinks.skypeId ?? "",
@@ -173,12 +173,15 @@ export async function POST(req: Request) {
       prismaError.meta.target.includes("employeeId")
     ) {
       return NextResponse.json(
-      { message: "An employee with that employeeId already exists" },
-      { status: 409 }
+        { message: "An employee with that employeeId already exists" },
+        { status: 409 }
       );
     }
     return NextResponse.json(
-      { message: "Failed to create employee", detail: (error as any).message },
+      { 
+        message: "Failed to create employee", 
+        detail: error instanceof Error ? error.message : String(error) 
+      },
       { status: 500 }
     );
   }

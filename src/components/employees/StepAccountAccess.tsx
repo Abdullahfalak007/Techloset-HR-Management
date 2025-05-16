@@ -24,7 +24,7 @@ export default function StepAccountAccess({
 }: Props) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    onChange({ [name]: value } as any);
+    onChange({ [name]: value });
   };
 
   return (

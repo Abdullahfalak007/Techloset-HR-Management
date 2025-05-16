@@ -243,45 +243,53 @@ export type StatsCardProps = {
   updatedAt?: Date;
 };
 
+export type DocumentSetEmbedded = {
+  [key: string]: any;
+};
+
+export type AccountLinksEmbedded = {
+  email: string;
+  slackId: string;
+  skypeId: string;
+  githubId: string;
+};
+
+export type PersonalInfoEmbedded = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dob: string;
+  gender: string;
+  nationality: string;
+  maritalStatus: string;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+};
+
 export type FormState = {
-  employee: { avatar: string };
-  personalInfo: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    dob: string;
-    gender: string;
-    nationality: string;
-    maritalStatus: string;
-    address: string;
-    city: string;
-    state: string;
-    zipCode: string;
-  };
-  professionalInfo: {
-    employeeType: string;
+  employee: {
+    name: string;
     employeeId: string;
-    username: string;
-    joiningDate: string;
-    workingDays: string;
-    officeLocation: string;
     department: string;
     designation: string;
+    type: string;
     status: string;
+    avatar: string;
   };
-  documents: {
-    appointmentLetter: string | null;
-    salarySlip: string | null;
-    relievingLetter: string | null;
-    experienceLetter: string | null;
-  };
-  accountLinks: {
-    email: string;
-    slackId: string;
-    skypeId: string;
-    githubId: string;
-  };
+  personalInfo: PersonalInfoEmbedded;
+  professionalInfo: ProfessionalInfoEmbedded;
+  documents: DocumentSetEmbedded;
+  accountLinks: AccountLinksEmbedded;
+};
+
+export type ProfessionalInfoEmbedded = {
+  username: string;
+  joiningDate: string;
+  workingDays: string;
+  officeLocation: string;
 };
 
 export type Theme = "light" | "dark";

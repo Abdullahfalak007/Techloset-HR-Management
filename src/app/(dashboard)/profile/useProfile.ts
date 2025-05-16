@@ -36,10 +36,14 @@ export function useProfile() {
         uploadPreset: process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET,
         folder: "hr-management/avatars",
       },
-      (error: any, result: any) => {
+      (error, result) => {
         if (error) return console.error("Upload error:", error);
-        if (result.event === "success") {
-          setAvatarUrl(result.info.secure_url);
+        const uploadResult = result as {
+          event: string;
+          info: { secure_url: string };
+        };
+        if (uploadResult.event === "success") {
+          setAvatarUrl(uploadResult.info.secure_url);
         }
       }
     );

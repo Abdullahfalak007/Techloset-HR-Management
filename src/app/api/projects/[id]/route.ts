@@ -25,7 +25,7 @@ export async function PATCH(
     select: {
       id: true,
       personalInfo: { select: { email: true } },
-      accounts: { select: { email: true } },
+      accountLinks: { select: { email: true } },
     },
   });
 
@@ -33,7 +33,7 @@ export async function PATCH(
   const me = employees.find(
     (e) =>
       e.personalInfo.email === session.user.email ||
-      e.accounts.email === session.user.email
+      e.accountLinks.email === session.user.email
   );
   if (!me) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });

@@ -49,7 +49,7 @@ export default function SearchBar({
 
   // clear button uses same handler
   function clear() {
-    handleChange({ target: { value: "" } } as any);
+    handleChange({ target: { value: "" } });
   }
 
   return (

@@ -21,8 +21,8 @@ export default function EmployeeForm({
   initialData,
   onSubmit,
 }: {
-  initialData?: any;
-  onSubmit: (payload: any) => Promise<any>;
+  initialData?: FormState;
+  onSubmit: (payload: FormState) => Promise<void>;
 }) {
   const [step, setStep] = useState(1);
   const [submitting, setSubmitting] = useState(false);
@@ -30,7 +30,15 @@ export default function EmployeeForm({
 
   // ─── Form state ───────────────────────────────────────────
   const [form, setForm] = useState<FormState>({
-    employee: { avatar: initialData?.avatar ?? "" },
+    employee: {
+      name: initialData?.employee?.name ?? "",
+      employeeId: initialData?.employee?.employeeId ?? "",
+      department: initialData?.employee?.department ?? "",
+      designation: initialData?.employee?.designation ?? "",
+      type: initialData?.employee?.type ?? "",
+      status: initialData?.employee?.status ?? "",
+      avatar: initialData?.employee?.avatar ?? "",
+    },
     personalInfo: {
       firstName: initialData?.personalInfo?.firstName ?? "",
       lastName: initialData?.personalInfo?.lastName ?? "",
@@ -46,15 +54,10 @@ export default function EmployeeForm({
       zipCode: initialData?.personalInfo?.zipCode ?? "",
     },
     professionalInfo: {
-      employeeType: initialData?.type ?? "Office",
-      employeeId: initialData?.employeeId ?? "",
-      username: initialData?.professional?.username ?? "",
-      joiningDate: initialData?.professional?.joiningDate ?? "",
-      workingDays: initialData?.professional?.workingDays ?? "",
-      officeLocation: initialData?.professional?.officeLocation ?? "",
-      department: initialData?.department ?? "",
-      designation: initialData?.designation ?? "",
-      status: initialData?.status ?? "Permanent",
+      username: initialData?.professionalInfo?.username ?? "",
+      joiningDate: initialData?.professionalInfo?.joiningDate ?? "",
+      workingDays: initialData?.professionalInfo?.workingDays ?? "",
+      officeLocation: initialData?.professionalInfo?.officeLocation ?? "",
     },
     documents: {
       appointmentLetter: initialData?.documents?.appointmentLetter ?? null,
@@ -63,10 +66,10 @@ export default function EmployeeForm({
       experienceLetter: initialData?.documents?.experienceLetter ?? null,
     },
     accountLinks: {
-      email: initialData?.accounts?.email ?? "",
-      slackId: initialData?.accounts?.slackId ?? "",
-      skypeId: initialData?.accounts?.skypeId ?? "",
-      githubId: initialData?.accounts?.githubId ?? "",
+      email: initialData?.accountLinks?.email ?? "",
+      slackId: initialData?.accountLinks?.slackId ?? "",
+      skypeId: initialData?.accountLinks?.skypeId ?? "",
+      githubId: initialData?.accountLinks?.githubId ?? "",
     },
   });
 
@@ -83,7 +86,7 @@ export default function EmployeeForm({
   function handleAvatarChange(url: string) {
     setForm((prev) => ({
       ...prev,
-      employee: { avatar: url },
+      employee: { ...prev.employee, avatar: url },
     }));
   }
 
@@ -100,47 +103,23 @@ export default function EmployeeForm({
       " " +
       form.personalInfo.lastName.trim();
 
-    // Extract the 10 “real” fields
-    const {
-      email,
-      phone,
-      dob,
-      maritalStatus,
-      gender,
-      nationality,
-      address,
-      city,
-      state,
-      zipCode,
-    } = form.personalInfo;
-
-    // In edit-mode omit firstName/lastName (we only PATCH the embedded parts)
-    const personalPayload = isEditing
-      ? {
-          email,
-          phone,
-          dob,
-          maritalStatus,
-          gender,
-          nationality,
-          address,
-          city,
-          state,
-          zipCode,
-        }
-      : form.personalInfo;
+    const { firstName, lastName, ...restPersonalInfo } = form.personalInfo;
 
     const payload = {
       employee: {
         name: fullName,
-        employeeId: form.professionalInfo.employeeId,
-        department: form.professionalInfo.department,
-        designation: form.professionalInfo.designation,
-        type: form.professionalInfo.employeeType,
-        status: form.professionalInfo.status,
+        employeeId: form.employee.employeeId,
+        department: form.employee.department,
+        designation: form.employee.designation,
+        type: form.employee.type,
+        status: form.employee.status,
         avatar: form.employee.avatar,
       },
-      personalInfo: personalPayload,
+      personalInfo: {
+        firstName,
+        lastName,
+        ...restPersonalInfo,
+      },
       professionalInfo: {
         username: form.professionalInfo.username,
         joiningDate: form.professionalInfo.joiningDate,
@@ -183,8 +162,53 @@ export default function EmployeeForm({
         return (
           <StepProfessionalInfo
             isEditing={isEditing}
-            data={form.professionalInfo}
-            onChange={(d) => updateSection("professionalInfo", d)}
+            data={{
+              employeeId: form.employee.employeeId,
+              username: form.professionalInfo.username,
+              employeeType: form.employee.type,
+              department: form.employee.department,
+              designation: form.employee.designation,
+              workingDays: form.professionalInfo.workingDays,
+              joiningDate: form.professionalInfo.joiningDate,
+              officeLocation: form.professionalInfo.officeLocation,
+              status: form.employee.status,
+            }}
+            onChange={(d) => {
+              // Split changes between employee and professionalInfo sections
+              const employeeFields = [
+                "employeeId",
+                "employeeType",
+                "department",
+                "designation",
+                "status",
+              ];
+              const profFields = [
+                "username",
+                "workingDays",
+                "joiningDate",
+                "officeLocation",
+              ];
+              const employeeUpdates: any = {};
+              const profUpdates: any = {};
+              Object.entries(d).forEach(([key, value]) => {
+                if (employeeFields.includes(key)) {
+                  if (key === "employeeType") {
+                    employeeUpdates["type"] = value;
+                  } else {
+                    employeeUpdates[key] = value;
+                  }
+                }
+                if (profFields.includes(key)) {
+                  profUpdates[key] = value;
+                }
+              });
+              if (Object.keys(employeeUpdates).length > 0) {
+                updateSection("employee", employeeUpdates);
+              }
+              if (Object.keys(profUpdates).length > 0) {
+                updateSection("professionalInfo", profUpdates);
+              }
+            }}
             onBack={back}
             onNext={next}
           />

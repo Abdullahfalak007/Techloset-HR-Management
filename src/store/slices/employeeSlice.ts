@@ -1,207 +1,12 @@
-// // import { Employee, EmployeeState } from "@/types/types";
-// // import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-// // import axios from "axios";
-
-// // const initialState: EmployeeState = {
-// //   employees: [],
-// //   status: "idle",
-// // };
-
-// // // ─── Thunks ────────────────────────────────────────────────────────────────────
-
-// // // Fetch all employees
-// // export const fetchEmployees = createAsyncThunk(
-// //   "employees/fetchAll",
-// //   async () => {
-// //     const res = await axios.get<Employee[]>("/api/employees");
-// //     return res.data;
-// //   }
-// // );
-
-// // // Fetch a single employee by ID
-// // export const fetchEmployeeById = createAsyncThunk(
-// //   "employees/fetchById",
-// //   async (id: string) => {
-// //     const res = await axios.get<Employee>(`/api/employees/${id}`);
-// //     return res.data;
-// //   }
-// // );
-
-// // // Create new employee
-// // export const createEmployee = createAsyncThunk(
-// //   "employees/create",
-// //   async (data: any) => {
-// //     const res = await axios.post<Employee>("/api/employees", data);
-// //     return res.data;
-// //   }
-// // );
-
-// // // Update an employee
-// // export const updateEmployee = createAsyncThunk(
-// //   "employees/update",
-// //   async ({ id, data }: { id: string; data: any }) => {
-// //     const res = await axios.patch<Employee>(`/api/employees/${id}`, data);
-// //     return res.data;
-// //   }
-// // );
-
-// // const employeeSlice = createSlice({
-// //   name: "employees",
-// //   initialState,
-// //   reducers: {},
-// //   extraReducers: (builder) => {
-// //     builder
-// //       // fetchAll
-// //       .addCase(fetchEmployees.pending, (state) => {
-// //         state.status = "loading";
-// //       })
-// //       .addCase(
-// //         fetchEmployees.fulfilled,
-// //         (state, action: PayloadAction<Employee[]>) => {
-// //           state.status = "succeeded";
-// //           state.employees = action.payload;
-// //         }
-// //       )
-// //       .addCase(fetchEmployees.rejected, (state) => {
-// //         state.status = "failed";
-// //       })
-
-// //       // fetchById
-// //       .addCase(
-// //         fetchEmployeeById.fulfilled,
-// //         (state, action: PayloadAction<Employee>) => {
-// //           const idx = state.employees.findIndex(
-// //             (e) => e.id === action.payload.id
-// //           );
-// //           if (idx !== -1) {
-// //             state.employees[idx] = action.payload;
-// //           } else {
-// //             state.employees.push(action.payload);
-// //           }
-// //         }
-// //       )
-
-// //       // create
-// //       .addCase(
-// //         createEmployee.fulfilled,
-// //         (state, action: PayloadAction<Employee>) => {
-// //           state.employees.push(action.payload);
-// //         }
-// //       )
-
-// //       // update
-// //       .addCase(
-// //         updateEmployee.fulfilled,
-// //         (state, action: PayloadAction<Employee>) => {
-// //           const idx = state.employees.findIndex(
-// //             (e) => e.id === action.payload.id
-// //           );
-// //           if (idx !== -1) state.employees[idx] = action.payload;
-// //         }
-// //       );
-// //   },
-// // });
-
-// // export default employeeSlice.reducer;
-
-// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-// import { Employee, EmployeeState } from "@/types/types";
-
-// const initialState: EmployeeState = {
-//   employees: [],
-//   status: "idle",
-// };
-
-// export const fetchEmployees = createAsyncThunk(
-//   "employees/fetchAll",
-//   async () => {
-//     const res = await axios.get<Employee[]>("/api/employees");
-//     return res.data;
-//   }
-// );
-
-// export const fetchEmployeeById = createAsyncThunk(
-//   "employees/fetchById",
-//   async (id: string) => {
-//     const res = await axios.get<Employee>(`/api/employees/${id}`);
-//     return res.data;
-//   }
-// );
-
-// export const createEmployee = createAsyncThunk(
-//   "employees/create",
-//   async (data) => {
-//     const res = await axios.post<Employee>("/api/employees", data);
-//     return res.data;
-//   }
-// );
-
-// export const updateEmployee = createAsyncThunk(
-//   "employees/update",
-//   async ({ id, data }: { id: string; data: any }) => {
-//     const res = await axios.patch<Employee>(`/api/employees/${id}`, data);
-//     return res.data;
-//   }
-// );
-
-// const employeeSlice = createSlice({
-//   name: "employees",
-//   initialState,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchEmployees.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(fetchEmployees.fulfilled, (state, action) => {
-//         state.status = "succeeded";
-//         state.employees = action.payload;
-//       })
-//       .addCase(fetchEmployees.rejected, (state) => {
-//         state.status = "failed";
-//         toast.error("Failed to load employees");
-//       })
-
-//       .addCase(fetchEmployeeById.fulfilled, (state, action) => {
-//         const idx = state.employees.findIndex(
-//           (e) => e.id === action.payload.id
-//         );
-//         if (idx > -1) state.employees[idx] = action.payload;
-//         else state.employees.push(action.payload);
-//       })
-//       .addCase(fetchEmployeeById.rejected, () => {
-//         toast.error("Failed to fetch employee details");
-//       })
-
-//       .addCase(createEmployee.fulfilled, (state, action) => {
-//         state.employees.push(action.payload);
-//         toast.success("Employee created successfully");
-//       })
-//       .addCase(createEmployee.rejected, (action) => {
-//         toast.error("Failed to create employee");
-//       })
-
-//       .addCase(updateEmployee.fulfilled, (state, action) => {
-//         const idx = state.employees.findIndex(
-//           (e) => e.id === action.payload.id
-//         );
-//         if (idx > -1) state.employees[idx] = action.payload;
-//         toast.success("Employee updated successfully");
-//       })
-//       .addCase(updateEmployee.rejected, (action) => {
-//         toast.error("Failed to update employee");
-//       });
-//   },
-// });
-
-// export default employeeSlice.reducer;
-
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Employee, EmployeeState } from "@/types/types";
+import {
+  Employee,
+  EmployeeState,
+  FormState,
+  EditableEmployee,
+} from "@/types/types";
 
 const initialState: EmployeeState = {
   employees: [],
@@ -227,7 +32,7 @@ export const fetchEmployeeById = createAsyncThunk<Employee, string>(
 );
 
 // — Create —
-export const createEmployee = createAsyncThunk<Employee, any>(
+export const createEmployee = createAsyncThunk<Employee, FormState>(
   "employees/create",
   async (data) => {
     const res = await axios.post<Employee>("/api/employees", data);
@@ -238,7 +43,7 @@ export const createEmployee = createAsyncThunk<Employee, any>(
 // — Update —
 export const updateEmployee = createAsyncThunk<
   Employee,
-  { id: string; data: any }
+  { id: string; data: EditableEmployee }
 >("employees/update", async ({ id, data }) => {
   const res = await axios.patch<Employee>(`/api/employees/${id}`, data);
   return res.data;

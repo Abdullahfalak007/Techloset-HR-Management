@@ -13,7 +13,7 @@ export function useAdminLeaves() {
   const searchParams = useSearchParams();
   const q = searchParams.get("search")?.toLowerCase() || "";
   const filtered = leaves.filter((l) =>
-    [(l as any).employee?.name || "", l.reason].some((field) =>
+    [l.employeeId || "", l.reason].some((field) =>
       field.toLowerCase().includes(q)
     )
   );

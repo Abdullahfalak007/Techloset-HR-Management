@@ -10,7 +10,7 @@ export async function GET() {
           id: true,
           name: true,
           personalInfo: { select: { email: true } },
-          accounts: { select: { email: true } },
+          accountLinks: { select: { email: true } },
           avatar: true,
         },
       },

@@ -35,13 +35,11 @@ export default function EmployeeProfilePage() {
   // safe defaults for each embedded—but check both TS‐known and Prisma‐returned keys:
   const personal = employee.personalInfo || {};
 
-  const prof =
-    (employee.professionalInfo as any) ?? (employee as any).professional ?? {};
+  const prof = employee.professionalInfo ?? employee.professionalInfo ?? {};
 
   const docs = (employee.documents || {}) as Record<string, string>;
 
-  const acc =
-    (employee.accountLinks as any) ?? (employee as any).accounts ?? {};
+  const acc = employee.accountLinks ?? employee.accountLinks ?? {};
 
   return (
     <>

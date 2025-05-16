@@ -8,7 +8,7 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify(function (error: any, success: any) {
+transporter.verify(function (error, success) {
   if (error) {
     console.error("Nodemailer connection error:", error);
   } else {

@@ -5,7 +5,7 @@ import {
   fetchEmployeeById,
   updateEmployee,
 } from "@/store/slices/employeeSlice";
-import { EditableEmployee } from "@/types/types";
+import { EditableEmployee, Employee } from "@/types/types";
 
 export function useEditEmployee() {
   const dispatch = useAppDispatch();
@@ -29,8 +29,8 @@ export function useEditEmployee() {
     const [firstName = "", ...rest] = (employee.name || "").split(" ");
     const lastName = rest.join(" ");
     const pi = employee.personalInfo || {};
-    const pr = (employee as any).professional || {};
-    const acc = (employee as any).accounts || {};
+    const pr = employee.professionalInfo || {};
+    const acc = employee.accountLinks || {};
     setEditable({
       id: employee.id,
       name: employee.name,
@@ -70,7 +70,7 @@ export function useEditEmployee() {
     });
   }, [employee]);
 
-  const handleUpdate = async (payload: any) => {
+  const handleUpdate = async (payload: EditableEmployee) => {
     await dispatch(updateEmployee({ id, data: payload }));
     router.push("/employees");
   };

@@ -19,9 +19,9 @@ model Employee {
   createdAt   DateTime @default(now())
 
   personalInfo PersonalInfoEmbedded
-  professional ProfessionalInfoEmbedded
+  professionalInfo ProfessionalInfoEmbedded
   documents    DocumentSetEmbedded
-  accounts     AccountLinksEmbedded
+  accountLinks     AccountLinksEmbedded
 
   // now an opposite relation for Attendance, leaves and projects:
   attendances Attendance[] @relation("EmployeeAttendances")

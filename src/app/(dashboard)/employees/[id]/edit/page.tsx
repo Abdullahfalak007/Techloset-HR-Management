@@ -15,24 +15,47 @@ export default function EditEmployeePage() {
     <div className="p-6">
       <EmployeeForm
         initialData={{
-          employeeId: editable.employeeId,
-          department: editable.department,
-          designation: editable.designation,
-          type: editable.type,
-          status: editable.status,
-          avatar: editable.avatar,
-          name: editable.name,
-          personalInfo: editable.personalInfo,
-          professional: {
-            username: editable.professionalInfo.username,
-            joiningDate: editable.professionalInfo.joiningDate,
-            workingDays: editable.professionalInfo.workingDays,
-            officeLocation: editable.professionalInfo.officeLocation,
+          employee: {
+            name: editable.name ?? "",
+            employeeId: editable.employeeId ?? "",
+            department: editable.department ?? "",
+            designation: editable.designation ?? "",
+            type: editable.type ?? "",
+            status: editable.status ?? "",
+            avatar: editable.avatar ?? "",
           },
-          documents: editable.documents,
-          accounts: editable.accountLinks,
+          personalInfo: editable.personalInfo,
+          professionalInfo: {
+            username: editable.professionalInfo.username ?? "",
+            joiningDate: editable.professionalInfo.joiningDate ?? "",
+            workingDays: editable.professionalInfo.workingDays ?? "",
+            officeLocation: editable.professionalInfo.officeLocation ?? "",
+          },
+          documents: {
+            appointmentLetter: editable.documents?.appointmentLetter ?? null,
+            salarySlip: editable.documents?.salarySlip ?? null,
+            relievingLetter: editable.documents?.relievingLetter ?? null,
+            experienceLetter: editable.documents?.experienceLetter ?? null,
+          },
+          accountLinks: editable.accountLinks,
         }}
-        onSubmit={handleUpdate}
+        onSubmit={async (formState) => {
+          await handleUpdate({
+            ...editable,
+            id: editable.id,
+            name: formState.employee.name,
+            employeeId: formState.employee.employeeId,
+            department: formState.employee.department,
+            designation: formState.employee.designation,
+            type: formState.employee.type,
+            status: formState.employee.status,
+            avatar: formState.employee.avatar,
+            personalInfo: formState.personalInfo,
+            professionalInfo: formState.professionalInfo,
+            documents: formState.documents,
+            accountLinks: formState.accountLinks,
+          });
+        }}
       />
     </div>
   );

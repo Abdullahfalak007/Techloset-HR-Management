@@ -1,4 +1,5 @@
 // src/components/employees/EmployeeTable.tsx
+import { Employee } from "@/types/types";
 import EmployeeRow from "./EmployeeRow";
 
 export default function EmployeeTable({
@@ -6,7 +7,7 @@ export default function EmployeeTable({
   onDeleteSuccess,
   isAdmin,
 }: {
-  employees: any[];
+  employees: Employee[];
   onDeleteSuccess?: () => void;
   isAdmin: boolean;
 }) {

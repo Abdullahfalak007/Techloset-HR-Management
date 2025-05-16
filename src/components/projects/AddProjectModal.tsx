@@ -23,7 +23,7 @@ export default function AddProjectModal({ onClose, onSuccess }: Props) {
   useEffect(() => {
     fetch("/api/employees")
       .then((r) => r.json())
-      .then((list: any[]) => {
+      .then((list: Emp[]) => {
         setEmployees(list.map((e) => ({ id: e.id, name: e.name })));
       })
       .finally(() => setLoading(false));
@@ -76,7 +76,7 @@ export default function AddProjectModal({ onClose, onSuccess }: Props) {
             value: endDate,
             onChange: setEndDate,
           },
-        ].map(({ label, type, value, onChange }: any) => (
+        ].map(({ label, type, value, onChange }) => (
           <label className="block" key={label}>
             <span className="text-[var(--text-primary)]">{label}</span>
             {type === "textarea" ? (

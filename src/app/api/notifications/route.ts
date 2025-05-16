@@ -19,13 +19,13 @@ export async function GET() {
       select: {
         id: true,
         personalInfo: { select: { email: true } },
-        accounts: { select: { email: true } },
+        accountLinks: { select: { email: true } },
       },
     });
     const emp = allEmps.find(
       (e) =>
         e.personalInfo.email.toLowerCase() === email.toLowerCase() ||
-        e.accounts.email.toLowerCase() === email.toLowerCase()
+        e.accountLinks.email.toLowerCase() === email.toLowerCase()
     );
     if (!emp) {
       // no matching Employee → no notifications

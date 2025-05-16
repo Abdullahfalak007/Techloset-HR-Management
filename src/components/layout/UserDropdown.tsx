@@ -34,7 +34,7 @@ export default function UserDropdown() {
   }, []);
 
   if (!session?.user) return null;
-  const { name, image, role } = session.user as any;
+  const { name, image, role } = session.user;
 
   // build the “Employee Info” link
   let infoHref = "#";

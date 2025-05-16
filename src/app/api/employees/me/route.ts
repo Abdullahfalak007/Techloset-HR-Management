@@ -18,7 +18,7 @@ export async function GET() {
     const list = await prisma.employee.findMany({
       select: {
         id: true,
-        accounts: { select: { email: true } },
+        accountLinks: { select: { email: true } },
         personalInfo: { select: { email: true } },
       },
     });
@@ -27,9 +27,10 @@ export async function GET() {
     const me = list.find(
       (e: {
         id: string;
-        accounts: { email: string };
+        accountLinks: { email: string };
         personalInfo: { email: string };
-      }) => e.accounts.email === yourEmail || e.personalInfo.email === yourEmail
+      }) =>
+        e.accountLinks.email === yourEmail || e.personalInfo.email === yourEmail
     );
 
     return NextResponse.json({ id: me?.id ?? null });
