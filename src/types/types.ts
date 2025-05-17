@@ -131,7 +131,7 @@ export interface NotificationState {
   error?: string;
 }
 
-export interface Leave {
+export type Leave = {
   id: string;
   employeeId: string;
   reason: string;
@@ -139,7 +139,16 @@ export interface Leave {
   endDate: string;
   status: "PENDING" | "APPROVED" | "REJECTED";
   createdAt: string;
-}
+  updatedAt: string;
+  // Add this:
+  employee?: {
+    id: string;
+    name?: string;
+    avatar?: string;
+    personalInfo?: { email?: string };
+    accountLinks?: { email?: string };
+  };
+};
 
 export interface LeaveState {
   items: Leave[];

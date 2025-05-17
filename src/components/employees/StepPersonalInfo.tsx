@@ -72,7 +72,17 @@ export default function StepPersonalInfo({
                 },
                 (error, result) => {
                   if (error) return;
-                  if (result.event === "success") {
+                  if (
+                    result &&
+                    typeof result === "object" &&
+                    "event" in result &&
+                    result.event === "success" &&
+                    "info" in result &&
+                    result.info &&
+                    typeof result.info === "object" &&
+                    "secure_url" in result.info &&
+                    typeof result.info.secure_url === "string"
+                  ) {
                     onAvatarChange(result.info.secure_url);
                   }
                 }

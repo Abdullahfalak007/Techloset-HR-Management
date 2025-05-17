@@ -39,8 +39,17 @@ export default function StepDocuments({
           console.error("Upload error:", error);
           return;
         }
-        if (result.event === "success") {
-          onChange({ [fieldName]: result.info.secure_url });
+        if (
+          result &&
+          typeof result === "object" &&
+          "event" in result &&
+          result.event === "success" &&
+          "info" in result &&
+          result.info &&
+          typeof result.info === "object" &&
+          "secure_url" in result.info
+        ) {
+          onChange({ [fieldName]: result.info.secure_url as string });
         }
       }
     );

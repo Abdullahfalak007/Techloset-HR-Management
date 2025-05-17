@@ -47,60 +47,72 @@ export default function AdminLeavePage() {
               ))}
             </tr>
           </thead>
+
           <tbody>
-            {pageItems.map((l) => (
-              <tr key={l.id} className="border-b border-[var(--border)]">
-                <td className="px-4 py-3 flex items-center space-x-2 whitespace-nowrap">
-                  <Image
-                    src={"/assets/icons/default-avatar.png"}
-                    alt={l.employeeId}
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                  />
-                  <span>{l.employeeId}</span>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">{"—"}</td>
-                <td className="px-4 py-3 whitespace-nowrap">{l.reason}</td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  {format(new Date(l.startDate), "MMM d, yyyy")}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  {format(new Date(l.endDate), "MMM d, yyyy")}
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap">
-                  <span
-                    className={`text-xs px-2 py-1 rounded ${
-                      l.status === "APPROVED"
-                        ? "bg-[var(--success)]"
-                        : l.status === "PENDING"
-                        ? "bg-[var(--warning)]"
-                        : "bg-[var(--error)]"
-                    } text-[var(--button-text)]`}
-                  >
-                    {l.status}
-                  </span>
-                </td>
-                <td className="px-4 py-3 space-x-2 whitespace-nowrap">
-                  {l.status === "PENDING" && (
-                    <>
-                      <button
-                        onClick={() => updateStatus(l.id, "APPROVED")}
-                        className="px-3 py-1 rounded bg-[var(--success)] text-[var(--button-text)] text-xs hover:opacity-90 transition"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() => updateStatus(l.id, "REJECTED")}
-                        className="px-3 py-1 rounded bg-[var(--error)] text-[var(--button-text)] text-xs hover:opacity-90 transition"
-                      >
-                        Reject
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {pageItems.map((l) => {
+              // Get employee info from the nested employee object
+              const avatar =
+                l.employee?.avatar || "/assets/icons/default-avatar.png";
+              const name = l.employee?.name || "Employee";
+              const email =
+                l.employee?.personalInfo?.email ||
+                l.employee?.accountLinks?.email ||
+                "";
+
+              return (
+                <tr key={l.id} className="border-b border-[var(--border)]">
+                  <td className="px-4 py-3 flex items-center space-x-2 whitespace-nowrap">
+                    <Image
+                      src={avatar ? avatar : "/assets/icons/default-avatar.png"}
+                      alt={name}
+                      width={32}
+                      height={32}
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <span className="px-4 py-3">{name}</span>
+                  </td>
+                  <td className="px-4 py-3 ">{email}</td>
+                  <td className="px-4 py-3 ">{l.reason}</td>
+                  <td className="px-4 py-3 ">
+                    {format(new Date(l.startDate), "MMM d, yyyy")}
+                  </td>
+                  <td className="px-4 py-3 ">
+                    {format(new Date(l.endDate), "MMM d, yyyy")}
+                  </td>
+                  <td className="px-4 py-3 ">
+                    <span
+                      className={`text-xs px-2 py-1 rounded ${
+                        l.status === "APPROVED"
+                          ? "bg-[var(--success)]"
+                          : l.status === "PENDING"
+                          ? "bg-[var(--warning)]"
+                          : "bg-[var(--error)]"
+                      } text-[var(--button-text)]`}
+                    >
+                      {l.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 space-x-2 whitespace-nowrap">
+                    {l.status === "PENDING" && (
+                      <>
+                        <button
+                          onClick={() => updateStatus(l.id, "APPROVED")}
+                          className="px-3 py-1 rounded bg-[var(--success)] text-[var(--button-text)] text-xs hover:opacity-90 transition"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => updateStatus(l.id, "REJECTED")}
+                          className="px-3 py-1 rounded bg-[var(--error)] text-[var(--button-text)] text-xs hover:opacity-90 transition"
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
