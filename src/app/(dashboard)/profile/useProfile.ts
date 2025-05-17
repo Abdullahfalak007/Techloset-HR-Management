@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/hooks/useStore";
 import { fetchMyProfile, updateMyProfile } from "@/store/slices/userSlice";
@@ -15,15 +15,20 @@ export function useProfile() {
   const [email, setEmail] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
 
+  // useProfile.ts
   useEffect(() => {
     if (!me && session?.user) {
       dispatch(fetchMyProfile());
-    } else if (me) {
+    }
+  }, [me, session, dispatch]);
+
+  useEffect(() => {
+    if (me) {
       setName(me.name || "");
       setEmail(me.email || "");
       setAvatarUrl(me.image || "");
     }
-  }, [me, session, dispatch]);
+  }, [me]);
 
   function openUploadWidget() {
     if (!window.cloudinary) {
@@ -52,6 +57,8 @@ export function useProfile() {
 
   const handleUpdate = async () => {
     await dispatch(updateMyProfile({ name, email, avatarUrl }));
+    // Force session refresh
+    await fetch("/api/auth/session?update");
     router.refresh();
   };
 
