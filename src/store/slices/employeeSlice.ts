@@ -43,7 +43,7 @@ export const createEmployee = createAsyncThunk<Employee, FormState>(
 // — Update —
 export const updateEmployee = createAsyncThunk<
   Employee,
-  { id: string; data: EditableEmployee }
+  { id: string; data: any }
 >("employees/update", async ({ id, data }) => {
   const res = await axios.patch<Employee>(`/api/employees/${id}`, data);
   return res.data;

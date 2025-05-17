@@ -39,23 +39,7 @@ export default function EditEmployeePage() {
           },
           accountLinks: editable.accountLinks,
         }}
-        onSubmit={async (formState) => {
-          await handleUpdate({
-            ...editable,
-            id: editable.id,
-            name: formState.employee.name,
-            employeeId: formState.employee.employeeId,
-            department: formState.employee.department,
-            designation: formState.employee.designation,
-            type: formState.employee.type,
-            status: formState.employee.status,
-            avatar: formState.employee.avatar,
-            personalInfo: formState.personalInfo,
-            professionalInfo: formState.professionalInfo,
-            documents: formState.documents,
-            accountLinks: formState.accountLinks,
-          });
-        }}
+        onSubmit={handleUpdate}
       />
     </div>
   );

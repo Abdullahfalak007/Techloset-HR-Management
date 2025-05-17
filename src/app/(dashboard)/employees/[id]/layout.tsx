@@ -159,8 +159,19 @@ export default function EmployeeDetailLayout({
                     data: { employee: { avatar: preview } },
                   })
                 );
+                // Notify form to update its avatar state
+                window.dispatchEvent(
+                  new CustomEvent("employee-avatar-updated", {
+                    detail: preview,
+                  })
+                );
+                // Wait a tick for the form to update its state
+                setTimeout(() => {
+                  window.dispatchEvent(new Event("save-employee"));
+                }, 100); // 100ms is usually enough
+              } else {
+                window.dispatchEvent(new Event("save-employee"));
               }
-              window.dispatchEvent(new Event("save-employee"));
             }}
             className="bg-[var(--accent)] px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-[var(--accent-hover)] transition"
           >
@@ -180,25 +191,6 @@ export default function EmployeeDetailLayout({
 
       {/* Sidebar + Content */}
       <div className="flex">
-        {/* <nav className="w-1/4 bg-[var(--sidebar-bg)] p-4 space-y-2">
-          {navItems.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center px-4 py-2 space-x-2 rounded-lg transition ${
-                  active
-                    ? "bg-[var(--accent)] text-[var(--button-text)]"
-                    : "text-[var(--link-color)] hover:bg-[var(--surface)]"
-                }`}
-              >
-                <Image src={item.icon} alt="" width={16} height={16} />
-                <span>{item.label}</span>
-              </Link>
-            );
-          })}
-        </nav> */}
         <nav className="w-1/4 bg-[var(--sidebar-bg)] p-4 space-y-2">
           {navItems.map((item) => {
             const active = pathname === item.href;

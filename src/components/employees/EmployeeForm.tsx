@@ -144,6 +144,22 @@ export default function EmployeeForm({
     };
   }, [isEditing, submitAll]);
 
+  useEffect(() => {
+    function handleAvatarUpdated(e: Event) {
+      const customEvent = e as CustomEvent<string>;
+      setForm((prev) => ({
+        ...prev,
+        employee: { ...prev.employee, avatar: customEvent.detail },
+      }));
+    }
+    window.addEventListener("employee-avatar-updated", handleAvatarUpdated);
+    return () =>
+      window.removeEventListener(
+        "employee-avatar-updated",
+        handleAvatarUpdated
+      );
+  }, []);
+
   // ─── Render the correct step ─────────────────────────────
   const renderStep = () => {
     switch (step) {

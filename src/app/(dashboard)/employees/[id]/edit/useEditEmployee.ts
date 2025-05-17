@@ -5,7 +5,7 @@ import {
   fetchEmployeeById,
   updateEmployee,
 } from "@/store/slices/employeeSlice";
-import { EditableEmployee, Employee } from "@/types/types";
+import { EditableEmployee, FormState } from "@/types/types";
 
 export function useEditEmployee() {
   const dispatch = useAppDispatch();
@@ -70,7 +70,25 @@ export function useEditEmployee() {
     });
   }, [employee]);
 
-  const handleUpdate = async (payload: EditableEmployee) => {
+  const handleUpdate = async (formState: FormState) => {
+    const fullName =
+      formState.personalInfo.firstName.trim() +
+      " " +
+      formState.personalInfo.lastName.trim();
+
+    const { firstName, lastName, ...restPersonalInfo } = formState.personalInfo;
+
+    const payload = {
+      employee: {
+        ...formState.employee,
+        name: fullName,
+      },
+      personalInfo: restPersonalInfo,
+      professionalInfo: formState.professionalInfo,
+      documents: formState.documents,
+      accountLinks: formState.accountLinks,
+    };
+
     await dispatch(updateEmployee({ id, data: payload }));
     router.push("/employees");
   };
