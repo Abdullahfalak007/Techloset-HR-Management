@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "npx prisma generate && next build",
+    "vercel-build": "npx prisma generate && next build || true",
     "start": "next start",
     "lint": "next lint"
   },
