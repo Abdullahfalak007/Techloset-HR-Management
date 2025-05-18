@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
+
+import { Suspense, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { assets } from "@/constants/assets";
@@ -42,7 +44,7 @@ export default function EmployeeProfilePage() {
   const acc = employee.accountLinks ?? employee.accountLinks ?? {};
 
   return (
-    <>
+    <Suspense>
       {/* ─── Tab Strip ─────────────────────────────────────────── */}
       <ul className="flex border-b border-[var(--border)] mb-4">
         {[
@@ -169,6 +171,6 @@ export default function EmployeeProfilePage() {
           </div>
         )}
       </div>
-    </>
+    </Suspense>
   );
 }
