@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 
 export function useForgotPassword() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError("");
+    setError(null);
 
     const res = await fetch("/api/auth/forgot-password", {
       method: "POST",
@@ -27,7 +27,7 @@ export function useForgotPassword() {
       toast.success("OTP sent to your email");
       router.push(`/verify-otp?email=${encodeURIComponent(email)}`);
     }
-
-    return { email, setEmail, error, handleSubmit };
   }
+
+  return { email, setEmail, error, handleSubmit };
 }
