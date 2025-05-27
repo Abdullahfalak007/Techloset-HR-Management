@@ -29,8 +29,8 @@ function SettingToggle({
             onChange={onChange}
             className="sr-only peer"
           />
-          <div className="w-11 h-6 bg-[var(--border)] rounded-full peer-checked:bg-[var(--accent)] transition-colors"></div>
-          <div className="absolute left-1 top-1 bg-[var(--button-text)] w-4 h-4 rounded-full peer-checked:left-6 transition-all"></div>
+          <div className="w-11 h-6 bg-gray-700 rounded-full peer-checked:bg-green-500 transition-colors"></div>
+          <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full peer-checked:left-6 transition-all"></div>
         </label>
       </div>
     </Suspense>
