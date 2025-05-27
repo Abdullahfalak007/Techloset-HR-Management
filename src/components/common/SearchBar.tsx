@@ -47,9 +47,11 @@ export default function SearchBar({
     router.replace(target);
   }
 
-  // clear button uses same handler
+  // clear button sets search to empty and updates the URL
   function clear() {
-    handleChange({ target: { value: "" } });
+    setSearch("");
+    const base = basePath ?? pathname;
+    router.replace(base);
   }
 
   return (
