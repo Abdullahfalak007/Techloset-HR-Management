@@ -5,7 +5,7 @@ import { Suspense } from "react";
 import { useForgotPassword } from "./useForgotPassword";
 
 export default function ForgotPasswordPage() {
-  const { email, setEmail, error, handleSubmit } = useForgotPassword();
+  const { email, setEmail, error, loading, handleSubmit } = useForgotPassword();
 
   return (
     <Suspense>
@@ -40,7 +40,7 @@ export default function ForgotPasswordPage() {
             type="submit"
             className="w-full bg-[var(--accent)] py-3 rounded-lg text-lg font-medium text-[var(--button-text)] hover:bg-[var(--accent-hover)] transition"
           >
-            Send OTP
+            {loading ? "Sending OTP..." : "Send OTP"}
           </button>
 
           <p className="mt-4 text-sm text-center text-[var(--text-secondary)]">

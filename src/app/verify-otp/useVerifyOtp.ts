@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 export function useVerifyOtp() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const params = useSearchParams();
   const email = params.get("email") || "";
@@ -19,6 +20,7 @@ export function useVerifyOtp() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
     const res = await fetch("/api/auth/verify-otp", {
@@ -35,7 +37,8 @@ export function useVerifyOtp() {
       toast.success("OTP verified");
       router.push(`/reset-password?email=${encodeURIComponent(email)}`);
     }
+    setLoading(false);
   }
 
-  return { otp, setOtp, error, handleSubmit };
+  return { otp, setOtp, error, loading, handleSubmit };
 }

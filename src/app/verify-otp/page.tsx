@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import { useVerifyOtp } from "./useVerifyOtp";
 
 function VerifyOtpForm() {
-  const { otp, setOtp, error, handleSubmit } = useVerifyOtp();
+  const { otp, setOtp, error, loading, handleSubmit } = useVerifyOtp();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--container-bg)] px-4">
@@ -36,7 +36,7 @@ function VerifyOtpForm() {
           type="submit"
           className="w-full bg-[var(--accent)] py-3 rounded-lg text-lg font-medium text-[var(--button-text)] hover:bg-[var(--accent-hover)] transition"
         >
-          Verify OTP
+          {loading ? "Verifying OTP..." : "Verify OTP"}
         </button>
 
         <p className="mt-4 text-sm text-center text-[var(--text-secondary)]">

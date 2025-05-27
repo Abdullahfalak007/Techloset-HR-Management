@@ -9,12 +9,14 @@ export function useSignin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
     const res = await signIn("credentials", {
       redirect: false,
@@ -29,6 +31,7 @@ export function useSignin() {
       toast.success("Signed in successfully");
       router.push("/");
     }
+    setLoading(false);
   }
 
   return {
@@ -36,6 +39,7 @@ export function useSignin() {
     password,
     remember,
     error,
+    loading,
     setEmail,
     setPassword,
     setRemember,

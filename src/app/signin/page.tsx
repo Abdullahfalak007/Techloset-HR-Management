@@ -13,6 +13,7 @@ export default function SigninPage() {
     password,
     remember,
     error,
+    loading,
     setEmail,
     setPassword,
     setRemember,
@@ -106,9 +107,10 @@ export default function SigninPage() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-[var(--accent)] py-3 rounded-lg text-lg font-medium text-[var(--button-text)] hover:bg-[var(--accent-hover)] transition"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           <p className="mt-4 text-sm text-center text-[var(--text-secondary)]">

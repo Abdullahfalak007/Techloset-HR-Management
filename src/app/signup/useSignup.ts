@@ -10,10 +10,12 @@ export function useSignup() {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
     const res = await fetch("/api/auth/signup", {
@@ -30,6 +32,7 @@ export function useSignup() {
       toast.success("Account created — please sign in");
       router.push("/signin");
     }
+    setLoading(false);
   }
 
   return {
@@ -38,6 +41,7 @@ export function useSignup() {
     password,
     remember,
     error,
+    loading,
     setName,
     setEmail,
     setPassword,

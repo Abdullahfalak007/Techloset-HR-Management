@@ -11,6 +11,7 @@ export function useChangePassword() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
@@ -23,6 +24,7 @@ export function useChangePassword() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     setSuccess("");
 
     if (newPassword !== confirmPassword) {
@@ -47,6 +49,7 @@ export function useChangePassword() {
       setNewPassword("");
       setConfirmPassword("");
     }
+    setLoading(false);
   };
 
   return {
@@ -58,6 +61,7 @@ export function useChangePassword() {
     confirmPassword,
     setConfirmPassword,
     error,
+    loading,
     success,
     handleSubmit,
   };

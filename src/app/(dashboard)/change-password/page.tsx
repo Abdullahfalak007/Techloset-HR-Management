@@ -15,6 +15,7 @@ export default function ChangePasswordPage() {
     confirmPassword,
     setConfirmPassword,
     error,
+    loading,
     success,
     handleSubmit,
   } = useChangePassword();
@@ -67,7 +68,7 @@ export default function ChangePasswordPage() {
             type="submit"
             className="w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-[var(--button-text)] py-2 rounded transition"
           >
-            Update Password
+            {loading ? "Updating Password..." : "Update Password"}
           </button>
         </form>
       </div>

@@ -14,6 +14,7 @@ function ResetPasswordForm() {
     setConfirmPassword,
     message,
     error,
+    loading,
     handleSubmit,
   } = useResetPassword();
 
@@ -74,7 +75,7 @@ function ResetPasswordForm() {
           type="submit"
           className="w-full bg-[var(--accent)] py-3 rounded-lg text-lg font-medium text-[var(--button-text)] hover:bg-[var(--accent-hover)] transition"
         >
-          Reset Password
+          {loading ? "Reseting Password..." : "Reset Password"}
         </button>
 
         <p className="mt-4 text-sm text-center text-[var(--text-secondary)]">

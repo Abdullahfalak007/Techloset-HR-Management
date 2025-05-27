@@ -10,6 +10,7 @@ export function useResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const params = useSearchParams();
 
@@ -24,6 +25,7 @@ export function useResetPassword() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
     if (newPassword !== confirmPassword) {
@@ -47,6 +49,7 @@ export function useResetPassword() {
       setMessage(data.message);
       setTimeout(() => router.push("/signin"), 2000);
     }
+    setLoading(false);
   }
 
   return {
@@ -57,6 +60,7 @@ export function useResetPassword() {
     setConfirmPassword,
     message,
     error,
+    loading,
     handleSubmit,
   };
 }

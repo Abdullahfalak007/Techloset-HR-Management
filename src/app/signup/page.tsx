@@ -13,6 +13,7 @@ export default function SignupPage() {
     password,
     remember,
     error,
+    loading,
     setName,
     setEmail,
     setPassword,
@@ -102,7 +103,7 @@ export default function SignupPage() {
           <p className="mt-4 text-sm text-center text-[var(--text-secondary)]">
             Already have an account?{" "}
             <a href="/signin" className="text-[var(--accent)] hover:underline">
-              Sign In
+              {loading ? "Singing in..." : "Sign In"}
             </a>
           </p>
         </form>
