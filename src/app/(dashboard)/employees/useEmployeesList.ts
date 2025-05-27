@@ -6,6 +6,7 @@ import { fetchEmployees } from "@/store/slices/employeeSlice";
 
 export function useEmployeesList() {
   const { data: session, status: authStatus } = useSession();
+  console.log("Session:", session);
   const dispatch = useAppDispatch();
 
   const status = useAppSelector((s) => s.employees.status);

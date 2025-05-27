@@ -58,14 +58,19 @@ export const authOptions: NextAuthOptions = {
       if (typeof session.user.email === "string") {
         const user = await prisma.user.findUnique({
           where: { email: session.user.email },
-          select: { name: true, email: true, image: true, id: true },
+          select: { name: true, email: true, image: true, id: true, role: true },
         });
         if (user) {
           session.user.name = user.name;
           session.user.email = user.email;
           session.user.image = user.image;
           session.user.id = user.id;
+          session.user.role = user.role; // <-- ADD THIS LINE
         }
+      }
+      // Also fallback to token.role if user is not found (for JWT sessions)
+      if (token?.role) {
+        session.user.role = token.role;
       }
       return session;
     },
