@@ -61,13 +61,13 @@ export default function DashboardPage() {
             updates.
           </p>
           <button
-            onClick={() => router.push(`/employees/${session?.user.id}`)}
+            onClick={() => router.push("/profile")}
             className="bg-[var(--accent)] text-[var(--button-text)] px-6 py-2 rounded-lg hover:bg-[var(--accent-hover)] transition"
           >
             Go to Profile
           </button>
           <p className="text-[var(--text-secondary)] text-sm mt-6">
-            This Application is built by Developer Abdullah.
+            This Application is developed by Abdullah.
           </p>
         </div>
       </Suspense>

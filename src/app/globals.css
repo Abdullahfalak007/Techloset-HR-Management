@@ -109,3 +109,25 @@ html.dark .icon-theme {
     filter: invert(0) !important;
   }
 }
+
+/* Orange scrollbars for all browsers */
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  background: var(--surface-hover);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 8px;
+  border: 2px solid var(--surface-hover);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--surface-hover);
+}

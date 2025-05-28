@@ -21,8 +21,6 @@ export default function DashboardLayoutInner({
     }
   }, [loading, session, router]);
 
-  // if (loading) return <div>Loading...</div>;
-  if (loading) return <Loader />;
   if (!session) return null; // Don't render anything while redirecting
 
   return (
