@@ -22,8 +22,22 @@ export async function GET() {
         accountLinks: { select: { email: true } },
       },
     });
-    const emp = allEmps.find(
-      (e) =>
+    interface EmployeePersonalInfo {
+      email: string;
+    }
+
+    interface EmployeeAccountLinks {
+      email: string;
+    }
+
+    interface Employee {
+      id: string;
+      personalInfo: EmployeePersonalInfo;
+      accountLinks: EmployeeAccountLinks;
+    }
+
+    const emp: Employee | undefined = (allEmps as Employee[]).find(
+      (e: Employee) =>
         e.personalInfo.email.toLowerCase() === email.toLowerCase() ||
         e.accountLinks.email.toLowerCase() === email.toLowerCase()
     );

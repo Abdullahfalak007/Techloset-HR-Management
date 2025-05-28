@@ -1,5 +1,6 @@
 import "./globals.css";
 import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
